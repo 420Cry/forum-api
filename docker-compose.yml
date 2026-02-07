@@ -1,5 +1,6 @@
 services:
   api:
+    container_name: forum-api
     build:
       context: .
       dockerfile: Dockerfile
@@ -8,5 +9,12 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=3001
-      - CORS_ORIGIN=${CORS_ORIGIN:-http://localhost:3000}
+      - CORS_ORIGIN=${CORS_ORIGIN:-http://app.forum.test}
     restart: unless-stopped
+    networks:
+      - forum.test
+
+networks:
+  forum.test:
+    name: forum.test
+    external: true
