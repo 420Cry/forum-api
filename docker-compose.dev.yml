@@ -1,18 +1,22 @@
 services:
   api:
     container_name: forum-api
-    build:
-      context: .
-      dockerfile: Dockerfile
     env_file:
       - .env
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     ports:
       - "${PORT:-3001}:${PORT:-3001}"
+    volumes:
+      - .:/app
+      - /app/node_modules
     environment:
-      NODE_ENV: production
+      NODE_ENV: development
       PORT: ${PORT:-3001}
       CORS_ORIGIN: ${CORS_ORIGIN:-http://app.forum.test}
       GOOGLE_APPLICATION_CREDENTIALS: ${GOOGLE_APPLICATION_CREDENTIALS}
+      CHOKIDAR_USEPOLLING: "true"
       MYSQL_HOST: mysql
       MYSQL_PORT: ${MYSQL_PORT:-3306}
       MYSQL_USERNAME: ${MYSQL_USER:-forum}
@@ -21,7 +25,7 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
-    restart: unless-stopped
+    command: npm run start:dev
     networks:
       - forum.test
 
