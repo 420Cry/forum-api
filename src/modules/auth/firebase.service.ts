@@ -21,21 +21,13 @@ export class FirebaseService implements OnModuleInit {
         this.app = admin.initializeApp({
           credential: admin.credential.cert(credential),
         });
-        console.log(
-          '[Firebase] Initialized with project:',
-          credential.projectId,
-        );
       } catch {
         // Ignore if invalid JSON
       }
     } else if (credentialsPath) {
       const absPath = resolve(process.cwd(), credentialsPath);
       if (!existsSync(absPath)) {
-        console.error(
-          '[Firebase] Credentials file not found:',
-          absPath,
-          '\n  Download from: Firebase Console → forum-d5f6c → Project Settings → Service Accounts → Generate new private key\n  Save as forum-d5f6c-firebase-adminsdk.json in forum-api root',
-        );
+        console.error('[Firebase] Credentials file not found:', absPath);
         return;
       }
       try {
@@ -44,34 +36,14 @@ export class FirebaseService implements OnModuleInit {
         this.app = admin.initializeApp({
           credential: admin.credential.cert(credential),
         });
-        console.log(
-          '[Firebase] Initialized with project:',
-          credential.projectId,
-        );
-        const projectId =
-          (credential as { project_id?: string }).project_id ??
-          credential.projectId;
-        if (projectId !== 'forum-d5f6c') {
-          console.error(
-            '[Firebase] WRONG PROJECT: credentials are for "' +
-              projectId +
-              '" but forum-app uses "forum-d5f6c".',
-            '\n  Download the correct file: Firebase Console → forum-d5f6c → Project Settings → Service Accounts → Generate new private key',
-          );
-        }
       } catch (err) {
-        const errMsg = err instanceof Error ? err.message : String(err);
         console.error(
-          '[Firebase] Failed to load credentials from',
-          absPath,
-          'err:',
-          errMsg,
+          '[Firebase] Failed to load credentials:',
+          err instanceof Error ? err.message : err,
         );
       }
     } else {
-      console.warn(
-        '[Firebase] No credentials configured (FIREBASE_SERVICE_ACCOUNT, GOOGLE_APPLICATION_CREDENTIALS, or FIREBASE_APPLICATION_CREDENTIALS)',
-      );
+      console.warn('[Firebase] No credentials configured');
     }
   }
 
@@ -83,14 +55,7 @@ export class FirebaseService implements OnModuleInit {
       const decoded = await admin.auth().verifyIdToken(token);
       return { decoded };
     } catch (err) {
-      const errMsg = err instanceof Error ? err.message : String(err);
-      console.error('[Firebase] Token verification failed:', errMsg);
-      const hint = /Expected ["']([^"']+)["'] but got ["']([^"']+)["']/.exec(
-        errMsg,
-      )
-        ? 'Firebase project mismatch: backend and frontend must use the same project. Download service account from forum-d5f6c.'
-        : errMsg;
-      return { error: hint };
+      return { error: err instanceof Error ? err.message : String(err) };
     }
   }
 
