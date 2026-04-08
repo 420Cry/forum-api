@@ -2,6 +2,7 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import { existsSync, readFileSync } from 'fs';
 import { resolve } from 'path';
 import * as admin from 'firebase-admin';
+import { DecodedIdToken } from 'firebase-admin/auth';
 
 @Injectable()
 export class FirebaseService implements OnModuleInit {
@@ -47,12 +48,34 @@ export class FirebaseService implements OnModuleInit {
     }
   }
 
-  async verifyIdToken(
-    token: string,
-  ): Promise<{ decoded: admin.auth.DecodedIdToken } | { error: string }> {
+  async verifyIdToken(token: string): Promise<void | { error: string }> {
     if (!this.app) return { error: 'Firebase not initialized' };
     try {
-      const decoded = await admin.auth().verifyIdToken(token);
+      await admin.auth().verifyIdToken(token);
+    } catch (err) {
+      return { error: err instanceof Error ? err.message : String(err) };
+    }
+  }
+
+  async createSessionCookie(
+    idToken: string,
+  ): Promise<{ sessionCookie: string } | { error: string }> {
+    const expiresIn = 60 * 60 * 24 * 5 * 1000;
+    try {
+      const sessionCookie = await admin
+        .auth()
+        .createSessionCookie(idToken, { expiresIn });
+      return { sessionCookie };
+    } catch (err) {
+      return { error: err instanceof Error ? err.message : String(err) };
+    }
+  }
+
+  async verifySessionCookie(
+    cookie: string,
+  ): Promise<{ decoded: DecodedIdToken } | { error: string }> {
+    try {
+      const decoded = await admin.auth().verifySessionCookie(cookie);
       return { decoded };
     } catch (err) {
       return { error: err instanceof Error ? err.message : String(err) };

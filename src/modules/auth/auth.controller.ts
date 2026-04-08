@@ -1,14 +1,33 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
-import { FirebaseAuthGuard } from './firebase-auth.guard';
+import {
+  Controller,
+  Get,
+  Post,
+  Req,
+  Res,
+  UnauthorizedException,
+  UseGuards,
+} from '@nestjs/common';
 import { UsersService } from '../users';
+import { FirebaseService } from './firebase.service';
+import type { CookieOptions, Request, Response } from 'express';
+import { FirebaseSessionGuard } from './firebase-session.guard';
+import { FirebaseSessionAuthGuard } from './firebase-session-auth.guard';
+import { Public } from './public.decorator';
 
-type RequestWithUser = Request & { user?: { uid: string; email?: string } };
+type RequestWithUser = Request & {
+  user?: { uid: string; email?: string; token: string };
+};
+
+type RequestWithToken = Request & { token: string };
 
 @Controller('auth')
-@UseGuards(FirebaseAuthGuard)
 export class AuthController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly firebaseService: FirebaseService,
+  ) {}
 
+  @UseGuards(FirebaseSessionAuthGuard)
   @Get('me')
   async getMe(@Req() req: RequestWithUser) {
     const firebaseUser = (req as unknown as RequestWithUser).user;
@@ -28,5 +47,45 @@ export class AuthController {
         displayName: user.displayName,
       },
     };
+  }
+
+  @UseGuards(FirebaseSessionGuard)
+  @Post('session')
+  async createSession(
+    @Req() req: RequestWithUser,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const idToken = (req as unknown as RequestWithToken).token;
+    const result = await this.firebaseService.createSessionCookie(idToken);
+    if ('error' in result) {
+      throw new UnauthorizedException();
+    }
+
+    const { sessionCookie } = result;
+    const expiresIn = 60 * 60 * 24 * 5 * 1000;
+
+    const cookieOptions: CookieOptions = {
+      maxAge: expiresIn,
+      httpOnly: true,
+      secure: false,
+      sameSite: 'lax',
+    };
+
+    response.cookie('sessionId', sessionCookie, cookieOptions);
+    return {
+      message: 'Successfully create user session',
+    };
+  }
+
+  @Public()
+  @Post('logout')
+  clearSession(@Res({ passthrough: true }) response: Response) {
+    response
+      .clearCookie('sessionId', {
+        httpOnly: true,
+        secure: false,
+        sameSite: 'lax',
+      })
+      .json({ success: true });
   }
 }

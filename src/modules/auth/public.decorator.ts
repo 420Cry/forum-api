@@ -1,4 +1,4 @@
 import { SetMetadata } from '@nestjs/common';
-import { IS_PUBLIC_KEY } from './firebase-auth.guard';
+import { IS_PUBLIC_KEY } from './firebase-session-auth.guard';
 
 export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);

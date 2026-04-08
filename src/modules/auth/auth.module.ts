@@ -1,9 +1,9 @@
 import { Module, Global } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthController } from './auth.controller';
-import { FirebaseAuthGuard } from './firebase-auth.guard';
 import { FirebaseService } from './firebase.service';
 import { UsersModule } from '../users';
+import { FirebaseSessionAuthGuard } from './firebase-session-auth.guard';
 
 @Global()
 @Module({
@@ -13,7 +13,7 @@ import { UsersModule } from '../users';
     FirebaseService,
     {
       provide: APP_GUARD,
-      useClass: FirebaseAuthGuard,
+      useClass: FirebaseSessionAuthGuard,
     },
   ],
   exports: [FirebaseService],
