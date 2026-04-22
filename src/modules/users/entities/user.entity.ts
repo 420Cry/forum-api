@@ -1,9 +1,9 @@
 import {
   Entity,
-  PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 
 @Entity('users')

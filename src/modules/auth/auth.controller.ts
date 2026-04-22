@@ -17,8 +17,9 @@ import { Public } from './public.decorator';
 type RequestWithUser = Request & {
   user?: { uid: string; email?: string; token: string };
 };
-
 type RequestWithToken = Request & { token: string };
+
+const isProduction = process.env.NODE_ENV === 'production';
 
 @Controller('auth')
 export class AuthController {
@@ -67,7 +68,7 @@ export class AuthController {
     const cookieOptions: CookieOptions = {
       maxAge: expiresIn,
       httpOnly: true,
-      secure: false,
+      secure: isProduction,
       sameSite: 'lax',
     };
 
