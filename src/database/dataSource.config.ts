@@ -1,5 +1,6 @@
-import { User, UserInfo } from '../modules/users/entities';
 import { DataSource } from 'typeorm';
+import { User, UserInfo } from '../modules/users/entities';
+import { TestSchema1776137074948 } from './migrations/1776137074948-test-schema';
 
 export default new DataSource({
   type: 'mysql',
@@ -10,4 +11,5 @@ export default new DataSource({
   database: process.env.MYSQL_DATABASE || 'forum',
   synchronize: process.env.NODE_ENV !== 'production',
   entities: [User, UserInfo],
+  migrations: [TestSchema1776137074948],
 });

@@ -18,7 +18,11 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "migration:create": "typeorm migration:create ./src/database/migrations/${MIGRATION_NAME}"
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli",
+    "migration:create": "typeorm migration:create ./src/database/migrations/${MIGRATION_NAME}",
+    "migration:run": "npm run typeorm -- --dataSource=src/database/dataSource.config.ts migration:run",
+    "migration:revert": "npm run typeorm -- --dataSource=src/database/dataSource.config.ts migration:revert",
+    "migration:generate": "npm run typeorm -- migration:generate src/database/migrations/testGeneratedSchema -d src/database/dataSource.config.ts"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",

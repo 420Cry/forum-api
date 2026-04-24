@@ -12,11 +12,9 @@ export class TestSchema1776137074948 implements MigrationInterface {
         name: 'user_info',
         columns: [
           {
-            name: 'user_id',
-            type: 'uuid',
+            name: 'users_id',
+            type: 'char',
             isPrimary: true,
-            isGenerated: true,
-            generationStrategy: 'uuid',
             isNullable: false,
           },
           {
@@ -29,7 +27,7 @@ export class TestSchema1776137074948 implements MigrationInterface {
             type: 'enum',
             enum: ['RoleSelection', 'GoalSelection', 'BasicInfo'],
             enumName: 'onboardProcessEnum',
-            default: 'RoleSelection',
+            default: "'RoleSelection'",
           },
           {
             name: 'role',
