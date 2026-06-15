@@ -5,15 +5,14 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { Request } from 'express';
-import { FirebaseService } from './firebase.service';
-
-export const IS_PUBLIC_KEY = 'isPublic';
+import { IS_PUBLIC_KEY } from './auth.constants';
+import type { RequestWithUser } from './auth.types';
+import { SupabaseService } from './supabase.service';
 
 @Injectable()
-export class FirebaseAuthGuard implements CanActivate {
+export class SupabaseAuthGuard implements CanActivate {
   constructor(
-    private readonly firebase: FirebaseService,
+    private readonly supabase: SupabaseService,
     private readonly reflector: Reflector,
   ) {}
 
@@ -24,14 +23,17 @@ export class FirebaseAuthGuard implements CanActivate {
     ]);
     if (isPublic) return true;
 
-    if (!this.firebase.isEnabled) {
+    if (!this.supabase.isEnabled) {
+      if (process.env.NODE_ENV === 'production') {
+        throw new UnauthorizedException('Auth not configured');
+      }
       console.warn(
-        '[FirebaseAuthGuard] Firebase not initialized - allowing request without auth',
+        '[SupabaseAuthGuard] Supabase not initialized - allowing request without auth',
       );
       return true;
     }
 
-    const request = context.switchToHttp().getRequest<Request>();
+    const request = context.switchToHttp().getRequest<RequestWithUser>();
     const authHeader = request.headers.authorization;
     const token = authHeader?.startsWith('Bearer ')
       ? authHeader.slice(7)
@@ -41,15 +43,14 @@ export class FirebaseAuthGuard implements CanActivate {
       throw new UnauthorizedException('Missing or invalid token');
     }
 
-    const result = await this.firebase.verifyIdToken(token);
+    const result = await this.supabase.verifyToken(token);
     if ('error' in result) {
       throw new UnauthorizedException(result.error);
     }
 
-    const { decoded } = result;
-    (request as Request & { user?: { uid: string; email?: string } }).user = {
-      uid: decoded.uid,
-      email: decoded.email,
+    request.user = {
+      id: result.user.id,
+      email: result.user.email,
     };
     return true;
   }

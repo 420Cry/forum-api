@@ -1,4 +1,4 @@
 export * from './auth.module';
-export * from './firebase.service';
-export * from './firebase-auth.guard';
+export * from './supabase.service';
+export * from './supabase-auth.guard';
 export * from './public.decorator';
