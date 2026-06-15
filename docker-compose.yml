@@ -14,38 +14,7 @@ services:
       CORS_ORIGIN: ${CORS_ORIGIN:-http://app.forum.test}
       SUPABASE_URL: ${SUPABASE_URL}
       SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY}
-      MYSQL_HOST: mysql
-      MYSQL_PORT: ${MYSQL_PORT:-3306}
-      MYSQL_USERNAME: ${MYSQL_USER:-forum}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-forum}
-      MYSQL_DATABASE: ${MYSQL_DATABASE:-forum}
-    depends_on:
-      mysql:
-        condition: service_healthy
     restart: unless-stopped
-    networks:
-      - forum.test
-
-  mysql:
-    image: mysql:8.0
-    container_name: forum-mysql
-    env_file:
-      - .env
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE:-forum}
-      MYSQL_USER: ${MYSQL_USER:-forum}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-forum}
-    ports:
-      - "${MYSQL_PORT:-3306}:3306"
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      retries: 5
-      start_period: 10s
-      timeout: 5s
-    volumes:
-      - forum-mysql-data:/var/lib/mysql
     networks:
       - forum.test
 
@@ -53,7 +22,3 @@ networks:
   forum.test:
     name: forum.test
     external: true
-
-volumes:
-  forum-mysql-data:
-    driver: local

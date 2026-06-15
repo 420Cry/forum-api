@@ -5,10 +5,9 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { Request } from 'express';
+import { IS_PUBLIC_KEY } from './auth.constants';
+import type { RequestWithUser } from './auth.types';
 import { SupabaseService } from './supabase.service';
-
-export const IS_PUBLIC_KEY = 'isPublic';
 
 @Injectable()
 export class SupabaseAuthGuard implements CanActivate {
@@ -25,13 +24,16 @@ export class SupabaseAuthGuard implements CanActivate {
     if (isPublic) return true;
 
     if (!this.supabase.isEnabled) {
+      if (process.env.NODE_ENV === 'production') {
+        throw new UnauthorizedException('Auth not configured');
+      }
       console.warn(
         '[SupabaseAuthGuard] Supabase not initialized - allowing request without auth',
       );
       return true;
     }
 
-    const request = context.switchToHttp().getRequest<Request>();
+    const request = context.switchToHttp().getRequest<RequestWithUser>();
     const authHeader = request.headers.authorization;
     const token = authHeader?.startsWith('Bearer ')
       ? authHeader.slice(7)
@@ -46,8 +48,8 @@ export class SupabaseAuthGuard implements CanActivate {
       throw new UnauthorizedException(result.error);
     }
 
-    (request as Request & { user?: { uid: string; email?: string } }).user = {
-      uid: result.user.id,
+    request.user = {
+      id: result.user.id,
       email: result.user.email,
     };
     return true;
