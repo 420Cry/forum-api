@@ -8,7 +8,7 @@ src/
 ├── app/              # App module (imports feature modules)
 ├── database/         # TypeORM config, entities
 ├── modules/          # Feature modules (modular structure)
-│   ├── auth/         # Firebase Admin, guards, token verification
+│   ├── auth/         # Supabase Auth, guards, token verification
 │   ├── health/
 │   ├── root/
 │   └── users/
@@ -18,8 +18,8 @@ src/
 **Flow:**
 - **Modular structure** – Each feature lives in its own module (controller, service, tests).
 - **DI with tokens** – Services use injection tokens (`ROOT_SERVICE`, `HEALTH_SERVICE`) via `@Inject()` for loose coupling and easier testing.
-- **Auth** – Firebase Admin verifies ID tokens. `@Public()` marks routes as unauthenticated. Protected routes require `Authorization: Bearer <token>`.
-- **Database** – TypeORM + MySQL. Entities in `database/entities/`. Syncs users from Firebase on first `/auth/me` call.
+- **Auth** – Supabase verifies access tokens (`SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY`). `@Public()` marks routes as unauthenticated. Protected routes require `Authorization: Bearer <token>`.
+- **Database** – TypeORM + MySQL. Entities in `database/entities/`. Syncs users from Supabase on first `/auth/me` call.
 
 ## Setup
 
@@ -78,5 +78,6 @@ providers: [
 ## Lint
 
 ```bash
-npm run lint
+npm run lint       # check
+npm run lint:fix   # check and auto-fix
 ```

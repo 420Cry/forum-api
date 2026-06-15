@@ -10,18 +10,18 @@ export class UsersService {
     private readonly userRepo: Repository<User>,
   ) {}
 
-  async findOrCreate(firebaseUid: string, email: string): Promise<User> {
-    let user = await this.userRepo.findOne({ where: { firebaseUid } });
+  async findOrCreate(supabaseUid: string, email: string): Promise<User> {
+    let user = await this.userRepo.findOne({ where: { supabaseUid } });
     if (user) {
       user.email = email;
       return this.userRepo.save(user);
     }
-    user = this.userRepo.create({ firebaseUid, email });
+    user = this.userRepo.create({ supabaseUid, email });
     return this.userRepo.save(user);
   }
 
-  async findByFirebaseUid(firebaseUid: string): Promise<User | null> {
-    return this.userRepo.findOne({ where: { firebaseUid } });
+  async findBySupabaseUid(supabaseUid: string): Promise<User | null> {
+    return this.userRepo.findOne({ where: { supabaseUid } });
   }
 
   async findById(id: number): Promise<User | null> {

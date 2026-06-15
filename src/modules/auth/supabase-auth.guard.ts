@@ -6,14 +6,14 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
-import { FirebaseService } from './firebase.service';
+import { SupabaseService } from './supabase.service';
 
 export const IS_PUBLIC_KEY = 'isPublic';
 
 @Injectable()
-export class FirebaseAuthGuard implements CanActivate {
+export class SupabaseAuthGuard implements CanActivate {
   constructor(
-    private readonly firebase: FirebaseService,
+    private readonly supabase: SupabaseService,
     private readonly reflector: Reflector,
   ) {}
 
@@ -24,9 +24,9 @@ export class FirebaseAuthGuard implements CanActivate {
     ]);
     if (isPublic) return true;
 
-    if (!this.firebase.isEnabled) {
+    if (!this.supabase.isEnabled) {
       console.warn(
-        '[FirebaseAuthGuard] Firebase not initialized - allowing request without auth',
+        '[SupabaseAuthGuard] Supabase not initialized - allowing request without auth',
       );
       return true;
     }
@@ -41,15 +41,14 @@ export class FirebaseAuthGuard implements CanActivate {
       throw new UnauthorizedException('Missing or invalid token');
     }
 
-    const result = await this.firebase.verifyIdToken(token);
+    const result = await this.supabase.verifyToken(token);
     if ('error' in result) {
       throw new UnauthorizedException(result.error);
     }
 
-    const { decoded } = result;
     (request as Request & { user?: { uid: string; email?: string } }).user = {
-      uid: decoded.uid,
-      email: decoded.email,
+      uid: result.user.id,
+      email: result.user.email,
     };
     return true;
   }
