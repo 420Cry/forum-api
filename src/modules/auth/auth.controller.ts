@@ -1,52 +1,17 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Req,
-  Res,
-  UnauthorizedException,
-  UseGuards,
-} from '@nestjs/common';
-import { UsersService } from '../users';
-import { FirebaseService } from './firebase.service';
-import type { CookieOptions, Request, Response } from 'express';
-import { FirebaseSessionGuard } from './firebase-session.guard';
-import { FirebaseSessionAuthGuard } from './firebase-session-auth.guard';
-import { Public } from './public.decorator';
-
-type RequestWithUser = Request & {
-  user?: { uid: string; email?: string; token: string };
-};
-type RequestWithToken = Request & { token: string };
-
-const isProduction = process.env.NODE_ENV === 'production';
+import { Controller, Get, Req } from '@nestjs/common';
+import type { RequestWithUser } from './auth.types';
 
 @Controller('auth')
 export class AuthController {
-  constructor(
-    private readonly usersService: UsersService,
-    private readonly firebaseService: FirebaseService,
-  ) {}
-
-  @UseGuards(FirebaseSessionAuthGuard)
   @Get('me')
-  async getMe(@Req() req: RequestWithUser) {
-    const firebaseUser = (req as unknown as RequestWithUser).user;
-    if (!firebaseUser?.uid) {
-      return { uid: null, email: null, user: null };
+  getMe(@Req() req: RequestWithUser) {
+    const authUser = req.user;
+    if (!authUser?.id) {
+      return { id: null, email: null };
     }
-    const user = await this.usersService.findOrCreate(
-      firebaseUser.uid,
-      firebaseUser.email ?? '',
-    );
     return {
-      uid: firebaseUser.uid,
-      email: firebaseUser.email,
-      user: {
-        id: user.id,
-        email: user.email,
-        displayName: user.displayName,
-      },
+      id: authUser.id,
+      email: authUser.email ?? null,
     };
   }
 

@@ -1,21 +1,18 @@
 import { Module, Global } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthController } from './auth.controller';
-import { FirebaseService } from './firebase.service';
-import { UsersModule } from '../users';
-import { FirebaseSessionAuthGuard } from './firebase-session-auth.guard';
+import { SupabaseAuthGuard } from './supabase-auth.guard';
+import { SupabaseService } from './supabase.service';
 
 @Global()
 @Module({
-  imports: [UsersModule],
   controllers: [AuthController],
   providers: [
-    FirebaseService,
+    SupabaseService,
     {
       provide: APP_GUARD,
-      useClass: FirebaseSessionAuthGuard,
+      useClass: SupabaseAuthGuard,
     },
   ],
-  exports: [FirebaseService],
 })
 export class AuthModule {}
