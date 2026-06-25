@@ -12,7 +12,7 @@ export class User {
   id!: number;
 
   @Column({ unique: true })
-  firebaseUid!: string;
+  supabaseUid!: string;
 
   @Column()
   email!: string;

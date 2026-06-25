@@ -1,17 +1,15 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { EnvModule } from '../config/config.module';
+import { EnvService } from '../config/config.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: process.env.MYSQL_HOST || 'localhost',
-      port: parseInt(process.env.MYSQL_PORT || '3306', 10),
-      username: process.env.MYSQL_USERNAME || 'root',
-      password: process.env.MYSQL_PASSWORD || '',
-      database: process.env.MYSQL_DATABASE || 'forum',
-      autoLoadEntities: true,
-      synchronize: process.env.NODE_ENV !== 'production',
+    EnvModule,
+    TypeOrmModule.forRootAsync({
+      imports: [EnvModule],
+      useFactory: (env: EnvService) => env.getDBConfig(),
+      inject: [EnvService],
     }),
   ],
 })

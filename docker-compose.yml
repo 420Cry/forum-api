@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile
     env_file:
-      - .env
+      - .env.production
     ports:
       - "${PORT:-3001}:${PORT:-3001}"
     environment:

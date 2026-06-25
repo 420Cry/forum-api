@@ -49,6 +49,9 @@ export class UserInfo {
   @Column({ nullable: true })
   occupation: string;
 
+  @Column({ nullable: true })
+  age: string;
+
   @CreateDateColumn()
   createdAt!: Date;
 
