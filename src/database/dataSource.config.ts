@@ -5,17 +5,18 @@ dotenv.config({
 });
 
 import { DataSource } from 'typeorm';
-import { User, UserInfo } from '../modules/users/entities';
-import { TestSchema1776137074948 } from './migrations/1776137074948-test-schema';
+import { User } from '../modules/users/entities';
+import { UserTable1782361957998 } from './migrations/1782361957998-UserTable';
+import { UpdateRoleEnum1782702393426 } from './migrations/1782702393426-UpdateRoleEnum';
 
 export default new DataSource({
   type: 'postgres',
-  host: process.env.DB_HOST || 'localhost',
-  port: parseInt(process.env.DB_PORT || '5432', 10),
-  username: process.env.DB_USERNAME || 'root',
-  password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_NAME || 'forum',
+  host: process.env.DB_HOST || '127.0.0.1',
+  port: parseInt(process.env.DB_PORT || '54322', 10),
+  username: process.env.DB_USERNAME || 'postgres',
+  password: process.env.DB_PASSWORD || 'postgres',
+  database: process.env.DB_NAME || 'postgres',
   synchronize: process.env.NODE_ENV !== 'production',
-  entities: [User, UserInfo],
-  migrations: [TestSchema1776137074948],
+  entities: [User],
+  migrations: [UserTable1782361957998, UpdateRoleEnum1782702393426],
 });

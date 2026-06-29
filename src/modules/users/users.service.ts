@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities';
+import { UpdateUserType } from './users.type';
 
 @Injectable()
 export class UsersService {
@@ -24,7 +25,14 @@ export class UsersService {
     return this.userRepo.findOne({ where: { supabaseUid } });
   }
 
-  async findById(id: number): Promise<User | null> {
-    return this.userRepo.findOne({ where: { id } });
+  async save(user: User): Promise<User> {
+    return this.userRepo.save(user);
+  }
+
+  async update(user: User, userData: UpdateUserType): Promise<User> {
+    for (const [key, value] of Object.entries(userData)) {
+      user[key] = value;
+    }
+    return await this.save(user);
   }
 }

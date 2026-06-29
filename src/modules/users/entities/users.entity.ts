@@ -4,30 +4,17 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   PrimaryColumn,
-  OneToOne,
-  JoinColumn,
 } from 'typeorm';
-import { User } from './index';
-import type { UUID } from 'crypto';
+import { onboardProcess, rolesSelection } from '../users.type';
+import type { OnboardProcessType, RolesSelectionType } from '../users.type';
 
-export const onboardProcess = [
-  'RoleSelection',
-  'GoalSelection',
-  'BasicInfo',
-] as const;
-export type OnboardProcessType = (typeof onboardProcess)[number];
-
-export const rolesSelection = ['startup', 'investor'] as const;
-export type RolesSelectionType = (typeof rolesSelection)[number];
-
-@Entity('users_info')
-export class UserInfo {
+@Entity('users')
+export class User {
   @PrimaryColumn('uuid')
-  user_id: UUID;
+  supabaseUid!: string;
 
-  @OneToOne(() => User)
-  @JoinColumn()
-  user: User;
+  @Column()
+  email!: string;
 
   @Column({
     type: 'enum',
