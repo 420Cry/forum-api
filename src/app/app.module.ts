@@ -6,6 +6,7 @@ import { RootModule } from '../modules/root';
 import { EnvModule } from '../config/config.module';
 import { DatabaseModule } from '../database/database.module';
 import { UsersModule } from 'src/modules/users/users.module';
+import { TagsModule } from 'src/modules/tags/tags.module';
 import { FiltersModule } from 'src/filters/filters.module';
 
 @Module({
@@ -22,6 +23,7 @@ import { FiltersModule } from 'src/filters/filters.module';
     RootModule,
     HealthModule,
     UsersModule,
+    TagsModule,
   ],
 })
 export class AppModule {}

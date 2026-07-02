@@ -25,6 +25,13 @@ export class UsersService {
     return this.userRepo.findOne({ where: { supabaseUid } });
   }
 
+  async findBySupabaseUidWithTags(supabaseUid: string): Promise<User | null> {
+    return this.userRepo.findOne({
+      where: { supabaseUid },
+      relations: { tags: true },
+    });
+  }
+
   async save(user: User): Promise<User> {
     return this.userRepo.save(user);
   }
@@ -33,6 +40,6 @@ export class UsersService {
     for (const [key, value] of Object.entries(userData)) {
       user[key] = value;
     }
-    return await this.save(user);
+    return await this.userRepo.save(user);
   }
 }

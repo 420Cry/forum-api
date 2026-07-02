@@ -1,15 +1,8 @@
-import {
-  Body,
-  Controller,
-  HttpException,
-  HttpStatus,
-  Post,
-  Req,
-  UnauthorizedException,
-} from '@nestjs/common';
-import { SaveUserRoleDto } from './dto/save_user_role.dto';
-import { UserOnboardingService } from './onboarding/users_onboarding.service';
-import type { RequestWithUser } from '../auth/auth.types';
+import { Body, Controller, Post, Req } from '@nestjs/common';
+import { UserRoleDto } from './dto/user-role.dto';
+import { UserOnboardingService } from './onboarding/users-onboarding.service';
+import type { AuthUser, RequestWithUser } from '../auth/auth.types';
+import { UserGoalsDto } from './dto/user-goals.dto';
 
 @Controller('user')
 export class UsersController {
@@ -17,27 +10,25 @@ export class UsersController {
 
   @Post('role')
   async saveUserRole(
-    @Body() userRole: SaveUserRoleDto,
+    @Body() userRole: UserRoleDto,
     @Req() req: RequestWithUser,
   ) {
-    if (!req.user) {
-      throw new UnauthorizedException('Please login to continue onboarding');
-    }
+    const { id, email } = req.user as AuthUser;
+    await this.userOnboardingService.saveUserRole(
+      id,
+      email as string,
+      userRole.role,
+    );
+    return { success: true, message: 'Saves role successfully' };
+  }
 
-    try {
-      const { id, email } = req.user;
-      await this.userOnboardingService.saveUserRole(
-        id,
-        email as string,
-        userRole.role,
-      );
-      return { success: true, message: 'Saves role successfully' };
-    } catch (err) {
-      console.log(err);
-      throw new HttpException(
-        { message: 'Internal Server Error', success: false },
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
+  @Post('goals')
+  async saveUserGoals(
+    @Body() userGoals: UserGoalsDto,
+    @Req() req: RequestWithUser,
+  ) {
+    const { id } = req.user as AuthUser;
+    await this.userOnboardingService.saveUserGoal(id, userGoals.goals);
+    return { success: true, message: 'Saves goals successfully' };
   }
 }

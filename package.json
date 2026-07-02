@@ -24,7 +24,8 @@
     "migration:create": "typeorm migration:create ./src/database/migrations/${MIGRATION_NAME}",
     "migration:run": "bun run typeorm -- --dataSource=src/database/dataSource.config.ts migration:run",
     "migration:revert": "bun run typeorm -- --dataSource=src/database/dataSource.config.ts migration:revert",
-    "migration:generate": "bun run typeorm -- migration:generate src/database/migrations/UserTable -d src/database/dataSource.config.ts"
+    "migration:generate": "bun run typeorm -- migration:generate src/database/migrations/${NAME} -d src/database/dataSource.config.ts",
+    "seed": "ts-node -r tsconfig-paths/register src/database/seed.ts"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",

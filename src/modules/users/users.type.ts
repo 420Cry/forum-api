@@ -1,3 +1,5 @@
+import { Tag } from 'src/modules/tags/entities/tags.entities';
+
 export const onboardProcess = [
   'RoleSelection',
   'GoalSelection',
@@ -15,4 +17,5 @@ export type UpdateUserType = {
   name?: string;
   occupation?: string;
   age?: string;
+  tags?: Tag[];
 };

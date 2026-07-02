@@ -44,7 +44,7 @@ export class EnvService {
       password: this.getValue('DB_PASSWORD'),
       database: this.getValue('DB_NAME'),
       autoLoadEntities: true,
-      synchronize: !this.isProduction(),
+      synchronize: false,
     };
   }
 }

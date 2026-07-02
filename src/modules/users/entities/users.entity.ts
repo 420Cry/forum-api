@@ -4,9 +4,12 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   PrimaryColumn,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 import { onboardProcess, rolesSelection } from '../users.type';
 import type { OnboardProcessType, RolesSelectionType } from '../users.type';
+import { Tag } from 'src/modules/tags/entities/tags.entities';
 
 @Entity('users')
 export class User {
@@ -38,6 +41,10 @@ export class User {
 
   @Column({ nullable: true })
   age: string;
+
+  @ManyToMany(() => Tag)
+  @JoinTable({ name: 'user_tag' })
+  tags: Tag[];
 
   @CreateDateColumn()
   createdAt!: Date;
