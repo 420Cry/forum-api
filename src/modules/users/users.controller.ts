@@ -3,6 +3,7 @@ import { UserRoleDto } from './dto/user-role.dto';
 import { UserOnboardingService } from './onboarding/users-onboarding.service';
 import type { AuthUser, RequestWithUser } from '../auth/auth.types';
 import { UserGoalsDto } from './dto/user-goals.dto';
+import { UserInfoDto } from './dto/user-info.dto';
 
 @Controller('user')
 export class UsersController {
@@ -30,5 +31,15 @@ export class UsersController {
     const { id } = req.user as AuthUser;
     await this.userOnboardingService.saveUserGoal(id, userGoals.goals);
     return { success: true, message: 'Saves goals successfully' };
+  }
+
+  @Post('info')
+  async saveUserInfo(
+    @Body() userInfo: UserInfoDto,
+    @Req() req: RequestWithUser,
+  ) {
+    const { id } = req.user as AuthUser;
+    await this.userOnboardingService.saveUserInfo(id, userInfo);
+    return { success: true, message: 'Saves info successfully' };
   }
 }

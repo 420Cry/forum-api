@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { UsersService } from '../users.service';
 import { onboardProcess, RolesSelectionType } from '../users.type';
+import { UserInfoDto } from '../dto/user-info.dto';
 import { TagsService } from 'src/modules/tags/tags.service';
 
 @Injectable()
@@ -35,6 +36,9 @@ export class UserOnboardingService {
     if (!foundUser) {
       throw new BadRequestException('This user is not existed');
     }
+    if (foundUser.onboard_process !== onboardProcess[1]) {
+      throw new BadRequestException('Complete the previous step first');
+    }
 
     const allTags = await this.tagsService.findAllTags();
     const matchesAnyGoal = (tagName: string) =>
@@ -48,6 +52,25 @@ export class UserOnboardingService {
     await this.usersService.update(foundUser, {
       tags: foundTags,
       onboard_process: onboardProcess[2],
+    });
+  }
+
+  async saveUserInfo(supabaseUid: string, info: UserInfoDto) {
+    const foundUser =
+      await this.usersService.findBySupabaseUidWithTags(supabaseUid);
+    if (!foundUser) {
+      throw new BadRequestException('This user is not existed');
+    }
+    if (foundUser.onboard_process !== onboardProcess[2]) {
+      throw new BadRequestException('Complete the previous step first');
+    }
+
+    const { firstName, lastName, ...rest } = info;
+    const userName = `${firstName} ${lastName}`;
+    const userInfo = { ...rest, name: userName };
+    await this.usersService.update(foundUser, {
+      ...userInfo,
+      onboard_process: onboardProcess[3],
     });
   }
 }

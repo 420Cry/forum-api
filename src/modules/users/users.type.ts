@@ -4,6 +4,7 @@ export const onboardProcess = [
   'RoleSelection',
   'GoalSelection',
   'BasicInfo',
+  'Completed',
 ] as const;
 export type OnboardProcessType = (typeof onboardProcess)[number];
 
@@ -16,6 +17,7 @@ export type UpdateUserType = {
   role?: RolesSelectionType | null;
   name?: string;
   occupation?: string;
-  age?: string;
+  age?: number;
+  location?: string;
   tags?: Tag[];
 };

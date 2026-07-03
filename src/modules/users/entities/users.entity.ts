@@ -40,7 +40,10 @@ export class User {
   occupation: string;
 
   @Column({ nullable: true })
-  age: string;
+  age: number;
+
+  @Column({ nullable: true })
+  location: string;
 
   @ManyToMany(() => Tag)
   @JoinTable({ name: 'user_tag' })
