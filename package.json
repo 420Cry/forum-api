@@ -20,12 +20,12 @@
     "test:cov": "jest --coverage",
     "test:debug": "bun --inspect-brk x jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli",
-    "migration:create": "typeorm migration:create ./src/database/migrations/${MIGRATION_NAME}",
+    "typeorm": "bun ./node_modules/typeorm/cli.js",
+    "migration:create": "bun ./node_modules/typeorm/cli.js migration:create ./src/database/migrations/${MIGRATION_NAME}",
     "migration:run": "bun run typeorm -- --dataSource=src/database/dataSource.config.ts migration:run",
     "migration:revert": "bun run typeorm -- --dataSource=src/database/dataSource.config.ts migration:revert",
     "migration:generate": "bun run typeorm -- migration:generate src/database/migrations/${NAME} -d src/database/dataSource.config.ts",
-    "seed": "ts-node -r tsconfig-paths/register src/database/seed.ts"
+    "seed": "bun src/database/seed.ts"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
