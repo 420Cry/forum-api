@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common'
 import { UsersService } from '../users.service'
 import { onboardProcess, RolesSelectionType } from '../users.type'
 import { UserInfoDto } from '../dto/user-info.dto'
-import { TagsService } from 'src/modules/tags/tags.service'
+import { TagsService } from '../../tags/tags.service'
 
 @Injectable()
 export class UserOnboardingService {
@@ -16,18 +16,29 @@ export class UserOnboardingService {
     email: string,
     role: RolesSelectionType,
   ): Promise<void> {
-    const foundUser = await this.usersService.findBySupabaseUid(supabaseUid)
+    const foundUser =
+      await this.usersService.findBySupabaseUidWithTags(supabaseUid)
     if (!foundUser) {
       const newUser = await this.usersService.findOrCreate(supabaseUid, email)
       newUser.role = role
       newUser.onboard_process = onboardProcess[1]
       await this.usersService.save(newUser)
-    } else {
-      await this.usersService.update(foundUser, {
-        role,
-        onboard_process: onboardProcess[1],
-      })
+      return
     }
+
+    if (foundUser.onboard_process === onboardProcess[3]) {
+      throw new BadRequestException('Onboarding already completed')
+    }
+
+    const rewinding =
+      foundUser.onboard_process !== onboardProcess[0] &&
+      foundUser.onboard_process !== onboardProcess[1]
+
+    await this.usersService.update(foundUser, {
+      role,
+      onboard_process: onboardProcess[1],
+      ...(rewinding ? { tags: [] } : {}),
+    })
   }
 
   async saveUserGoal(supabaseUid: string, goals: string[]) {
@@ -36,11 +47,19 @@ export class UserOnboardingService {
     if (!foundUser) {
       throw new BadRequestException('This user is not existed')
     }
-    if (foundUser.onboard_process !== onboardProcess[1]) {
+    if (
+      foundUser.onboard_process !== onboardProcess[1] &&
+      foundUser.onboard_process !== onboardProcess[2]
+    ) {
       throw new BadRequestException('Complete the previous step first')
     }
 
     const allTags = await this.tagsService.findAllTags()
+    if (allTags.length === 0) {
+      throw new BadRequestException(
+        'Goal tags are not seeded. Run forum db:seed first.',
+      )
+    }
     const matchesAnyGoal = (tagName: string) =>
       goals.some((goal) => goal.toLowerCase().includes(tagName.toLowerCase()))
     const foundTags = allTags.filter((tag) => matchesAnyGoal(tag.name))
