@@ -27,7 +27,7 @@
     "migration:revert": "bun run typeorm -- --dataSource=src/database/dataSource.config.ts migration:revert",
     "migration:generate": "bun run typeorm -- migration:generate src/database/migrations/${NAME} -d src/database/dataSource.config.ts",
     "seed": "bun src/database/seed.ts",
-    "db:start": "supabase start",
+    "db:start": "supabase start --ignore-health-check",
     "db:stop": "supabase stop",
     "db:status": "supabase status"
   },

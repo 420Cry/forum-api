@@ -14,7 +14,9 @@ import { FiltersModule } from 'src/filters/filters.module'
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath:
-        process.env.NODE_ENV === 'production' ? '.env.production' : '.env',
+        process.env.NODE_ENV === 'production'
+          ? '.env.production'
+          : ['.env', '.env.local'],
     }),
     EnvModule,
     FiltersModule,

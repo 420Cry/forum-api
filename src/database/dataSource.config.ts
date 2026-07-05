@@ -1,8 +1,11 @@
 import * as dotenv from 'dotenv'
 
-dotenv.config({
-  path: process.env.NODE_ENV === 'production' ? '.env.production' : '.env',
-})
+if (process.env.NODE_ENV === 'production') {
+  dotenv.config({ path: '.env.production' })
+} else {
+  dotenv.config({ path: '.env' })
+  dotenv.config({ path: '.env.local', override: false })
+}
 
 import { DataSource } from 'typeorm'
 import { User } from '../modules/users/entities'

@@ -3,6 +3,9 @@ services:
     container_name: forum-api
     env_file:
       - .env
+      - .env.local
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     build:
       context: .
       dockerfile: Dockerfile.dev
@@ -13,10 +16,6 @@ services:
       - /app/node_modules
     environment:
       NODE_ENV: development
-      PORT: ${PORT:-3001}
-      CORS_ORIGIN: ${CORS_ORIGIN:-http://app.forum.test}
-      SUPABASE_URL: ${SUPABASE_URL}
-      SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY}
       CHOKIDAR_USEPOLLING: "true"
     command: bun run start:dev
     networks:
