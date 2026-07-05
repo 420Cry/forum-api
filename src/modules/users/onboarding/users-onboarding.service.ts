@@ -16,8 +16,7 @@ export class UserOnboardingService {
     email: string,
     role: RolesSelectionType,
   ): Promise<void> {
-    const foundUser =
-      await this.usersService.findBySupabaseUidWithTags(supabaseUid)
+    const foundUser = await this.usersService.findBySupabaseUidWithTags(supabaseUid)
     if (!foundUser) {
       const newUser = await this.usersService.findOrCreate(supabaseUid, email)
       newUser.role = role
@@ -30,9 +29,8 @@ export class UserOnboardingService {
       throw new BadRequestException('Onboarding already completed')
     }
 
-    const rewinding =
-      foundUser.onboard_process !== onboardProcess[0] &&
-      foundUser.onboard_process !== onboardProcess[1]
+    const rewinding = foundUser.onboard_process !== onboardProcess[0]
+      && foundUser.onboard_process !== onboardProcess[1]
 
     await this.usersService.update(foundUser, {
       role,
@@ -48,8 +46,8 @@ export class UserOnboardingService {
       throw new BadRequestException('This user is not existed')
     }
     if (
-      foundUser.onboard_process !== onboardProcess[1] &&
-      foundUser.onboard_process !== onboardProcess[2]
+      foundUser.onboard_process !== onboardProcess[1]
+      && foundUser.onboard_process !== onboardProcess[2]
     ) {
       throw new BadRequestException('Complete the previous step first')
     }
