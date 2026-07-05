@@ -1,21 +1,17 @@
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app/app.module'
-
-function getCorsOrigins(): string[] {
-  return (process.env.CORS_ORIGIN ?? 'http://localhost:3000')
-    .split(',')
-    .map((origin) => origin.trim())
-    .filter(Boolean)
-}
+import { EnvService } from './config/config.service'
+import { ValidationPipe } from '@nestjs/common'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
-  const allowedOrigins = getCorsOrigins()
+  const env = app.get(EnvService)
 
+  app.useGlobalPipes(new ValidationPipe())
   app.enableCors({
-    origin: allowedOrigins,
+    origin: env.getCorsOrigins(),
     credentials: true,
   })
-  await app.listen(process.env.PORT ?? 3001, '0.0.0.0')
+  await app.listen(env.getPort(), '0.0.0.0')
 }
 void bootstrap()

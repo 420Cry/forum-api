@@ -20,15 +20,31 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "bun --inspect-brk x jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "typeorm": "bun ./node_modules/typeorm/cli.js",
+    "migration:create": "bun ./node_modules/typeorm/cli.js migration:create ./src/database/migrations/${MIGRATION_NAME}",
+    "migration:run": "bun run typeorm -- --dataSource=src/database/dataSource.config.ts migration:run",
+    "migration:revert": "bun run typeorm -- --dataSource=src/database/dataSource.config.ts migration:revert",
+    "migration:generate": "bun run typeorm -- migration:generate src/database/migrations/${NAME} -d src/database/dataSource.config.ts",
+    "seed": "bun src/database/seed.ts",
+    "db:start": "supabase start",
+    "db:stop": "supabase stop",
+    "db:status": "supabase status"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
+    "@nestjs/config": "^4.0.3",
     "@nestjs/core": "^11.0.1",
     "@nestjs/platform-express": "^11.0.1",
+    "@nestjs/typeorm": "^11.0.2",
     "@supabase/supabase-js": "^2.108.2",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.15.1",
+    "dotenv": "^16.4.7",
+    "pg": "^8.22.0",
     "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "typeorm": "^1.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
