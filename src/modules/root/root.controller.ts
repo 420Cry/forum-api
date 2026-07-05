@@ -1,6 +1,6 @@
-import { Controller, Get, Inject } from '@nestjs/common';
-import { Public } from '../auth';
-import { ROOT_SERVICE, RootServiceToken } from './root.service.interface';
+import { Controller, Get, Inject } from '@nestjs/common'
+import { Public } from '../auth'
+import { ROOT_SERVICE, RootServiceToken } from './root.service.interface'
 
 @Controller()
 @Public()
@@ -11,6 +11,6 @@ export class RootController {
 
   @Get()
   getHello(): string {
-    return this.rootService.getHello();
+    return this.rootService.getHello()
   }
 }

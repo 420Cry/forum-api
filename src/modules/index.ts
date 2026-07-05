@@ -1,2 +1,2 @@
-export * from './health';
-export * from './root';
+export * from './health'
+export * from './root'

@@ -1,13 +1,13 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { RootController } from './root.controller';
-import { ROOT_SERVICE } from './root.service.interface';
+import { Test, TestingModule } from '@nestjs/testing'
+import { RootController } from './root.controller'
+import { ROOT_SERVICE } from './root.service.interface'
 
 const mockRootService = {
   getHello: () => 'Hello World!',
-};
+}
 
 describe('RootController', () => {
-  let controller: RootController;
+  let controller: RootController
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -18,12 +18,12 @@ describe('RootController', () => {
           useValue: mockRootService,
         },
       ],
-    }).compile();
+    }).compile()
 
-    controller = module.get<RootController>(RootController);
-  });
+    controller = module.get<RootController>(RootController)
+  })
 
   it('should return "Hello World!"', () => {
-    expect(controller.getHello()).toBe('Hello World!');
-  });
-});
+    expect(controller.getHello()).toBe('Hello World!')
+  })
+})

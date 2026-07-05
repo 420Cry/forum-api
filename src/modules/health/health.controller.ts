@@ -1,6 +1,6 @@
-import { Controller, Get, Inject } from '@nestjs/common';
-import { Public } from '../auth';
-import { HEALTH_SERVICE, HealthServiceToken } from './health.service.interface';
+import { Controller, Get, Inject } from '@nestjs/common'
+import { Public } from '../auth'
+import { HEALTH_SERVICE, HealthServiceToken } from './health.service.interface'
 
 @Controller('health')
 @Public()
@@ -11,6 +11,6 @@ export class HealthController {
 
   @Get()
   getHealth() {
-    return this.healthService.getStatus();
+    return this.healthService.getStatus()
   }
 }

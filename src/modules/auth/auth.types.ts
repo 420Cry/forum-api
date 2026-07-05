@@ -1,8 +1,8 @@
-import type { Request } from 'express';
+import type { Request } from 'express'
 
 export interface AuthUser {
-  id: string;
-  email?: string;
+  id: string
+  email?: string
 }
 
-export type RequestWithUser = Request & { user?: AuthUser };
+export type RequestWithUser = Request & { user?: AuthUser }

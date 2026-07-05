@@ -1,16 +1,16 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { HealthController } from './health.controller';
-import { HEALTH_SERVICE } from './health.service.interface';
+import { Test, TestingModule } from '@nestjs/testing'
+import { HealthController } from './health.controller'
+import { HEALTH_SERVICE } from './health.service.interface'
 
 const mockHealthService = {
   getStatus: () => ({
     status: 'ok' as const,
     timestamp: new Date().toISOString(),
   }),
-};
+}
 
 describe('HealthController', () => {
-  let controller: HealthController;
+  let controller: HealthController
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -21,15 +21,15 @@ describe('HealthController', () => {
           useValue: mockHealthService,
         },
       ],
-    }).compile();
+    }).compile()
 
-    controller = module.get<HealthController>(HealthController);
-  });
+    controller = module.get<HealthController>(HealthController)
+  })
 
   it('should return health status', () => {
-    const health = controller.getHealth();
-    expect(health).toHaveProperty('status', 'ok');
-    expect(health).toHaveProperty('timestamp');
-    expect(new Date(health.timestamp).getTime()).not.toBeNaN();
-  });
-});
+    const health = controller.getHealth()
+    expect(health).toHaveProperty('status', 'ok')
+    expect(health).toHaveProperty('timestamp')
+    expect(new Date(health.timestamp).getTime()).not.toBeNaN()
+  })
+})
