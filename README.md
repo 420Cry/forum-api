@@ -89,7 +89,12 @@ After start, local services run at:
 | ------- | --------------------------------------------------------- |
 | API     | `http://127.0.0.1:54321`                                  |
 | Studio  | `http://127.0.0.1:54323`                                  |
+| Email   | `http://127.0.0.1:54324` (Inbucket; `http://mail.forum.test` via forum-server) |
 | DB      | `postgresql://postgres:postgres@127.0.0.1:54322/postgres` |
+
+Local `supabase/config.toml` has **email confirmations enabled** so signup sends a verification email to Inbucket. Restart Supabase after changing auth settings: `forum down && forum dev` or `supabase stop && supabase start`.
+
+**Local email rate limit:** `auth.rate_limit.email_sent` is set to **100/hour** for development (Supabase default is 2). If you still see `Email rate limit exceeded`, restart the stack so the new limit applies. Failed signup attempts also count toward the limit — use unique emails or wait for the hourly bucket to reset. Verification emails appear in Inbucket at http://mail.forum.test.
 
 ```bash
 npx supabase stop   # when done
@@ -130,14 +135,16 @@ After migrating, run `forum db:seed` (or `bun run seed`) on fresh environments.
 
 ## Routes
 
-| Method | Path              | Auth | Description                                      |
-| ------ | ----------------- | ---- | ------------------------------------------------ |
-| GET    | /                 | No   | Hello World                                      |
-| GET    | /health           | No   | Health check                                     |
-| GET    | /auth/me          | Yes  | Current user + profile (`onboarded`, goals, etc.) |
-| POST   | /user/onboarding  | Yes  | Complete onboarding (single atomic submit)       |
-| PATCH  | /user/onboarding/draft | Yes | Save in-progress onboarding draft (no `onboarded_at`) |
-| PATCH  | /user/profile     | Yes  | Update an already-onboarded profile (partial)    |
+See [AGENTS.md](./AGENTS.md) and [../ARCHITECTURE.md](../ARCHITECTURE.md) for the full guard model.
+
+| Method | Path              | Auth | Guards | Description                                      |
+| ------ | ----------------- | ---- | ------ | ------------------------------------------------ |
+| GET    | /                 | No   | `@Public()` | Hello World                                 |
+| GET    | /health           | No   | `@Public()` | Health check                                |
+| GET    | /auth/me          | Yes  | JWT (email verification skipped) | Current user + profile |
+| POST   | /user/onboarding  | Yes  | JWT + verified + not onboarded | Complete onboarding (atomic submit) |
+| PATCH  | /user/onboarding/draft | Yes | JWT + verified + not onboarded | Save in-progress draft |
+| PATCH  | /user/profile     | Yes  | JWT + verified + onboarded | Update profile (partial) |
 
 Removed (replaced by the routes above):
 
@@ -245,6 +252,8 @@ bun run test:e2e     # e2e
 
 Key unit tests:
 
+- `email-verified.guard.spec.ts` — email verification guard
+- `onboarding-state.guard.spec.ts` — onboarding state guard
 - `auth-profile.mapper.spec.ts` — `/auth/me` profile mapping
 - `users-onboarding.service.spec.ts` — atomic onboarding + profile updates
 - `supabase-auth.guard.spec.ts` — bearer token guard

@@ -13,10 +13,10 @@ const EMAIL = 'founder@example.com'
 const baseDto: SaveOnboardingDto = {
   role: 'Founder',
   goals: ['raise_capital', 'find_cofounders'],
-  firstName: 'Dao',
-  lastName: 'Nguyen',
+  firstName: 'Alex',
+  lastName: 'Morgan',
   age: 28,
-  location: 'Hanoi',
+  location: 'Austin',
   occupation: 'Founder',
 }
 
@@ -72,15 +72,29 @@ describe('UserOnboardingService', () => {
         user,
         expect.objectContaining({
           role: 'Founder',
-          name: 'Dao Nguyen',
+          name: 'Alex Morgan',
           age: 28,
-          location: 'Hanoi',
+          location: 'Austin',
           occupation: 'Founder',
           tags: goalTags,
           onboarded_at: expect.any(Date) as Date,
           onboarding_step: null,
         }),
       )
+    })
+
+    it('rejects repeat onboarding submit', async () => {
+      usersService.findBySupabaseUidWithTags.mockResolvedValue({
+        supabaseUid: UID,
+        onboarded_at: new Date(),
+      })
+
+      await expect(service.saveOnboarding(UID, EMAIL, baseDto)).rejects.toThrow(
+        BadRequestException,
+      )
+
+      expect(usersService.findOrCreate).not.toHaveBeenCalled()
+      expect(usersService.update).not.toHaveBeenCalled()
     })
 
     it('throws when goal keys are unknown', async () => {
@@ -163,7 +177,7 @@ describe('UserOnboardingService', () => {
     const existingUser = {
       supabaseUid: UID,
       email: EMAIL,
-      name: 'Dao Nguyen',
+      name: 'Alex Morgan',
       tags: goalTags,
     } as User
 
@@ -175,25 +189,46 @@ describe('UserOnboardingService', () => {
       ).rejects.toThrow(BadRequestException)
     })
 
+    it('throws when onboarding is not complete', async () => {
+      usersService.findBySupabaseUidWithTags.mockResolvedValue({
+        supabaseUid: UID,
+        onboarded_at: null,
+      })
+
+      await expect(
+        service.updateProfile(UID, { occupation: 'Investor' }),
+      ).rejects.toThrow(BadRequestException)
+
+      expect(usersService.update).not.toHaveBeenCalled()
+    })
+
     it('patches only provided fields', async () => {
-      usersService.findBySupabaseUidWithTags.mockResolvedValue(existingUser)
-      usersService.update.mockResolvedValue(existingUser)
+      const onboardedUser = {
+        ...existingUser,
+        onboarded_at: new Date(),
+      }
+      usersService.findBySupabaseUidWithTags.mockResolvedValue(onboardedUser)
+      usersService.update.mockResolvedValue(onboardedUser)
 
       await service.updateProfile(UID, { occupation: 'Investor' })
 
-      expect(usersService.update).toHaveBeenCalledWith(existingUser, {
+      expect(usersService.update).toHaveBeenCalledWith(onboardedUser, {
         occupation: 'Investor',
       })
     })
 
     it('merges partial name updates', async () => {
-      usersService.findBySupabaseUidWithTags.mockResolvedValue(existingUser)
-      usersService.update.mockResolvedValue(existingUser)
+      const onboardedUser = {
+        ...existingUser,
+        onboarded_at: new Date(),
+      }
+      usersService.findBySupabaseUidWithTags.mockResolvedValue(onboardedUser)
+      usersService.update.mockResolvedValue(onboardedUser)
 
-      await service.updateProfile(UID, { lastName: 'Tran' })
+      await service.updateProfile(UID, { lastName: 'Walker' })
 
-      expect(usersService.update).toHaveBeenCalledWith(existingUser, {
-        name: 'Dao Tran',
+      expect(usersService.update).toHaveBeenCalledWith(onboardedUser, {
+        name: 'Alex Walker',
       })
     })
 
@@ -201,14 +236,18 @@ describe('UserOnboardingService', () => {
       const newTags = [
         { id: 3, key: 'gather_feedback', name: 'Gather feedback' },
       ]
+      const onboardedUser = {
+        ...existingUser,
+        onboarded_at: new Date(),
+      }
       tagsService.findByKeys.mockResolvedValue(newTags)
-      usersService.findBySupabaseUidWithTags.mockResolvedValue(existingUser)
-      usersService.update.mockResolvedValue(existingUser)
+      usersService.findBySupabaseUidWithTags.mockResolvedValue(onboardedUser)
+      usersService.update.mockResolvedValue(onboardedUser)
 
       await service.updateProfile(UID, { goals: ['gather_feedback'] })
 
       expect(tagsService.findByKeys).toHaveBeenCalledWith(['gather_feedback'])
-      expect(usersService.update).toHaveBeenCalledWith(existingUser, {
+      expect(usersService.update).toHaveBeenCalledWith(onboardedUser, {
         tags: newTags,
       })
     })

@@ -162,7 +162,15 @@ site_url = "http://app.forum.test"
 # A list of *exact* URLs that auth providers are permitted to redirect to post authentication.
 additional_redirect_urls = [
   "http://app.forum.test/**",
+  "http://app.forum.test/en/auth/confirm",
+  "http://app.forum.test/vn/auth/confirm",
+  "http://app.forum.test/en/auth/reset-password",
+  "http://app.forum.test/vn/auth/reset-password",
   "http://localhost:3000/**",
+  "http://localhost:3000/en/auth/confirm",
+  "http://localhost:3000/vn/auth/confirm",
+  "http://localhost:3000/en/auth/reset-password",
+  "http://localhost:3000/vn/auth/reset-password",
   "http://127.0.0.1:3000/**",
 ]
 # How long tokens are valid for, in seconds. Defaults to 3600 (1 hour), maximum 604,800 (1 week).
@@ -199,8 +207,8 @@ password_requirements = ""
 # rp_origins = ["http://127.0.0.1:3000"]
 
 [auth.rate_limit]
-# Number of emails that can be sent per hour. Requires auth.email.smtp to be enabled.
-email_sent = 2
+# Local dev: allow plenty of signup / reset emails (default is 2/hour).
+email_sent = 100
 # Number of SMS messages that can be sent per hour. Requires auth.sms to be enabled.
 sms_sent = 30
 # Number of anonymous sign-ins that can be made per hour per IP address. Requires enable_anonymous_sign_ins = true.
@@ -227,7 +235,7 @@ enable_signup = true
 # addresses. If disabled, only the new email is required to confirm.
 double_confirm_changes = true
 # If enabled, users need to confirm their email address before signing in.
-enable_confirmations = false
+enable_confirmations = true
 # If enabled, users will need to reauthenticate or have logged in recently to change their password.
 secure_password_change = false
 # Controls the minimum amount of time that must pass before sending another signup confirmation or password reset email.

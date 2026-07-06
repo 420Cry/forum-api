@@ -22,16 +22,25 @@ export class SupabaseService implements OnModuleInit {
     })
   }
 
-  async verifyToken(
-    token: string,
-  ): Promise<{ user: { id: string; email?: string } } | { error: string }> {
+  async verifyToken(token: string): Promise<
+    | {
+        user: { id: string; email?: string; emailVerified: boolean }
+      }
+    | { error: string }
+  > {
     if (!this.client) return { error: 'Supabase not initialized' }
     try {
       const { data, error } = await this.client.auth.getUser(token)
       if (error || !data.user) {
         return { error: error?.message ?? 'Invalid token' }
       }
-      return { user: { id: data.user.id, email: data.user.email } }
+      return {
+        user: {
+          id: data.user.id,
+          email: data.user.email,
+          emailVerified: !!data.user.email_confirmed_at,
+        },
+      }
     } catch (err) {
       return { error: err instanceof Error ? err.message : String(err) }
     }
