@@ -22,6 +22,9 @@ export class User {
   @Column({ type: 'timestamptz', nullable: true })
   onboarded_at: Date | null
 
+  @Column({ type: 'smallint', nullable: true })
+  onboarding_step: number | null
+
   @Column({
     type: 'enum',
     enum: rolesSelection,

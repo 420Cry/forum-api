@@ -136,6 +136,7 @@ After migrating, run `forum db:seed` (or `bun run seed`) on fresh environments.
 | GET    | /health           | No   | Health check                                     |
 | GET    | /auth/me          | Yes  | Current user + profile (`onboarded`, goals, etc.) |
 | POST   | /user/onboarding  | Yes  | Complete onboarding (single atomic submit)       |
+| PATCH  | /user/onboarding/draft | Yes | Save in-progress onboarding draft (no `onboarded_at`) |
 | PATCH  | /user/profile     | Yes  | Update an already-onboarded profile (partial)    |
 
 Removed (replaced by the routes above):
@@ -164,7 +165,7 @@ Removed (replaced by the routes above):
 
 ### `POST /user/onboarding` request body
 
-All fields are required. Goals must be stable tag keys from the seed/migration.
+All fields are required. Goals must be stable tag keys from the seed/migration. Sets `onboarded_at` and clears `onboarding_step`.
 
 ```jsonc
 {
@@ -177,6 +178,25 @@ All fields are required. Goals must be stable tag keys from the seed/migration.
   "occupation": "Founder"
 }
 ```
+
+### `PATCH /user/onboarding/draft` request body
+
+All fields optional. Saves partial progress for users who have not completed onboarding. Does **not** set `onboarded_at`. Rejected if onboarding is already complete.
+
+```jsonc
+{
+  "step": 2,
+  "role": "Founder",
+  "goals": ["raise_capital"],
+  "firstName": "Ada",
+  "lastName": "Lovelace",
+  "age": 30,
+  "location": "London",
+  "occupation": "Founder"
+}
+```
+
+`GET /auth/me` returns `profile.onboardingStep` (1–3) while `profile.onboarded` is false.
 
 ### Goal tag keys
 

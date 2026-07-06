@@ -17,6 +17,7 @@ import { UpdateAgeColumnType1783042825596 } from './migrations/1783042825596-Upd
 import { UpdateOnboardProcessEnum1783043973663 } from './migrations/1783043973663-UpdateOnboardProcessEnum'
 import { AddLocationColumn1783045969540 } from './migrations/1783045969540-AddLocationColumn'
 import { RefactorOnboarding1783100000000 } from './migrations/1783100000000-RefactorOnboarding'
+import { AddOnboardingStep1783200000000 } from './migrations/1783200000000-AddOnboardingStep'
 
 export default new DataSource({
   type: 'postgres',
@@ -35,5 +36,6 @@ export default new DataSource({
     UpdateOnboardProcessEnum1783043973663,
     AddLocationColumn1783045969540,
     RefactorOnboarding1783100000000,
+    AddOnboardingStep1783200000000,
   ],
 })

@@ -7,6 +7,7 @@ function makeUser(overrides: Partial<User> = {}): User {
     supabaseUid: '11111111-1111-1111-1111-111111111111',
     email: 'founder@example.com',
     onboarded_at: null,
+    onboarding_step: null,
     role: null,
     name: undefined as unknown as string,
     occupation: undefined as unknown as string,
@@ -34,6 +35,7 @@ describe('toAuthProfile', () => {
 
     expect(profile).toEqual({
       onboarded: false,
+      onboardingStep: null,
       role: 'Founder',
       name: null,
       occupation: null,
@@ -41,6 +43,18 @@ describe('toAuthProfile', () => {
       location: null,
       goals: [],
     })
+  })
+
+  it('exposes onboarding step for in-progress users', () => {
+    const profile = toAuthProfile(
+      makeUser({
+        role: 'Founder',
+        onboarding_step: 2,
+        onboarded_at: null,
+      }),
+    )
+
+    expect(profile?.onboardingStep).toBe(2)
   })
 
   it('maps onboarded user fields and goal tag keys', () => {
@@ -63,6 +77,7 @@ describe('toAuthProfile', () => {
 
     expect(profile).toEqual({
       onboarded: true,
+      onboardingStep: null,
       role: 'Founder',
       name: 'Dao Nguyen',
       occupation: 'Founder',

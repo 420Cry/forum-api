@@ -78,6 +78,7 @@ describe('UserOnboardingService', () => {
           occupation: 'Founder',
           tags: goalTags,
           onboarded_at: expect.any(Date) as Date,
+          onboarding_step: null,
         }),
       )
     })
@@ -96,6 +97,65 @@ describe('UserOnboardingService', () => {
 
       expect(usersService.findOrCreate).not.toHaveBeenCalled()
       expect(usersService.update).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('saveDraft', () => {
+    it('persists partial progress without marking onboarded', async () => {
+      const user = { supabaseUid: UID, email: EMAIL } as User
+      usersService.findBySupabaseUidWithTags.mockResolvedValue(null)
+      usersService.findOrCreate.mockResolvedValue(user)
+      usersService.update.mockResolvedValue(user)
+      tagsService.findByKeys.mockResolvedValue([goalTags[0]])
+
+      await service.saveDraft(UID, EMAIL, {
+        step: 2,
+        role: 'Founder',
+        goals: ['raise_capital'],
+      })
+
+      expect(usersService.findOrCreate).toHaveBeenCalledWith(UID, EMAIL)
+      expect(usersService.update).toHaveBeenCalledWith(
+        user,
+        expect.objectContaining({
+          onboarding_step: 2,
+          role: 'Founder',
+          tags: [goalTags[0]],
+        }),
+      )
+    })
+
+    it('rejects draft when onboarding is already complete', async () => {
+      usersService.findBySupabaseUidWithTags.mockResolvedValue({
+        supabaseUid: UID,
+        onboarded_at: new Date(),
+      })
+
+      await expect(
+        service.saveDraft(UID, EMAIL, { step: 1, role: 'Founder' }),
+      ).rejects.toThrow(BadRequestException)
+
+      expect(usersService.findOrCreate).not.toHaveBeenCalled()
+    })
+
+    it('skips update when draft payload is empty', async () => {
+      usersService.findBySupabaseUidWithTags.mockResolvedValue(null)
+
+      await service.saveDraft(UID, EMAIL, {})
+
+      expect(usersService.findOrCreate).not.toHaveBeenCalled()
+      expect(usersService.update).not.toHaveBeenCalled()
+    })
+
+    it('clears goals when an empty goals array is sent', async () => {
+      const user = { supabaseUid: UID, email: EMAIL, tags: goalTags } as User
+      usersService.findBySupabaseUidWithTags.mockResolvedValue(user)
+      usersService.findOrCreate.mockResolvedValue(user)
+      usersService.update.mockResolvedValue(user)
+
+      await service.saveDraft(UID, EMAIL, { goals: [] })
+
+      expect(usersService.update).toHaveBeenCalledWith(user, { tags: [] })
     })
   })
 

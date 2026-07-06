@@ -6,6 +6,7 @@ export type RolesSelectionType = (typeof rolesSelection)[number]
 export type UpdateUserType = {
   email?: string
   onboarded_at?: Date | null
+  onboarding_step?: number | null
   role?: RolesSelectionType | null
   name?: string
   occupation?: string

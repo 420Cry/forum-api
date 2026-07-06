@@ -2,6 +2,7 @@ import type { User } from '../users/entities'
 
 export type AuthProfileResponse = {
   onboarded: boolean
+  onboardingStep: number | null
   role: User['role']
   name: string | null
   occupation: string | null
@@ -15,6 +16,8 @@ export function toAuthProfile(user: User | null): AuthProfileResponse | null {
 
   return {
     onboarded: user.onboarded_at != null,
+    onboardingStep:
+      user.onboarded_at != null ? null : (user.onboarding_step ?? null),
     role: user.role,
     name: user.name ?? null,
     occupation: user.occupation ?? null,
