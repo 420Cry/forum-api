@@ -67,10 +67,10 @@ describe('toAuthProfile', () => {
       makeUser({
         onboarded_at: new Date('2026-07-06T00:00:00.000Z'),
         role: 'Founder',
-        name: 'Dao Nguyen',
+        name: 'Alex Morgan',
         occupation: 'Founder',
         age: 28,
-        location: 'Hanoi',
+        location: 'Austin',
         tags,
       }),
     )
@@ -79,10 +79,10 @@ describe('toAuthProfile', () => {
       onboarded: true,
       onboardingStep: null,
       role: 'Founder',
-      name: 'Dao Nguyen',
+      name: 'Alex Morgan',
       occupation: 'Founder',
       age: 28,
-      location: 'Hanoi',
+      location: 'Austin',
       goals: ['raise_capital', 'find_cofounders'],
     })
   })

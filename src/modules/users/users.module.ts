@@ -5,10 +5,11 @@ import { User } from './entities'
 import { UserOnboardingService } from './onboarding/users-onboarding.service'
 import { UsersController } from './users.controller'
 import { TagsModule } from '../tags/tags.module'
+import { OnboardingStateGuard } from './guards/onboarding-state.guard'
 
 @Module({
   imports: [TypeOrmModule.forFeature([User]), TagsModule],
-  providers: [UsersService, UserOnboardingService],
+  providers: [UsersService, UserOnboardingService, OnboardingStateGuard],
   exports: [UsersService],
   controllers: [UsersController],
 })

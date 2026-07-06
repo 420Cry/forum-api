@@ -74,13 +74,18 @@ describe('SupabaseAuthGuard', () => {
   it('attaches user to request when token is valid', async () => {
     const ctx = createContext('Bearer good-token')
     verifyToken.mockResolvedValue({
-      user: { id: 'user-1', email: 'founder@example.com' },
+      user: {
+        id: 'user-1',
+        email: 'founder@example.com',
+        emailVerified: true,
+      },
     })
 
     await expect(guard.canActivate(ctx)).resolves.toBe(true)
     expect(ctx.request.user).toEqual({
       id: 'user-1',
       email: 'founder@example.com',
+      emailVerified: true,
     })
   })
 })

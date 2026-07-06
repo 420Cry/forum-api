@@ -82,6 +82,12 @@ export class UserOnboardingService {
     email: string,
     dto: SaveOnboardingDto,
   ): Promise<void> {
+    const existing =
+      await this.usersService.findBySupabaseUidWithTags(supabaseUid)
+    if (existing?.onboarded_at) {
+      throw new BadRequestException('Onboarding already completed')
+    }
+
     const tags = await this.resolveGoalTags(dto.goals)
     const user = await this.usersService.findOrCreate(supabaseUid, email)
 
@@ -107,6 +113,9 @@ export class UserOnboardingService {
     const user = await this.usersService.findBySupabaseUidWithTags(supabaseUid)
     if (!user) {
       throw new BadRequestException('This user does not exist')
+    }
+    if (!user.onboarded_at) {
+      throw new BadRequestException('Onboarding must be completed first')
     }
 
     const patch: UpdateUserType = {}

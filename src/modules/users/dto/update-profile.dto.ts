@@ -7,7 +7,6 @@ import {
   IsOptional,
   IsString,
   Matches,
-  Max,
   Min,
   MinLength,
 } from 'class-validator'
@@ -51,8 +50,7 @@ export class UpdateProfileDto {
   @IsOptional()
   @Type(() => Number)
   @IsInt({ message: 'Age invalid format' })
-  @Min(5, { message: 'Age must be at least 5' })
-  @Max(100, { message: 'Age must be below 100' })
+  @Min(17, { message: 'Age must be greater than 16' })
   age?: number
 
   @IsOptional()

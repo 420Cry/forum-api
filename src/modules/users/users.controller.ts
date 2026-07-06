@@ -1,15 +1,20 @@
-import { Body, Controller, Patch, Post, Req } from '@nestjs/common'
+import { Body, Controller, Patch, Post, Req, UseGuards } from '@nestjs/common'
 import { UserOnboardingService } from './onboarding/users-onboarding.service'
 import type { AuthUser, RequestWithUser } from '../auth/auth.types'
 import { SaveOnboardingDto } from './dto/save-onboarding.dto'
 import { SaveOnboardingDraftDto } from './dto/save-onboarding-draft.dto'
 import { UpdateProfileDto } from './dto/update-profile.dto'
+import { RequiresOnboarded } from './decorators/requires-onboarded.decorator'
+import { RequiresNotOnboarded } from './decorators/requires-not-onboarded.decorator'
+import { OnboardingStateGuard } from './guards/onboarding-state.guard'
 
 @Controller('user')
+@UseGuards(OnboardingStateGuard)
 export class UsersController {
   constructor(private readonly userOnboardingService: UserOnboardingService) {}
 
   @Post('onboarding')
+  @RequiresNotOnboarded()
   async saveOnboarding(
     @Body() dto: SaveOnboardingDto,
     @Req() req: RequestWithUser,
@@ -20,6 +25,7 @@ export class UsersController {
   }
 
   @Patch('onboarding/draft')
+  @RequiresNotOnboarded()
   async saveOnboardingDraft(
     @Body() dto: SaveOnboardingDraftDto,
     @Req() req: RequestWithUser,
@@ -30,6 +36,7 @@ export class UsersController {
   }
 
   @Patch('profile')
+  @RequiresOnboarded()
   async updateProfile(
     @Body() dto: UpdateProfileDto,
     @Req() req: RequestWithUser,

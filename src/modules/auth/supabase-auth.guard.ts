@@ -49,6 +49,7 @@ export class SupabaseAuthGuard implements CanActivate {
     request.user = {
       id: result.user.id,
       email: result.user.email,
+      emailVerified: result.user.emailVerified,
     }
     return true
   }
