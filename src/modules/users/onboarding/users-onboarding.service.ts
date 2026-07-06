@@ -1,8 +1,10 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { UsersService } from '../users.service'
-import { onboardProcess, RolesSelectionType } from '../users.type'
-import { UserInfoDto } from '../dto/user-info.dto'
+import { SaveOnboardingDto } from '../dto/save-onboarding.dto'
+import { UpdateProfileDto } from '../dto/update-profile.dto'
 import { TagsService } from '../../tags/tags.service'
+import { Tag } from '../../tags/entities/tags.entities'
+import { UpdateUserType } from '../users.type'
 
 @Injectable()
 export class UserOnboardingService {
@@ -11,81 +13,68 @@ export class UserOnboardingService {
     private readonly tagsService: TagsService,
   ) {}
 
-  async saveUserRole(
+  private async resolveGoalTags(goalKeys: string[]): Promise<Tag[]> {
+    const tags = await this.tagsService.findByKeys(goalKeys)
+    if (tags.length !== goalKeys.length) {
+      const found = new Set(tags.map((tag) => tag.key))
+      const unknown = goalKeys.filter((key) => !found.has(key))
+      throw new BadRequestException(`Unknown goal(s): ${unknown.join(', ')}`)
+    }
+    return tags
+  }
+
+  /**
+   * Onboarding is a single atomic submit. All fields are collected client-side
+   * and persisted in one shot; completion is marked with onboarded_at.
+   */
+  async saveOnboarding(
     supabaseUid: string,
     email: string,
-    role: RolesSelectionType,
+    dto: SaveOnboardingDto,
   ): Promise<void> {
-    const foundUser = await this.usersService.findBySupabaseUidWithTags(supabaseUid)
-    if (!foundUser) {
-      const newUser = await this.usersService.findOrCreate(supabaseUid, email)
-      newUser.role = role
-      newUser.onboard_process = onboardProcess[1]
-      await this.usersService.save(newUser)
-      return
-    }
+    const tags = await this.resolveGoalTags(dto.goals)
+    const user = await this.usersService.findOrCreate(supabaseUid, email)
 
-    if (foundUser.onboard_process === onboardProcess[3]) {
-      throw new BadRequestException('Onboarding already completed')
-    }
-
-    const rewinding = foundUser.onboard_process !== onboardProcess[0]
-      && foundUser.onboard_process !== onboardProcess[1]
-
-    await this.usersService.update(foundUser, {
-      role,
-      onboard_process: onboardProcess[1],
-      ...(rewinding ? { tags: [] } : {}),
+    await this.usersService.update(user, {
+      role: dto.role,
+      name: `${dto.firstName} ${dto.lastName}`,
+      age: dto.age,
+      location: dto.location,
+      occupation: dto.occupation,
+      tags,
+      onboarded_at: new Date(),
     })
   }
 
-  async saveUserGoal(supabaseUid: string, goals: string[]) {
-    const foundUser =
-      await this.usersService.findBySupabaseUidWithTags(supabaseUid)
-    if (!foundUser) {
-      throw new BadRequestException('This user is not existed')
-    }
-    if (
-      foundUser.onboard_process !== onboardProcess[1]
-      && foundUser.onboard_process !== onboardProcess[2]
-    ) {
-      throw new BadRequestException('Complete the previous step first')
-    }
-
-    const allTags = await this.tagsService.findAllTags()
-    if (allTags.length === 0) {
-      throw new BadRequestException(
-        'Goal tags are not seeded. Run forum db:seed first.',
-      )
-    }
-    const matchesAnyGoal = (tagName: string) =>
-      goals.some((goal) => goal.toLowerCase().includes(tagName.toLowerCase()))
-    const foundTags = allTags.filter((tag) => matchesAnyGoal(tag.name))
-    if (foundTags.length === 0) {
-      throw new BadRequestException('These goal is not available in the system')
-    }
-    await this.usersService.update(foundUser, {
-      tags: foundTags,
-      onboard_process: onboardProcess[2],
-    })
-  }
-
-  async saveUserInfo(supabaseUid: string, info: UserInfoDto) {
-    const foundUser =
-      await this.usersService.findBySupabaseUidWithTags(supabaseUid)
-    if (!foundUser) {
-      throw new BadRequestException('This user is not existed')
-    }
-    if (foundUser.onboard_process !== onboardProcess[2]) {
-      throw new BadRequestException('Complete the previous step first')
+  /**
+   * Editing an already-onboarded profile. Only provided fields are updated.
+   */
+  async updateProfile(
+    supabaseUid: string,
+    dto: UpdateProfileDto,
+  ): Promise<void> {
+    const user = await this.usersService.findBySupabaseUidWithTags(supabaseUid)
+    if (!user) {
+      throw new BadRequestException('This user does not exist')
     }
 
-    const { firstName, lastName, ...rest } = info
-    const userName = `${firstName} ${lastName}`
-    const userInfo = { ...rest, name: userName }
-    await this.usersService.update(foundUser, {
-      ...userInfo,
-      onboard_process: onboardProcess[3],
-    })
+    const patch: UpdateUserType = {}
+    if (dto.role !== undefined) patch.role = dto.role
+    if (dto.age !== undefined) patch.age = dto.age
+    if (dto.location !== undefined) patch.location = dto.location
+    if (dto.occupation !== undefined) patch.occupation = dto.occupation
+    if (dto.firstName !== undefined || dto.lastName !== undefined) {
+      const [currentFirst = '', ...currentRest] = (user.name ?? '')
+        .trim()
+        .split(/\s+/)
+      const firstName = dto.firstName ?? currentFirst
+      const lastName = dto.lastName ?? currentRest.join(' ')
+      patch.name = `${firstName} ${lastName}`.trim()
+    }
+    if (dto.goals !== undefined) {
+      patch.tags = await this.resolveGoalTags(dto.goals)
+    }
+
+    await this.usersService.update(user, patch)
   }
 }

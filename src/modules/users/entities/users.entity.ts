@@ -7,8 +7,8 @@ import {
   ManyToMany,
   JoinTable,
 } from 'typeorm'
-import { onboardProcess, rolesSelection } from '../users.type'
-import type { OnboardProcessType, RolesSelectionType } from '../users.type'
+import { rolesSelection } from '../users.type'
+import type { RolesSelectionType } from '../users.type'
 import { Tag } from 'src/modules/tags/entities/tags.entities'
 
 @Entity('users')
@@ -19,12 +19,8 @@ export class User {
   @Column()
   email!: string
 
-  @Column({
-    type: 'enum',
-    enum: onboardProcess,
-    default: 'RoleSelection',
-  })
-  onboard_process: OnboardProcessType
+  @Column({ type: 'timestamptz', nullable: true })
+  onboarded_at: Date | null
 
   @Column({
     type: 'enum',

@@ -1,7 +1,7 @@
 import type { User } from '../users/entities'
 
 export type AuthProfileResponse = {
-  onboard_process: User['onboard_process']
+  onboarded: boolean
   role: User['role']
   name: string | null
   occupation: string | null
@@ -14,12 +14,12 @@ export function toAuthProfile(user: User | null): AuthProfileResponse | null {
   if (!user) return null
 
   return {
-    onboard_process: user.onboard_process,
+    onboarded: user.onboarded_at != null,
     role: user.role,
     name: user.name ?? null,
     occupation: user.occupation ?? null,
     age: user.age ?? null,
     location: user.location ?? null,
-    goals: user.tags?.map((tag) => tag.name) ?? [],
+    goals: user.tags?.map((tag) => tag.key) ?? [],
   }
 }

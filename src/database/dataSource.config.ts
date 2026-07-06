@@ -16,6 +16,7 @@ import { TagsJunctionCreation1782870675851 } from './migrations/1782870675851-Ta
 import { UpdateAgeColumnType1783042825596 } from './migrations/1783042825596-UpdateAgeColumnType'
 import { UpdateOnboardProcessEnum1783043973663 } from './migrations/1783043973663-UpdateOnboardProcessEnum'
 import { AddLocationColumn1783045969540 } from './migrations/1783045969540-AddLocationColumn'
+import { RefactorOnboarding1783100000000 } from './migrations/1783100000000-RefactorOnboarding'
 
 export default new DataSource({
   type: 'postgres',
@@ -33,5 +34,6 @@ export default new DataSource({
     UpdateAgeColumnType1783042825596,
     UpdateOnboardProcessEnum1783043973663,
     AddLocationColumn1783045969540,
+    RefactorOnboarding1783100000000,
   ],
 })

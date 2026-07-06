@@ -6,5 +6,8 @@ export class Tag {
   id: number
 
   @Column({ unique: true })
+  key: string
+
+  @Column({ unique: true })
   name: string
 }
