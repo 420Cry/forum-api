@@ -5,15 +5,11 @@ services:
       context: .
       dockerfile: Dockerfile
     env_file:
-      - .env.production
+      - .env
     ports:
       - "${PORT:-3001}:${PORT:-3001}"
     environment:
       NODE_ENV: production
-      PORT: ${PORT:-3001}
-      CORS_ORIGIN: ${CORS_ORIGIN:-http://app.forum.test}
-      SUPABASE_URL: ${SUPABASE_URL}
-      SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY}
     restart: unless-stopped
     networks:
       - forum.test

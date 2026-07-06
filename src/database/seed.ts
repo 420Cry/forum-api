@@ -1,44 +1,45 @@
-import * as dotenv from 'dotenv';
+import * as dotenv from 'dotenv'
 
 dotenv.config({
   path: process.env.NODE_ENV === 'production' ? '.env.production' : '.env',
-});
+})
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config({ path: '.env.local', override: false })
+}
 
-import AppDataSource from './dataSource.config';
-import { Tag } from 'src/modules/tags/entities/tags.entities';
+import AppDataSource from './dataSource.config'
+import { Tag } from 'src/modules/tags/entities/tags.entities'
 
-export const TAGS = [
-  'capital',
-  'co-founders',
-  'feedback',
-  'following',
-  'startups',
-  'deal',
-  'flow',
-  'peers',
-  'insights',
-  'market',
-];
+export const GOAL_TAGS: { key: string; name: string }[] = [
+  { key: 'raise_capital', name: 'Raise capital' },
+  { key: 'find_cofounders', name: 'Find co-founders' },
+  { key: 'gather_feedback', name: 'Gather feedback' },
+  { key: 'build_following', name: 'Build a following' },
+  { key: 'discover_startups', name: 'Discover startups' },
+  { key: 'build_deal_flow', name: 'Build deal flow' },
+  { key: 'network_peers', name: 'Network with peers' },
+  { key: 'market_insights', name: 'Market insights' },
+]
 
 async function seed() {
-  await AppDataSource.initialize();
-  const repo = AppDataSource.getRepository(Tag);
+  await AppDataSource.initialize()
+  const repo = AppDataSource.getRepository(Tag)
 
-  for (const name of TAGS) {
+  for (const tag of GOAL_TAGS) {
     await repo
       .createQueryBuilder()
       .insert()
       .into(Tag)
-      .values({ name })
-      .orIgnore()
-      .execute();
+      .values(tag)
+      .orUpdate(['name'], ['key'])
+      .execute()
   }
 
-  console.log(`Seeded ${TAGS.length} tags.`);
-  await AppDataSource.destroy();
+  console.log(`Seeded ${GOAL_TAGS.length} goal tags.`)
+  await AppDataSource.destroy()
 }
 
 seed().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+  console.error(err)
+  process.exit(1)
+})

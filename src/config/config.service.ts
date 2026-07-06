@@ -1,38 +1,38 @@
-import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { Injectable } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
 
 @Injectable()
 export class EnvService {
   constructor(private configService: ConfigService) {}
 
   private getValue(key: string, throwOnMissing = true): string {
-    const value = this.configService.get<string>(key);
+    const value = this.configService.get<string>(key)
     if (!value && throwOnMissing) {
-      throw new Error(`Missing ${key} from env`);
+      throw new Error(`Missing ${key} from env`)
     }
-    return value!;
+    return value!
   }
 
   getPort(): string {
-    return this.getValue('PORT');
+    return this.getValue('PORT')
   }
 
   getCorsOrigins(): string[] {
     return this.getValue('CORS_ORIGIN')
       .split(',')
       .map((o) => o.trim())
-      .filter(Boolean);
+      .filter(Boolean)
   }
 
   getAuthConfig() {
     return {
       supabase_url: this.getValue('SUPABASE_URL'),
       supabase_service_key: this.getValue('SUPABASE_SERVICE_ROLE_KEY'),
-    };
+    }
   }
 
   isProduction(): boolean {
-    return this.getValue('NODE_ENV', false) !== 'development';
+    return this.getValue('NODE_ENV', false) !== 'development'
   }
 
   getDBConfig() {
@@ -45,6 +45,6 @@ export class EnvService {
       database: this.getValue('DB_NAME'),
       autoLoadEntities: true,
       synchronize: false,
-    };
+    }
   }
 }

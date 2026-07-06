@@ -1,17 +1,17 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { Injectable, OnModuleInit } from '@nestjs/common'
+import { createClient, SupabaseClient } from '@supabase/supabase-js'
 
 @Injectable()
 export class SupabaseService implements OnModuleInit {
-  private client: SupabaseClient | null = null;
+  private client: SupabaseClient | null = null
 
   onModuleInit() {
-    const url = process.env.SUPABASE_URL;
-    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    const url = process.env.SUPABASE_URL
+    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
     if (!url || !serviceRoleKey) {
-      console.warn('[Supabase] No credentials configured');
-      return;
+      console.warn('[Supabase] No credentials configured')
+      return
     }
 
     this.client = createClient(url, serviceRoleKey, {
@@ -19,25 +19,25 @@ export class SupabaseService implements OnModuleInit {
         autoRefreshToken: false,
         persistSession: false,
       },
-    });
+    })
   }
 
   async verifyToken(
     token: string,
   ): Promise<{ user: { id: string; email?: string } } | { error: string }> {
-    if (!this.client) return { error: 'Supabase not initialized' };
+    if (!this.client) return { error: 'Supabase not initialized' }
     try {
-      const { data, error } = await this.client.auth.getUser(token);
+      const { data, error } = await this.client.auth.getUser(token)
       if (error || !data.user) {
-        return { error: error?.message ?? 'Invalid token' };
+        return { error: error?.message ?? 'Invalid token' }
       }
-      return { user: { id: data.user.id, email: data.user.email } };
+      return { user: { id: data.user.id, email: data.user.email } }
     } catch (err) {
-      return { error: err instanceof Error ? err.message : String(err) };
+      return { error: err instanceof Error ? err.message : String(err) }
     }
   }
 
   get isEnabled(): boolean {
-    return !!this.client;
+    return !!this.client
   }
 }

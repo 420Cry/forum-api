@@ -1,7 +1,7 @@
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Tag } from './entities/tags.entities';
-import { TagsService } from './tags.service';
+import { Module } from '@nestjs/common'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { Tag } from './entities/tags.entities'
+import { TagsService } from './tags.service'
 
 @Module({
   imports: [TypeOrmModule.forFeature([Tag])],

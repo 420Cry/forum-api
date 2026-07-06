@@ -6,52 +6,51 @@ import {
   PrimaryColumn,
   ManyToMany,
   JoinTable,
-} from 'typeorm';
-import { onboardProcess, rolesSelection } from '../users.type';
-import type { OnboardProcessType, RolesSelectionType } from '../users.type';
-import { Tag } from 'src/modules/tags/entities/tags.entities';
+} from 'typeorm'
+import { rolesSelection } from '../users.type'
+import type { RolesSelectionType } from '../users.type'
+import { Tag } from 'src/modules/tags/entities/tags.entities'
 
 @Entity('users')
 export class User {
   @PrimaryColumn('uuid')
-  supabaseUid!: string;
+  supabaseUid!: string
 
   @Column()
-  email!: string;
+  email!: string
 
-  @Column({
-    type: 'enum',
-    enum: onboardProcess,
-    default: 'RoleSelection',
-  })
-  onboard_process: OnboardProcessType;
+  @Column({ type: 'timestamptz', nullable: true })
+  onboarded_at: Date | null
+
+  @Column({ type: 'smallint', nullable: true })
+  onboarding_step: number | null
 
   @Column({
     type: 'enum',
     enum: rolesSelection,
     nullable: true,
   })
-  role: RolesSelectionType | null;
+  role: RolesSelectionType | null
 
   @Column({ nullable: true })
-  name: string;
+  name: string
 
   @Column({ nullable: true })
-  occupation: string;
+  occupation: string
 
   @Column({ nullable: true })
-  age: number;
+  age: number
 
   @Column({ nullable: true })
-  location: string;
+  location: string
 
   @ManyToMany(() => Tag)
   @JoinTable({ name: 'user_tag' })
-  tags: Tag[];
+  tags: Tag[]
 
   @CreateDateColumn()
-  createdAt!: Date;
+  createdAt!: Date
 
   @UpdateDateColumn()
-  updatedAt!: Date;
+  updatedAt!: Date
 }
