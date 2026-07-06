@@ -5,13 +5,15 @@ import { SupabaseService } from './supabase.service'
 import { IS_PUBLIC_KEY } from './auth.constants'
 
 describe('SupabaseAuthGuard', () => {
+  const getAllAndOverride = jest.fn()
   const reflector = {
-    getAllAndOverride: jest.fn(),
+    getAllAndOverride,
   } as unknown as Reflector
 
+  const verifyToken = jest.fn()
   const supabase = {
     isEnabled: true,
-    verifyToken: jest.fn(),
+    verifyToken,
   } as unknown as SupabaseService
 
   const guard = new SupabaseAuthGuard(supabase, reflector)
@@ -29,22 +31,24 @@ describe('SupabaseAuthGuard', () => {
       getHandler: () => ({}),
       getClass: () => ({}),
       request,
-    } as unknown as ExecutionContext & { request: { user?: { id: string; email?: string } } }
+    } as unknown as ExecutionContext & {
+      request: { user?: { id: string; email?: string } }
+    }
   }
 
   beforeEach(() => {
     jest.clearAllMocks()
     ;(supabase as { isEnabled: boolean }).isEnabled = true
-    ;(reflector.getAllAndOverride as jest.Mock).mockReturnValue(false)
+    getAllAndOverride.mockReturnValue(false)
   })
 
   it('allows public routes without a token', async () => {
-    ;(reflector.getAllAndOverride as jest.Mock).mockReturnValue(true)
+    getAllAndOverride.mockReturnValue(true)
     const ctx = createContext()
 
     await expect(guard.canActivate(ctx)).resolves.toBe(true)
-    expect(supabase.verifyToken).not.toHaveBeenCalled()
-    expect(reflector.getAllAndOverride).toHaveBeenCalledWith(IS_PUBLIC_KEY, [
+    expect(verifyToken).not.toHaveBeenCalled()
+    expect(getAllAndOverride).toHaveBeenCalledWith(IS_PUBLIC_KEY, [
       ctx.getHandler(),
       ctx.getClass(),
     ])
@@ -60,14 +64,16 @@ describe('SupabaseAuthGuard', () => {
 
   it('throws when token verification fails', async () => {
     const ctx = createContext('Bearer bad-token')
-    ;(supabase.verifyToken as jest.Mock).mockResolvedValue({ error: 'Invalid token' })
+    verifyToken.mockResolvedValue({
+      error: 'Invalid token',
+    })
 
     await expect(guard.canActivate(ctx)).rejects.toThrow(UnauthorizedException)
   })
 
   it('attaches user to request when token is valid', async () => {
     const ctx = createContext('Bearer good-token')
-    ;(supabase.verifyToken as jest.Mock).mockResolvedValue({
+    verifyToken.mockResolvedValue({
       user: { id: 'user-1', email: 'founder@example.com' },
     })
 

@@ -15,8 +15,8 @@ src/
 │   ├── auth/         # Supabase Auth, guards, token verification
 │   ├── health/
 │   ├── root/
-│   ├── tags/         # Tag entity + user_tag junction
-│   └── users/        # User entity + onboarding flow
+│   ├── tags/         # Tag entity + user_tag junction (stable goal keys)
+│   └── users/        # User entity + onboarding / profile
 │       ├── dto/
 │       └── onboarding/
 └── main.ts
@@ -28,7 +28,7 @@ src/
 - **DI with tokens** – Services use injection tokens (`ROOT_SERVICE`, `HEALTH_SERVICE`) via `@Inject()` for loose coupling and easier testing.
 - **Auth** – Supabase verifies access tokens (`SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY`). `@Public()` marks routes as unauthenticated. Protected routes require `Authorization: Bearer <token>`.
 - **Database** – TypeORM + Postgres (Supabase). Entities: `User`, `Tag`, and a `user_tag` junction. Schema changes are versioned as migrations under `src/database/migrations` (`synchronize` is off). The `users` table's primary key `supabaseUid` is a FK onto Supabase's `auth.users(id)`.
-- **Onboarding** – New users move through a 3-step state machine tracked by `users.onboard_process`: `RoleSelection → GoalSelection → BasicInfo → Completed`. Each `/user/*` endpoint advances one step and rejects out-of-order calls.
+- **Onboarding** – The client collects role, goals, and profile info across three UI steps, then submits everything in one request. Completion is tracked by `users.onboarded_at` (non-null = onboarded). Goal tags use stable `tags.key` values (e.g. `raise_capital`), not display names.
 
 ## Setup
 
@@ -67,6 +67,8 @@ Required variables:
 | `DB_PASSWORD`               | Postgres password                                       |
 
 ### Supabase local dev
+
+Prefer [forum-server](../forum-server) for the full stack (`forum dev`). For API-only work:
 
 ```bash
 # 1. Login to Supabase
@@ -110,41 +112,98 @@ NAME=MyChange bun run migration:generate
 # Create an empty migration (MIGRATION_NAME=MyChange)
 MIGRATION_NAME=MyChange bun run migration:create
 
-# Seed local data
+# Seed goal tags (idempotent; also run via `forum db:seed`)
 bun run seed
 ```
 
 > On a fresh Supabase DB, `migration:run` creates the `migrations` bookkeeping table, then applies every migration in timestamp order. Never edit or delete a migration that has already run on a shared DB — add a new one instead.
 
+### Onboarding migration (`1783100000000-RefactorOnboarding`)
+
+This migration:
+
+- Adds `tags.key` (unique) and reseeds eight goal tags with stable keys
+- Replaces `users.onboard_process` enum with `users.onboarded_at` timestamptz
+- Truncates existing tag / user_tag data (goal names no longer map 1:1)
+
+After migrating, run `forum db:seed` (or `bun run seed`) on fresh environments.
+
 ## Routes
 
-| Method | Path        | Auth | Description                                              |
-| ------ | ----------- | ---- | ------------------------------------------------------- |
-| GET    | /           | No   | Hello World                                             |
-| GET    | /health     | No   | Health check                                            |
-| GET    | /auth/me    | Yes  | Current user (Bearer token)                             |
-| POST   | /user/role  | Yes  | Onboarding step 1 – save role (`RoleSelection` → `GoalSelection`) |
-| POST   | /user/goals | Yes  | Onboarding step 2 – save goals (`GoalSelection` → `BasicInfo`)    |
-| POST   | /user/info  | Yes  | Onboarding step 3 – save profile (`BasicInfo` → `Completed`)      |
+| Method | Path              | Auth | Description                                      |
+| ------ | ----------------- | ---- | ------------------------------------------------ |
+| GET    | /                 | No   | Hello World                                      |
+| GET    | /health           | No   | Health check                                     |
+| GET    | /auth/me          | Yes  | Current user + profile (`onboarded`, goals, etc.) |
+| POST   | /user/onboarding  | Yes  | Complete onboarding (single atomic submit)       |
+| PATCH  | /user/profile     | Yes  | Update an already-onboarded profile (partial)    |
 
-### Onboarding request bodies
+Removed (replaced by the routes above):
 
-Each step requires the user to be at the matching `onboard_process` state; calling out of order returns an error.
+- `POST /user/role`
+- `POST /user/goals`
+- `POST /user/info`
+
+### `GET /auth/me` profile shape
 
 ```jsonc
-// POST /user/role
-{ "role": "Founder" } // or "Investor"
-
-// POST /user/goals
-{ "goals": ["string", ...] } // at least 1
-
-// POST /user/info
 {
-  "firstName": "Ada",     // ≥2 chars, no special characters
-  "lastName": "Lovelace", // ≥2 chars, no special characters
-  "age": 30,              // number, 5–100
-  "location": "London",   // ≥2 chars, no special characters
-  "occupation": "Founder" // ≥2 chars, no special characters
+  "id": "uuid",
+  "email": "user@example.com",
+  "profile": {
+    "onboarded": true,
+    "role": "Founder",
+    "name": "Ada Lovelace",
+    "occupation": "Founder",
+    "age": 30,
+    "location": "London",
+    "goals": ["raise_capital", "find_cofounders"]
+  }
+}
+```
+
+### `POST /user/onboarding` request body
+
+All fields are required. Goals must be stable tag keys from the seed/migration.
+
+```jsonc
+{
+  "role": "Founder",           // or "Investor"
+  "goals": ["raise_capital"],  // at least 1; see seed for valid keys
+  "firstName": "Ada",
+  "lastName": "Lovelace",
+  "age": 30,
+  "location": "London",
+  "occupation": "Founder"
+}
+```
+
+### Goal tag keys
+
+| Key               | Display name        |
+| ----------------- | ------------------- |
+| `raise_capital`   | Raise capital       |
+| `find_cofounders` | Find co-founders    |
+| `gather_feedback` | Gather feedback     |
+| `build_following` | Build a following   |
+| `discover_startups` | Discover startups |
+| `build_deal_flow` | Build deal flow     |
+| `network_peers`   | Network with peers  |
+| `market_insights` | Market insights     |
+
+### `PATCH /user/profile` request body
+
+Every field is optional; only provided fields are updated. Requires an existing onboarded user.
+
+```jsonc
+{
+  "role": "Investor",
+  "goals": ["discover_startups"],
+  "firstName": "Ada",
+  "lastName": "Lovelace",
+  "age": 31,
+  "location": "Paris",
+  "occupation": "Angel"
 }
 ```
 
@@ -155,12 +214,20 @@ bun run dev          # development (watch)
 bun run start:prod   # production
 ```
 
+Or via forum-server: `forum dev` / `forum up` (proxied at `http://api.forum.test`).
+
 ## Tests
 
 ```bash
-bun run test         # unit
+bun run test         # unit (Jest via Node — required in Docker)
 bun run test:e2e     # e2e
 ```
+
+Key unit tests:
+
+- `auth-profile.mapper.spec.ts` — `/auth/me` profile mapping
+- `users-onboarding.service.spec.ts` — atomic onboarding + profile updates
+- `supabase-auth.guard.spec.ts` — bearer token guard
 
 ## Lint
 

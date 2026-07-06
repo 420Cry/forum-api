@@ -77,7 +77,7 @@ describe('UserOnboardingService', () => {
           location: 'Hanoi',
           occupation: 'Founder',
           tags: goalTags,
-          onboarded_at: expect.any(Date),
+          onboarded_at: expect.any(Date) as Date,
         }),
       )
     })
@@ -138,7 +138,9 @@ describe('UserOnboardingService', () => {
     })
 
     it('replaces goals when provided', async () => {
-      const newTags = [{ id: 3, key: 'gather_feedback', name: 'Gather feedback' }]
+      const newTags = [
+        { id: 3, key: 'gather_feedback', name: 'Gather feedback' },
+      ]
       tagsService.findByKeys.mockResolvedValue(newTags)
       usersService.findBySupabaseUidWithTags.mockResolvedValue(existingUser)
       usersService.update.mockResolvedValue(existingUser)
