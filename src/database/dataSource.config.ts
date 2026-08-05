@@ -10,6 +10,7 @@ if (process.env.NODE_ENV === 'production') {
 import { DataSource } from 'typeorm'
 import { User } from '../modules/users/entities'
 import { Tag } from 'src/modules/tags/entities/tags.entities'
+import { StartupProfiles } from 'src/modules/startup-profiles/entities/startup-profiles.entity'
 import { UserTable1782361957998 } from './migrations/1782361957998-UserTable'
 import { UpdateRoleEnum1782702393426 } from './migrations/1782702393426-UpdateRoleEnum'
 import { TagsJunctionCreation1782870675851 } from './migrations/1782870675851-TagsJunctionCreation'
@@ -18,6 +19,7 @@ import { UpdateOnboardProcessEnum1783043973663 } from './migrations/178304397366
 import { AddLocationColumn1783045969540 } from './migrations/1783045969540-AddLocationColumn'
 import { RefactorOnboarding1783100000000 } from './migrations/1783100000000-RefactorOnboarding'
 import { AddOnboardingStep1783200000000 } from './migrations/1783200000000-AddOnboardingStep'
+import { StartupProfileSchema1785932568894 } from './migrations/1785932568894-StartupProfileSchema'
 
 export default new DataSource({
   type: 'postgres',
@@ -27,7 +29,7 @@ export default new DataSource({
   password: process.env.DB_PASSWORD || 'postgres',
   database: process.env.DB_NAME || 'postgres',
   synchronize: false,
-  entities: [User, Tag],
+  entities: [User, Tag, StartupProfiles],
   migrations: [
     UserTable1782361957998,
     UpdateRoleEnum1782702393426,
@@ -37,5 +39,6 @@ export default new DataSource({
     AddLocationColumn1783045969540,
     RefactorOnboarding1783100000000,
     AddOnboardingStep1783200000000,
+    StartupProfileSchema1785932568894,
   ],
 })
