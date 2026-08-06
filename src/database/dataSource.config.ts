@@ -20,6 +20,8 @@ import { AddLocationColumn1783045969540 } from './migrations/1783045969540-AddLo
 import { RefactorOnboarding1783100000000 } from './migrations/1783100000000-RefactorOnboarding'
 import { AddOnboardingStep1783200000000 } from './migrations/1783200000000-AddOnboardingStep'
 import { StartupProfileSchema1786007330786 } from './migrations/1786007330786-StartupProfileSchema'
+import { InvestorProfiles } from 'src/modules/investor-profiles/entities/investor-profiles.entity'
+import { InvestorProfilesSchema1786020573120 } from './migrations/1786020573120-InvestorProfilesSchema'
 
 export default new DataSource({
   type: 'postgres',
@@ -29,7 +31,7 @@ export default new DataSource({
   password: process.env.DB_PASSWORD || 'postgres',
   database: process.env.DB_NAME || 'postgres',
   synchronize: false,
-  entities: [User, Tag, StartupProfiles],
+  entities: [User, Tag, StartupProfiles, InvestorProfiles],
   migrations: [
     UserTable1782361957998,
     UpdateRoleEnum1782702393426,
@@ -40,5 +42,6 @@ export default new DataSource({
     RefactorOnboarding1783100000000,
     AddOnboardingStep1783200000000,
     StartupProfileSchema1786007330786,
+    InvestorProfilesSchema1786020573120,
   ],
 })
