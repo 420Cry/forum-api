@@ -5,7 +5,7 @@ import {
   Entity,
   JoinColumn,
   OneToOne,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm'
 import { startupProfilesStage } from '../startup_profiles.type'
@@ -13,15 +13,15 @@ import type { StageType } from '../startup_profiles.type'
 
 @Entity('startup-profiles')
 export class StartupProfiles {
-  @PrimaryColumn('uuid')
+  @PrimaryGeneratedColumn('uuid')
+  id: string
+
+  @Column({ type: 'uuid', unique: true })
   user_id: string
 
   @OneToOne(() => User, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
   user: User
-
-  @Column({ type: 'uuid', unique: true, generated: 'uuid' })
-  id: string
 
   @Column()
   company_name: string
