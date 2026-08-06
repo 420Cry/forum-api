@@ -19,7 +19,7 @@ import { UpdateOnboardProcessEnum1783043973663 } from './migrations/178304397366
 import { AddLocationColumn1783045969540 } from './migrations/1783045969540-AddLocationColumn'
 import { RefactorOnboarding1783100000000 } from './migrations/1783100000000-RefactorOnboarding'
 import { AddOnboardingStep1783200000000 } from './migrations/1783200000000-AddOnboardingStep'
-import { StartupProfileSchema1785932568894 } from './migrations/1785932568894-StartupProfileSchema'
+import { StartupProfileSchema1786007330786 } from './migrations/1786007330786-StartupProfileSchema'
 
 export default new DataSource({
   type: 'postgres',
@@ -39,6 +39,6 @@ export default new DataSource({
     AddLocationColumn1783045969540,
     RefactorOnboarding1783100000000,
     AddOnboardingStep1783200000000,
-    StartupProfileSchema1785932568894,
+    StartupProfileSchema1786007330786,
   ],
 })
