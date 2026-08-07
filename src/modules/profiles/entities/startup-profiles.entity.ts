@@ -8,8 +8,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm'
-import { startupProfilesStage } from '../startup_profiles.type'
-import type { StageType } from '../startup_profiles.type'
+import { startupProfilesStage } from '../profiles.type'
+import type { StageType } from '../profiles.type'
 
 @Entity('startup-profiles')
 export class StartupProfiles {
