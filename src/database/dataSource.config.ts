@@ -12,6 +12,7 @@ import { User } from '../modules/users/entities'
 import { Tag } from 'src/modules/tags/entities/tags.entities'
 import { StartupProfiles } from 'src/modules/startup-profiles/entities/startup-profiles.entity'
 import { Posts } from 'src/modules/posts/entities/posts.entity'
+import { Reactions } from 'src/modules/reactions/entities/reactions.entity'
 import { UserTable1782361957998 } from './migrations/1782361957998-UserTable'
 import { UpdateRoleEnum1782702393426 } from './migrations/1782702393426-UpdateRoleEnum'
 import { TagsJunctionCreation1782870675851 } from './migrations/1782870675851-TagsJunctionCreation'
@@ -24,6 +25,7 @@ import { StartupProfileSchema1786007330786 } from './migrations/1786007330786-St
 import { InvestorProfiles } from 'src/modules/investor-profiles/entities/investor-profiles.entity'
 import { InvestorProfilesSchema1786020573120 } from './migrations/1786020573120-InvestorProfilesSchema'
 import { PostsSchema1786071519998 } from './migrations/1786071519998-PostsSchema'
+import { ReactionsSchema1786094100789 } from './migrations/1786094100789-ReactionsSchema'
 
 export default new DataSource({
   type: 'postgres',
@@ -33,7 +35,7 @@ export default new DataSource({
   password: process.env.DB_PASSWORD || 'postgres',
   database: process.env.DB_NAME || 'postgres',
   synchronize: false,
-  entities: [User, Tag, StartupProfiles, InvestorProfiles, Posts],
+  entities: [User, Tag, StartupProfiles, InvestorProfiles, Posts, Reactions],
   migrations: [
     UserTable1782361957998,
     UpdateRoleEnum1782702393426,
@@ -46,5 +48,6 @@ export default new DataSource({
     StartupProfileSchema1786007330786,
     InvestorProfilesSchema1786020573120,
     PostsSchema1786071519998,
+    ReactionsSchema1786094100789,
   ],
 })
