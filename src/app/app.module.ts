@@ -8,6 +8,9 @@ import { DatabaseModule } from '../database/database.module'
 import { UsersModule } from 'src/modules/users/users.module'
 import { TagsModule } from 'src/modules/tags/tags.module'
 import { FiltersModule } from 'src/filters/filters.module'
+import { ProfilesModule } from 'src/modules/profiles/profiles.module'
+import { PostsModule } from 'src/modules/posts/posts.module'
+import { ReactionsModule } from 'src/modules/reactions/reactions.module'
 
 @Module({
   imports: [
@@ -26,6 +29,9 @@ import { FiltersModule } from 'src/filters/filters.module'
     HealthModule,
     UsersModule,
     TagsModule,
+    ProfilesModule,
+    PostsModule,
+    ReactionsModule,
   ],
 })
 export class AppModule {}
