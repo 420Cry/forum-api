@@ -11,6 +11,7 @@ import { DataSource } from 'typeorm'
 import { User } from '../modules/users/entities'
 import { Tag } from 'src/modules/tags/entities/tags.entities'
 import { StartupProfiles } from 'src/modules/startup-profiles/entities/startup-profiles.entity'
+import { Posts } from 'src/modules/posts/entities/posts.entity'
 import { UserTable1782361957998 } from './migrations/1782361957998-UserTable'
 import { UpdateRoleEnum1782702393426 } from './migrations/1782702393426-UpdateRoleEnum'
 import { TagsJunctionCreation1782870675851 } from './migrations/1782870675851-TagsJunctionCreation'
@@ -22,6 +23,7 @@ import { AddOnboardingStep1783200000000 } from './migrations/1783200000000-AddOn
 import { StartupProfileSchema1786007330786 } from './migrations/1786007330786-StartupProfileSchema'
 import { InvestorProfiles } from 'src/modules/investor-profiles/entities/investor-profiles.entity'
 import { InvestorProfilesSchema1786020573120 } from './migrations/1786020573120-InvestorProfilesSchema'
+import { PostsSchema1786071519998 } from './migrations/1786071519998-PostsSchema'
 
 export default new DataSource({
   type: 'postgres',
@@ -31,7 +33,7 @@ export default new DataSource({
   password: process.env.DB_PASSWORD || 'postgres',
   database: process.env.DB_NAME || 'postgres',
   synchronize: false,
-  entities: [User, Tag, StartupProfiles, InvestorProfiles],
+  entities: [User, Tag, StartupProfiles, InvestorProfiles, Posts],
   migrations: [
     UserTable1782361957998,
     UpdateRoleEnum1782702393426,
@@ -43,5 +45,6 @@ export default new DataSource({
     AddOnboardingStep1783200000000,
     StartupProfileSchema1786007330786,
     InvestorProfilesSchema1786020573120,
+    PostsSchema1786071519998,
   ],
 })
