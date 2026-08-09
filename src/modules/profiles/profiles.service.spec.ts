@@ -29,6 +29,8 @@ describe('ProfilesService', () => {
   let usersService: {
     findBySupabaseUid: jest.Mock
     findBySupabaseUidWithTags: jest.Mock
+    findOnboardedByUrlKeyOrId: jest.Mock
+    ensureUrlKey: jest.Mock
     createOnboardedQuery: jest.Mock
   }
 
@@ -62,6 +64,13 @@ describe('ProfilesService', () => {
     usersService = {
       findBySupabaseUid: jest.fn(),
       findBySupabaseUidWithTags: jest.fn(),
+      findOnboardedByUrlKeyOrId: jest.fn(),
+      ensureUrlKey: jest.fn((user: Record<string, unknown>) =>
+        Promise.resolve({
+          ...user,
+          url_key: user.url_key ?? 'alex-morgan',
+        }),
+      ),
       createOnboardedQuery: jest.fn(),
     }
 
@@ -145,6 +154,7 @@ describe('ProfilesService', () => {
         role: 'Founder',
         location: 'Austin',
         avatar_url: null,
+        url_key: 'alex-morgan',
         onboarded_at: new Date(),
         tags: [],
       })
@@ -163,7 +173,11 @@ describe('ProfilesService', () => {
       const accounts = await service.listAccounts(UID)
       expect(accounts).toHaveLength(2)
       expect(accounts[0]?.accountType).toBe('user')
+      expect(accounts[0]?.href).toBe('/u/alex-morgan')
       expect(accounts[1]?.accountType).toBe('startup')
+      expect(accounts[1]?.href).toBe(
+        '/startup/22222222-2222-2222-2222-222222222222',
+      )
     })
   })
 
@@ -220,6 +234,89 @@ describe('ProfilesService', () => {
 
       expect(result.firmName).toBe('North Bench')
       expect(result.minInvestmentUsd).toBe(50_000)
+    })
+  })
+
+  describe('search', () => {
+    it('excludes the viewer from user results', async () => {
+      const andWhere = jest.fn().mockReturnThis()
+      const take = jest.fn().mockReturnThis()
+      const getMany = jest.fn().mockResolvedValue([
+        {
+          supabaseUid: '22222222-2222-2222-2222-222222222222',
+          name: 'Other',
+          role: 'Founder',
+          occupation: null,
+          location: null,
+          avatar_url: null,
+          url_key: 'other-user',
+          tags: [],
+        },
+      ])
+      usersService.createOnboardedQuery.mockReturnValue({
+        andWhere,
+        take,
+        getMany,
+      })
+      startupRepo.find.mockResolvedValue([])
+      investorRepo.find.mockResolvedValue([])
+
+      const result = await service.search(UID, { type: 'user' })
+
+      expect(andWhere).toHaveBeenCalledWith('user.supabaseUid != :viewerId', {
+        viewerId: UID,
+      })
+      expect(result.users).toHaveLength(1)
+      expect(result.users[0]?.id).toBe('22222222-2222-2222-2222-222222222222')
+      expect(result.users[0]?.urlKey).toBe('other-user')
+      expect(result.users[0]?.profilePath).toBe('/u/other-user')
+      expect(result.users[0]?.goals).toEqual([])
+    })
+
+    it('resolves public user by urlKey or uuid and returns display goal labels', async () => {
+      const user = {
+        supabaseUid: UID,
+        onboarded_at: new Date(),
+        name: 'Alex Morgan',
+        role: 'Founder',
+        occupation: null,
+        location: null,
+        avatar_url: null,
+        url_key: 'alex-morgan',
+        tags: [{ id: 1, key: 'raise_capital', name: 'Raise capital' }],
+      }
+      usersService.findOnboardedByUrlKeyOrId.mockResolvedValue(user)
+
+      await expect(service.getPublicUser('alex-morgan')).resolves.toEqual(
+        expect.objectContaining({
+          id: UID,
+          urlKey: 'alex-morgan',
+          profilePath: '/u/alex-morgan',
+          goals: ['Raise capital'],
+        }),
+      )
+      expect(usersService.findOnboardedByUrlKeyOrId).toHaveBeenCalledWith(
+        'alex-morgan',
+      )
+    })
+
+    it('returns suggestions without a query', async () => {
+      const andWhere = jest.fn().mockReturnThis()
+      usersService.createOnboardedQuery.mockReturnValue({
+        andWhere,
+        take: jest.fn().mockReturnThis(),
+        getMany: jest.fn().mockResolvedValue([]),
+      })
+      startupRepo.find.mockResolvedValue([])
+      investorRepo.find.mockResolvedValue([])
+
+      await service.search(UID, {})
+
+      expect(startupRepo.find).toHaveBeenCalled()
+      expect(investorRepo.find).toHaveBeenCalled()
+      expect(andWhere).toHaveBeenCalledWith('user.supabaseUid != :viewerId', {
+        viewerId: UID,
+      })
     })
   })
 })

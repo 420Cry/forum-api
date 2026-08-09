@@ -89,14 +89,15 @@ export class ProfilesController {
   }
 
   @Public()
-  @Get('profiles/user/:id')
-  getPublicUser(@Param('id', ParseUUIDPipe) id: string) {
-    return this.profilesService.getPublicUser(id)
+  @Get('profiles/user/:urlKeyOrId')
+  getPublicUser(@Param('urlKeyOrId') urlKeyOrId: string) {
+    return this.profilesService.getPublicUser(urlKeyOrId)
   }
 
   @Get('find')
   @RequiresOnboarded()
   find(
+    @Req() req: RequestWithUser,
     @Query('q') q?: string,
     @Query('type') type?: 'user' | 'startup' | 'investor' | 'all',
     @Query('industry') industry?: string,
@@ -105,7 +106,8 @@ export class ProfilesController {
     @Query('role') role?: string,
     @Query('limit') limit?: string,
   ) {
-    return this.profilesService.search({
+    const { id } = req.user as AuthUser
+    return this.profilesService.search(id, {
       q,
       type,
       industry,

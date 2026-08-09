@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { ILike, Repository } from 'typeorm'
+import { ILike, Not, Repository } from 'typeorm'
 import { UsersService } from '../users/users.service'
 import {
   CreateInvestorProfileDto,
@@ -46,12 +46,13 @@ export class ProfilesService {
       throw new BadRequestException('Onboarding must be completed first')
     }
 
-    const [startup, investor] = await Promise.all([
+    const [readyUser, startup, investor] = await Promise.all([
+      this.usersService.ensureUrlKey(user),
       this.startupRepo.findOne({ where: { user_id: userId } }),
       this.investorRepo.findOne({ where: { user_id: userId } }),
     ])
 
-    const accounts: AccountSummary[] = [personalAccountSummary(user)]
+    const accounts: AccountSummary[] = [personalAccountSummary(readyUser)]
     if (startup) accounts.push(startupAccountSummary(startup))
     if (investor) accounts.push(investorAccountSummary(investor))
     return accounts
@@ -100,14 +101,14 @@ export class ProfilesService {
     if (dto.stage !== undefined) profile.stage = dto.stage
     if (dto.industry !== undefined) profile.industry = dto.industry
     if (dto.websiteUrl !== undefined) {
-      profile.website_url = dto.websiteUrl === '' ? undefined : dto.websiteUrl
+      profile.website_url = dto.websiteUrl || undefined
     }
     if (dto.contactEmail !== undefined) profile.contact_email = dto.contactEmail
     if (dto.avatarUrl !== undefined) {
-      profile.avatar_url = dto.avatarUrl === '' ? undefined : dto.avatarUrl
+      profile.avatar_url = dto.avatarUrl || undefined
     }
     if (dto.logoUrl !== undefined) {
-      profile.logo_url = dto.logoUrl === '' ? undefined : dto.logoUrl
+      profile.logo_url = dto.logoUrl || undefined
     }
     if (dto.foundedAt !== undefined) {
       profile.founded_at = new Date(dto.foundedAt)
@@ -168,13 +169,13 @@ export class ProfilesService {
     if (dto.industry !== undefined) profile.industry = dto.industry
     if (dto.contactEmail !== undefined) profile.contact_email = dto.contactEmail
     if (dto.avatarUrl !== undefined) {
-      profile.avatar_url = dto.avatarUrl === '' ? undefined : dto.avatarUrl
+      profile.avatar_url = dto.avatarUrl || undefined
     }
     if (dto.logoUrl !== undefined) {
-      profile.logo_url = dto.logoUrl === '' ? undefined : dto.logoUrl
+      profile.logo_url = dto.logoUrl || undefined
     }
     if (dto.websiteUrl !== undefined) {
-      profile.website_url = dto.websiteUrl === '' ? undefined : dto.websiteUrl
+      profile.website_url = dto.websiteUrl || undefined
     }
     if (dto.minInvestmentUsd !== undefined) {
       profile.min_investment_usd = dto.minInvestmentUsd ?? undefined
@@ -195,23 +196,26 @@ export class ProfilesService {
     return toInvestorResponse(profile)
   }
 
-  async getPublicUser(id: string): Promise<PublicUserProfileResponse> {
-    const user = await this.usersService.findBySupabaseUidWithTags(id)
-    if (!user?.onboarded_at) {
+  async getPublicUser(urlKeyOrId: string): Promise<PublicUserProfileResponse> {
+    const user = await this.usersService.findOnboardedByUrlKeyOrId(urlKeyOrId)
+    if (!user) {
       throw new NotFoundException('User profile not found')
     }
     return toPublicUserProfile(user)
   }
 
-  async search(params: {
-    q?: string
-    type?: 'user' | 'startup' | 'investor' | 'all'
-    industry?: string
-    stage?: string
-    location?: string
-    role?: string
-    limit?: number
-  }) {
+  async search(
+    viewerId: string,
+    params: {
+      q?: string
+      type?: 'user' | 'startup' | 'investor' | 'all'
+      industry?: string
+      stage?: string
+      location?: string
+      role?: string
+      limit?: number
+    },
+  ) {
     const type = params.type ?? 'all'
     const limit = Math.min(Math.max(params.limit ?? 20, 1), 50)
     const q = params.q?.trim()
@@ -219,6 +223,7 @@ export class ProfilesService {
     const [users, startups, investors] = await Promise.all([
       type === 'all' || type === 'user'
         ? this.searchUsers({
+            viewerId,
             q,
             location: params.location,
             role: params.role,
@@ -227,6 +232,7 @@ export class ProfilesService {
         : Promise.resolve([]),
       type === 'all' || type === 'startup'
         ? this.searchStartups({
+            viewerId,
             q,
             industry: params.industry,
             stage: params.stage,
@@ -234,7 +240,12 @@ export class ProfilesService {
           })
         : Promise.resolve([]),
       type === 'all' || type === 'investor'
-        ? this.searchInvestors({ q, industry: params.industry, limit })
+        ? this.searchInvestors({
+            viewerId,
+            q,
+            industry: params.industry,
+            limit,
+          })
         : Promise.resolve([]),
     ])
 
@@ -291,12 +302,16 @@ export class ProfilesService {
   }
 
   private async searchUsers(params: {
+    viewerId: string
     q?: string
     location?: string
     role?: string
     limit: number
   }) {
     const qb = this.usersService.createOnboardedQuery()
+    qb.andWhere('user.supabaseUid != :viewerId', {
+      viewerId: params.viewerId,
+    })
     if (params.q) {
       qb.andWhere('user.name ILIKE :q', { q: `%${params.q}%` })
     }
@@ -310,16 +325,22 @@ export class ProfilesService {
     }
     qb.take(params.limit)
     const users = await qb.getMany()
-    return users.map(toPublicUserProfile)
+    const withKeys = await Promise.all(
+      users.map((user) => this.usersService.ensureUrlKey(user)),
+    )
+    return withKeys.map(toPublicUserProfile)
   }
 
   private async searchStartups(params: {
+    viewerId: string
     q?: string
     industry?: string
     stage?: string
     limit: number
   }) {
-    const where: Record<string, unknown> = {}
+    const where: Record<string, unknown> = {
+      user_id: Not(params.viewerId),
+    }
     if (params.q) where.company_name = ILike(`%${params.q}%`)
     if (params.industry) where.industry = ILike(`%${params.industry}%`)
     if (params.stage) where.stage = params.stage
@@ -333,16 +354,19 @@ export class ProfilesService {
   }
 
   private async searchInvestors(params: {
+    viewerId: string
     q?: string
     industry?: string
     limit: number
   }) {
-    const where: Record<string, unknown> = {}
-    if (params.q) where.firm_name = ILike(`%${params.q}%`)
-    if (params.industry) where.industry = ILike(`%${params.industry}%`)
+    const base: Record<string, unknown> = {
+      user_id: Not(params.viewerId),
+    }
+    if (params.q) base.firm_name = ILike(`%${params.q}%`)
+    if (params.industry) base.industry = ILike(`%${params.industry}%`)
 
     const rows = await this.investorRepo.find({
-      where,
+      where: base,
       take: params.limit,
       order: { createdAt: 'DESC' },
     })

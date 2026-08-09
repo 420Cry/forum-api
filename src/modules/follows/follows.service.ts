@@ -116,7 +116,10 @@ export class FollowsService {
         const user = await this.usersService.findBySupabaseUidWithTags(
           row.target_id,
         )
-        if (user?.onboarded_at) summaries.push(personalAccountSummary(user))
+        if (user?.onboarded_at) {
+          const ready = await this.usersService.ensureUrlKey(user)
+          summaries.push(personalAccountSummary(ready))
+        }
         continue
       }
       if (row.target_type === 'startup') {

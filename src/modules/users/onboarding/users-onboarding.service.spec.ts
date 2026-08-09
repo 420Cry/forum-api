@@ -31,6 +31,8 @@ describe('UserOnboardingService', () => {
     findOrCreate: jest.Mock
     findBySupabaseUidWithTags: jest.Mock
     update: jest.Mock
+    allocateUrlKeyForUser: jest.Mock
+    resolveUrlKeyUpdate: jest.Mock
   }
   let tagsService: {
     findByKeys: jest.Mock
@@ -41,6 +43,8 @@ describe('UserOnboardingService', () => {
       findOrCreate: jest.fn(),
       findBySupabaseUidWithTags: jest.fn(),
       update: jest.fn(),
+      allocateUrlKeyForUser: jest.fn().mockResolvedValue('alex-morgan'),
+      resolveUrlKeyUpdate: jest.fn(),
     }
     tagsService = {
       findByKeys: jest.fn(),
@@ -68,6 +72,11 @@ describe('UserOnboardingService', () => {
 
       expect(tagsService.findByKeys).toHaveBeenCalledWith(baseDto.goals)
       expect(usersService.findOrCreate).toHaveBeenCalledWith(UID, EMAIL)
+      expect(usersService.allocateUrlKeyForUser).toHaveBeenCalledWith({
+        supabaseUid: UID,
+        name: 'Alex Morgan',
+        email: EMAIL,
+      })
       expect(usersService.update).toHaveBeenCalledWith(
         user,
         expect.objectContaining({
@@ -77,6 +86,7 @@ describe('UserOnboardingService', () => {
           location: 'Austin',
           occupation: 'Founder',
           tags: goalTags,
+          url_key: 'alex-morgan',
           onboarded_at: expect.any(Date) as Date,
           onboarding_step: null,
         }),
@@ -171,6 +181,26 @@ describe('UserOnboardingService', () => {
 
       expect(usersService.update).toHaveBeenCalledWith(user, { tags: [] })
     })
+
+    it('persists avatarUrl on draft', async () => {
+      const user = { supabaseUid: UID, email: EMAIL } as User
+      usersService.findBySupabaseUidWithTags.mockResolvedValue(user)
+      usersService.findOrCreate.mockResolvedValue(user)
+      usersService.update.mockResolvedValue(user)
+
+      await service.saveDraft(UID, EMAIL, {
+        step: 3,
+        avatarUrl: 'https://cdn.example.com/a.webp',
+      })
+
+      expect(usersService.update).toHaveBeenCalledWith(
+        user,
+        expect.objectContaining({
+          onboarding_step: 3,
+          avatar_url: 'https://cdn.example.com/a.webp',
+        }),
+      )
+    })
   })
 
   describe('updateProfile', () => {
@@ -178,6 +208,7 @@ describe('UserOnboardingService', () => {
       supabaseUid: UID,
       email: EMAIL,
       name: 'Alex Morgan',
+      url_key: 'alex-morgan',
       tags: goalTags,
     } as User
 
@@ -217,7 +248,7 @@ describe('UserOnboardingService', () => {
       })
     })
 
-    it('merges partial name updates', async () => {
+    it('merges partial name updates without renaming url_key', async () => {
       const onboardedUser = {
         ...existingUser,
         onboarded_at: new Date(),
@@ -230,6 +261,7 @@ describe('UserOnboardingService', () => {
       expect(usersService.update).toHaveBeenCalledWith(onboardedUser, {
         name: 'Alex Walker',
       })
+      expect(usersService.allocateUrlKeyForUser).not.toHaveBeenCalled()
     })
 
     it('replaces goals when provided', async () => {
@@ -256,6 +288,7 @@ describe('UserOnboardingService', () => {
       const onboardedUser = {
         ...existingUser,
         onboarded_at: new Date(),
+        url_key: 'alex-morgan',
       }
       usersService.findBySupabaseUidWithTags.mockResolvedValue(onboardedUser)
       usersService.update.mockResolvedValue(onboardedUser)
@@ -270,6 +303,46 @@ describe('UserOnboardingService', () => {
       await service.updateProfile(UID, { avatarUrl: '' })
       expect(usersService.update).toHaveBeenCalledWith(onboardedUser, {
         avatar_url: null,
+      })
+    })
+
+    it('updates urlKey when valid and available', async () => {
+      const onboardedUser = {
+        ...existingUser,
+        onboarded_at: new Date(),
+        url_key: 'alex-morgan',
+      }
+      usersService.findBySupabaseUidWithTags.mockResolvedValue(onboardedUser)
+      usersService.update.mockResolvedValue(onboardedUser)
+      usersService.resolveUrlKeyUpdate.mockResolvedValue('dao-nguyen')
+
+      await service.updateProfile(UID, { urlKey: 'dao-nguyen' })
+
+      expect(usersService.resolveUrlKeyUpdate).toHaveBeenCalledWith(
+        onboardedUser,
+        'dao-nguyen',
+      )
+      expect(usersService.update).toHaveBeenCalledWith(onboardedUser, {
+        url_key: 'dao-nguyen',
+      })
+    })
+
+    it('assigns a url_key when missing on profile update', async () => {
+      const onboardedUser = {
+        ...existingUser,
+        onboarded_at: new Date(),
+        url_key: null,
+      }
+      usersService.findBySupabaseUidWithTags.mockResolvedValue(onboardedUser)
+      usersService.update.mockResolvedValue(onboardedUser)
+      usersService.allocateUrlKeyForUser.mockResolvedValue('alex-morgan')
+
+      await service.updateProfile(UID, { occupation: 'Founder' })
+
+      expect(usersService.allocateUrlKeyForUser).toHaveBeenCalled()
+      expect(usersService.update).toHaveBeenCalledWith(onboardedUser, {
+        occupation: 'Founder',
+        url_key: 'alex-morgan',
       })
     })
   })

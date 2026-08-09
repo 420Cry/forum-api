@@ -29,6 +29,7 @@ import { PostsSchema1786071519998 } from './migrations/1786071519998-PostsSchema
 import { ReactionsSchema1786094100789 } from './migrations/1786094100789-ReactionsSchema'
 import { AddUserAvatarUrl1786100000000 } from './migrations/1786100000000-AddUserAvatarUrl'
 import { FollowsSchema1786110000000 } from './migrations/1786110000000-FollowsSchema'
+import { AddUserUrlKey1786120000000 } from './migrations/1786120000000-AddUserUrlKey'
 
 export default new DataSource({
   type: 'postgres',
@@ -62,5 +63,6 @@ export default new DataSource({
     ReactionsSchema1786094100789,
     AddUserAvatarUrl1786100000000,
     FollowsSchema1786110000000,
+    AddUserUrlKey1786120000000,
   ],
 })

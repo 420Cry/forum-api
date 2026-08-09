@@ -1,4 +1,4 @@
-import { Type } from 'class-transformer'
+import { Transform, Type } from 'class-transformer'
 import {
   ArrayMinSize,
   IsArray,
@@ -79,4 +79,16 @@ export class UpdateProfileDto {
     { message: 'Avatar URL must be a valid http(s) URL' },
   )
   avatarUrl?: string | null
+
+  /** Optional custom `users.url_key` (`/u/:urlKey`). Normalized in BE. */
+  @IsOptional()
+  @Transform(({ value }: { value: unknown }) =>
+    typeof value === 'string' ? value.trim().toLowerCase() : value,
+  )
+  @IsString()
+  @MinLength(2, { message: 'Profile URL must have at least 2 characters' })
+  @Matches(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, {
+    message: 'Profile URL may only use lowercase letters, numbers, and hyphens',
+  })
+  urlKey?: string
 }

@@ -13,5 +13,6 @@ export type UpdateUserType = {
   age?: number
   location?: string
   avatar_url?: string | null
+  url_key?: string | null
   tags?: Tag[]
 }

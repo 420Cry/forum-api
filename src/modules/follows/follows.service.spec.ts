@@ -26,6 +26,7 @@ describe('FollowsService', () => {
   }
   let usersService: {
     findBySupabaseUidWithTags: jest.Mock
+    ensureUrlKey: jest.Mock
   }
 
   beforeEach(async () => {
@@ -42,6 +43,9 @@ describe('FollowsService', () => {
     }
     usersService = {
       findBySupabaseUidWithTags: jest.fn(),
+      ensureUrlKey: jest.fn((user: Record<string, unknown>) =>
+        Promise.resolve(user),
+      ),
     }
 
     const module: TestingModule = await Test.createTestingModule({

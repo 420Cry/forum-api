@@ -14,6 +14,7 @@ function makeUser(overrides: Partial<User> = {}): User {
     age: undefined as unknown as number,
     location: undefined as unknown as string,
     avatar_url: null,
+    url_key: null,
     tags: [],
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -43,6 +44,8 @@ describe('toAuthProfile', () => {
       age: null,
       location: null,
       avatarUrl: null,
+      urlKey: null,
+      profilePath: null,
       goals: [],
     })
   })
@@ -73,6 +76,7 @@ describe('toAuthProfile', () => {
         occupation: 'Founder',
         age: 28,
         location: 'Austin',
+        url_key: 'alex-morgan',
         tags,
       }),
     )
@@ -86,6 +90,8 @@ describe('toAuthProfile', () => {
       age: 28,
       location: 'Austin',
       avatarUrl: null,
+      urlKey: 'alex-morgan',
+      profilePath: '/u/alex-morgan',
       goals: ['raise_capital', 'find_cofounders'],
     })
   })

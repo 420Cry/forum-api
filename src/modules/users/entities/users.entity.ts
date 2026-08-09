@@ -44,8 +44,12 @@ export class User {
   @Column({ nullable: true })
   location: string
 
-  @Column({ nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   avatar_url: string | null
+
+  /** Stable public profile key (`/u/:urlKey`). Assigned at onboarding in BE. */
+  @Column({ type: 'varchar', length: 64, nullable: true, unique: true })
+  url_key: string | null
 
   @ManyToMany(() => Tag)
   @JoinTable({ name: 'user_tag' })

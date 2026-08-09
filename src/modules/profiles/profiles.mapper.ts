@@ -1,4 +1,5 @@
 import type { User } from '../users/entities'
+import { userProfilePath } from '../users/utils/url-key'
 import type { InvestorProfiles } from './entities/investor-profiles.entity'
 import type { StartupProfiles } from './entities/startup-profiles.entity'
 
@@ -10,6 +11,9 @@ export type AccountSummary = {
   headline: string | null
   location: string | null
   avatarUrl: string | null
+  /** Ready-to-use app path (e.g. `/u/dao-nguyen`). */
+  href: string
+  urlKey?: string
   views?: number
   connections?: number
   accountType: AccountType
@@ -29,6 +33,7 @@ export type StartupProfileResponse = {
   foundedAt: string
   views: number
   connections: number
+  href: string
 }
 
 export type InvestorProfileResponse = {
@@ -45,15 +50,21 @@ export type InvestorProfileResponse = {
   maxInvestmentUsd: number | null
   views: number
   connections: number
+  href: string
 }
 
 export type PublicUserProfileResponse = {
   id: string
+  /** Persisted `users.url_key`. Always set for onboarded users. */
+  urlKey: string
+  /** Ready-to-use app path (`/u/:urlKey`). */
+  profilePath: string
   name: string | null
   role: User['role']
   occupation: string | null
   location: string | null
   avatarUrl: string | null
+  /** Display labels from tag.name — ready to render. */
   goals: string[]
 }
 
@@ -79,6 +90,7 @@ export function toStartupResponse(
     foundedAt: founded,
     views: profile.views,
     connections: profile.connections,
+    href: `/startup/${profile.id}`,
   }
 }
 
@@ -105,25 +117,38 @@ export function toInvestorResponse(
         : Number(profile.max_investment_usd),
     views: profile.views,
     connections: profile.connections,
+    href: `/investor/${profile.id}`,
   }
 }
 
 export function toPublicUserProfile(user: User): PublicUserProfileResponse {
+  if (!user.url_key) {
+    throw new Error(`Onboarded user ${user.supabaseUid} is missing url_key`)
+  }
+
   return {
     id: user.supabaseUid,
+    urlKey: user.url_key,
+    profilePath: userProfilePath(user.url_key),
     name: user.name ?? null,
     role: user.role,
     occupation: user.occupation ?? null,
     location: user.location ?? null,
     avatarUrl: user.avatar_url ?? null,
-    goals: user.tags?.map((tag) => tag.key) ?? [],
+    goals: user.tags?.map((tag) => tag.name) ?? [],
   }
 }
 
 export function personalAccountSummary(user: User): AccountSummary {
+  if (!user.url_key) {
+    throw new Error(`Onboarded user ${user.supabaseUid} is missing url_key`)
+  }
+
   const roleLabel = user.role ? `${user.role} / Personal Account` : 'Personal'
   return {
     id: user.supabaseUid,
+    urlKey: user.url_key,
+    href: userProfilePath(user.url_key),
     name: user.name || user.email,
     headline: roleLabel,
     location: user.location ?? null,
@@ -141,6 +166,7 @@ export function startupAccountSummary(
     headline: `${profile.industry} / ${profile.stage}`,
     location: null,
     avatarUrl: profile.avatar_url ?? profile.logo_url ?? null,
+    href: `/startup/${profile.id}`,
     views: profile.views,
     connections: profile.connections,
     accountType: 'startup',
@@ -156,6 +182,7 @@ export function investorAccountSummary(
     headline: profile.industry,
     location: null,
     avatarUrl: profile.avatar_url ?? profile.logo_url ?? null,
+    href: `/investor/${profile.id}`,
     views: profile.views,
     connections: profile.connections,
     accountType: 'investor',
