@@ -12,5 +12,6 @@ export type UpdateUserType = {
   occupation?: string
   age?: number
   location?: string
+  avatar_url?: string | null
   tags?: Tag[]
 }

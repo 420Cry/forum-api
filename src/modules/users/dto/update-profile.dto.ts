@@ -6,9 +6,11 @@ import {
   IsInt,
   IsOptional,
   IsString,
+  IsUrl,
   Matches,
   Min,
   MinLength,
+  ValidateIf,
 } from 'class-validator'
 import { rolesSelection } from '../users.type'
 
@@ -68,4 +70,13 @@ export class UpdateProfileDto {
     message: 'Occupation must not contain special characters',
   })
   occupation?: string
+
+  /** Public avatar URL after client upload to storage. Empty string clears it. */
+  @IsOptional()
+  @ValidateIf((_, value) => value !== '' && value != null)
+  @IsUrl(
+    { require_protocol: true, protocols: ['http', 'https'] },
+    { message: 'Avatar URL must be a valid http(s) URL' },
+  )
+  avatarUrl?: string | null
 }

@@ -251,5 +251,26 @@ describe('UserOnboardingService', () => {
         tags: newTags,
       })
     })
+
+    it('sets and clears avatarUrl', async () => {
+      const onboardedUser = {
+        ...existingUser,
+        onboarded_at: new Date(),
+      }
+      usersService.findBySupabaseUidWithTags.mockResolvedValue(onboardedUser)
+      usersService.update.mockResolvedValue(onboardedUser)
+
+      await service.updateProfile(UID, {
+        avatarUrl: 'https://cdn.example.com/a.png',
+      })
+      expect(usersService.update).toHaveBeenCalledWith(onboardedUser, {
+        avatar_url: 'https://cdn.example.com/a.png',
+      })
+
+      await service.updateProfile(UID, { avatarUrl: '' })
+      expect(usersService.update).toHaveBeenCalledWith(onboardedUser, {
+        avatar_url: null,
+      })
+    })
   })
 })

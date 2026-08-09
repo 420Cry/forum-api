@@ -14,6 +14,7 @@ import { StartupProfiles } from 'src/modules/profiles/entities/startup-profiles.
 import { InvestorProfiles } from 'src/modules/profiles/entities/investor-profiles.entity'
 import { Posts } from 'src/modules/posts/entities/posts.entity'
 import { Reactions } from 'src/modules/reactions/entities/reactions.entity'
+import { Follows } from 'src/modules/follows/entities/follows.entity'
 import { UserTable1782361957998 } from './migrations/1782361957998-UserTable'
 import { UpdateRoleEnum1782702393426 } from './migrations/1782702393426-UpdateRoleEnum'
 import { TagsJunctionCreation1782870675851 } from './migrations/1782870675851-TagsJunctionCreation'
@@ -26,6 +27,8 @@ import { StartupProfileSchema1786007330786 } from './migrations/1786007330786-St
 import { InvestorProfilesSchema1786020573120 } from './migrations/1786020573120-InvestorProfilesSchema'
 import { PostsSchema1786071519998 } from './migrations/1786071519998-PostsSchema'
 import { ReactionsSchema1786094100789 } from './migrations/1786094100789-ReactionsSchema'
+import { AddUserAvatarUrl1786100000000 } from './migrations/1786100000000-AddUserAvatarUrl'
+import { FollowsSchema1786110000000 } from './migrations/1786110000000-FollowsSchema'
 
 export default new DataSource({
   type: 'postgres',
@@ -35,7 +38,15 @@ export default new DataSource({
   password: process.env.DB_PASSWORD || 'postgres',
   database: process.env.DB_NAME || 'postgres',
   synchronize: false,
-  entities: [User, Tag, StartupProfiles, InvestorProfiles, Posts, Reactions],
+  entities: [
+    User,
+    Tag,
+    StartupProfiles,
+    InvestorProfiles,
+    Posts,
+    Reactions,
+    Follows,
+  ],
   migrations: [
     UserTable1782361957998,
     UpdateRoleEnum1782702393426,
@@ -49,5 +60,7 @@ export default new DataSource({
     InvestorProfilesSchema1786020573120,
     PostsSchema1786071519998,
     ReactionsSchema1786094100789,
+    AddUserAvatarUrl1786100000000,
+    FollowsSchema1786110000000,
   ],
 })

@@ -44,6 +44,9 @@ export class User {
   @Column({ nullable: true })
   location: string
 
+  @Column({ nullable: true })
+  avatar_url: string | null
+
   @ManyToMany(() => Tag)
   @JoinTable({ name: 'user_tag' })
   tags: Tag[]

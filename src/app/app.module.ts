@@ -11,6 +11,7 @@ import { FiltersModule } from 'src/filters/filters.module'
 import { ProfilesModule } from 'src/modules/profiles/profiles.module'
 import { PostsModule } from 'src/modules/posts/posts.module'
 import { ReactionsModule } from 'src/modules/reactions/reactions.module'
+import { FollowsModule } from 'src/modules/follows/follows.module'
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { ReactionsModule } from 'src/modules/reactions/reactions.module'
     ProfilesModule,
     PostsModule,
     ReactionsModule,
+    FollowsModule,
   ],
 })
 export class AppModule {}

@@ -33,6 +33,9 @@ export class UserOnboardingService {
     if (dto.age !== undefined) patch.age = dto.age
     if (dto.location !== undefined) patch.location = dto.location
     if (dto.occupation !== undefined) patch.occupation = dto.occupation
+    if ('avatarUrl' in dto && dto.avatarUrl !== undefined) {
+      patch.avatar_url = dto.avatarUrl === '' ? null : dto.avatarUrl
+    }
     if (dto.firstName !== undefined || dto.lastName !== undefined) {
       const [currentFirst = '', ...currentRest] = (user.name ?? '')
         .trim()

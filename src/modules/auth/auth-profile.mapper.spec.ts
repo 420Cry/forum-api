@@ -13,6 +13,7 @@ function makeUser(overrides: Partial<User> = {}): User {
     occupation: undefined as unknown as string,
     age: undefined as unknown as number,
     location: undefined as unknown as string,
+    avatar_url: null,
     tags: [],
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -41,6 +42,7 @@ describe('toAuthProfile', () => {
       occupation: null,
       age: null,
       location: null,
+      avatarUrl: null,
       goals: [],
     })
   })
@@ -83,7 +85,18 @@ describe('toAuthProfile', () => {
       occupation: 'Founder',
       age: 28,
       location: 'Austin',
+      avatarUrl: null,
       goals: ['raise_capital', 'find_cofounders'],
     })
+  })
+
+  it('maps avatarUrl when present', () => {
+    const profile = toAuthProfile(
+      makeUser({
+        onboarded_at: new Date(),
+        avatar_url: 'https://cdn.example.com/a.png',
+      }),
+    )
+    expect(profile?.avatarUrl).toBe('https://cdn.example.com/a.png')
   })
 })

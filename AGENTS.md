@@ -45,6 +45,8 @@ From the monorepo dev-server: `forum lint:fix` runs eslint --fix in both forum-a
 | Auth guards | `src/modules/auth/` |
 | `/auth/me` response shape | `src/modules/auth/auth-profile.mapper.ts` |
 | Onboarding logic | `src/modules/users/onboarding/users-onboarding.service.ts` |
+| Profiles / find / accounts | `src/modules/profiles/` |
+| Follows | `src/modules/follows/` |
 | Route guards / decorators | `src/modules/users/guards/`, `src/modules/users/decorators/` |
 | Migrations | `src/database/migrations/`, `src/database/dataSource.config.ts` |
 | Goal tag seed | `src/database/seed.ts` |
@@ -71,6 +73,11 @@ Per-controller guard:
 | `POST /user/onboarding` | no | yes | not onboarded |
 | `PATCH /user/onboarding/draft` | no | yes | not onboarded |
 | `PATCH /user/profile` | no | yes | onboarded |
+| `GET /me/accounts` | no | yes | onboarded |
+| `POST/PATCH /profiles/startup`, `POST/PATCH /profiles/investor` | no | yes | onboarded |
+| `GET /profiles/startup/:id`, `GET /profiles/investor/:id`, `GET /profiles/user/:id` | yes | — | — |
+| `GET /find` | no | yes | onboarded |
+| `POST/DELETE /follows`, `GET /follows/me`, `GET /follows/status` | no | yes | onboarded |
 
 Service layer (`UserOnboardingService`) enforces the same onboarding rules as a second line of defence.
 
@@ -93,7 +100,9 @@ With forum-server: `forum db:migrate`, `forum db:seed`.
 ```
 src/modules/
 ├── auth/           # guards, Supabase service, GET /auth/me
+├── follows/        # follow / unfollow / list / status
 ├── health/         # GET /health (@Public)
+├── profiles/       # accounts, startup/investor CRUD, find, public GETs
 ├── root/           # GET / (@Public)
 ├── tags/           # internal — no HTTP controller
 └── users/          # onboarding + profile endpoints

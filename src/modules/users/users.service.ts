@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { Repository, SelectQueryBuilder } from 'typeorm'
 import { User } from './entities'
 import { UpdateUserType } from './users.type'
 
@@ -30,6 +30,15 @@ export class UsersService {
       where: { supabaseUid },
       relations: { tags: true },
     })
+  }
+
+  /** Query builder for onboarded users (for directory search). */
+  createOnboardedQuery(): SelectQueryBuilder<User> {
+    return this.userRepo
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.tags', 'tags')
+      .where('user.onboarded_at IS NOT NULL')
+      .orderBy('user.createdAt', 'DESC')
   }
 
   async save(user: User): Promise<User> {

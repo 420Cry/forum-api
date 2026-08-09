@@ -8,6 +8,7 @@ export type AuthProfileResponse = {
   occupation: string | null
   age: number | null
   location: string | null
+  avatarUrl: string | null
   goals: string[]
 }
 
@@ -23,6 +24,7 @@ export function toAuthProfile(user: User | null): AuthProfileResponse | null {
     occupation: user.occupation ?? null,
     age: user.age ?? null,
     location: user.location ?? null,
+    avatarUrl: user.avatar_url ?? null,
     goals: user.tags?.map((tag) => tag.key) ?? [],
   }
 }
