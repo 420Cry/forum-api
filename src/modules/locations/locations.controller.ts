@@ -1,5 +1,5 @@
 import { Controller, Get, Query } from '@nestjs/common'
-import { SkipEmailVerification } from '../auth/skip-email-verification.decorator'
+import { Public } from '../auth/public.decorator'
 import { LocationsService } from './locations.service'
 
 @Controller('catalog')
@@ -8,11 +8,27 @@ export class LocationsController {
 
   /**
    * Typeahead for onboarding / settings location fields.
-   * Auth required (global guard); email verification skipped so onboard works.
+   * Public: city catalog is non-sensitive and must work on /onboard before
+   * profile auth edge-cases (browsers often surface 401 as CORS).
    */
   @Get('locations')
-  @SkipEmailVerification()
-  searchLocations(@Query('q') q?: string) {
-    return { locations: this.locationsService.search(q ?? '') }
+  @Public()
+  searchLocations(
+    @Query('q') q?: string,
+    @Query('offset') offset?: string,
+    @Query('limit') limit?: string,
+  ) {
+    const parsedOffset = Math.max(0, Number.parseInt(offset ?? '0', 10) || 0)
+    const parsedLimit = Number.parseInt(limit ?? '20', 10) || 20
+    const page = this.locationsService.search(
+      q ?? '',
+      parsedOffset,
+      parsedLimit,
+    )
+    return {
+      locations: page.items,
+      total: page.total,
+      hasMore: page.hasMore,
+    }
   }
 }

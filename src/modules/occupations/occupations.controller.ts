@@ -1,5 +1,5 @@
 import { Controller, Get, Query } from '@nestjs/common'
-import { SkipEmailVerification } from '../auth/skip-email-verification.decorator'
+import { Public } from '../auth/public.decorator'
 import { OccupationsService } from './occupations.service'
 
 @Controller('catalog')
@@ -8,11 +8,27 @@ export class OccupationsController {
 
   /**
    * Typeahead for onboarding / settings occupation fields.
-   * Auth required (global guard); email verification skipped so onboard works.
+   * Public: occupation catalog is non-sensitive and must work on /onboard
+   * (browsers often surface auth failures as CORS).
    */
   @Get('occupations')
-  @SkipEmailVerification()
-  searchOccupations(@Query('q') q?: string) {
-    return { occupations: this.occupationsService.search(q ?? '') }
+  @Public()
+  searchOccupations(
+    @Query('q') q?: string,
+    @Query('offset') offset?: string,
+    @Query('limit') limit?: string,
+  ) {
+    const parsedOffset = Math.max(0, Number.parseInt(offset ?? '0', 10) || 0)
+    const parsedLimit = Number.parseInt(limit ?? '20', 10) || 20
+    const page = this.occupationsService.search(
+      q ?? '',
+      parsedOffset,
+      parsedLimit,
+    )
+    return {
+      occupations: page.items,
+      total: page.total,
+      hasMore: page.hasMore,
+    }
   }
 }

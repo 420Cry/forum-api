@@ -1,11 +1,17 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common'
 import { City, Country } from 'country-state-city'
-import { FIXED_LOCATION_OPTIONS, cityToKey } from './place-key'
+import { cityToKey } from './place-key'
 
 export type LocationSuggestion = {
   key: string
   name: string
   placeId: string | null
+}
+
+export type CatalogSearchPage<T> = {
+  items: T[]
+  total: number
+  hasMore: boolean
 }
 
 type CityIndexRow = {
@@ -19,13 +25,14 @@ type CityIndexRow = {
 const CACHE_TTL_MS = 30 * 60 * 1000
 /** Show city dropdown from the first typed letter. */
 const MIN_QUERY_LEN = 1
-const MAX_RESULTS = 15
+const DEFAULT_LIMIT = 20
+const MAX_LIMIT = 50
 /** Prefix bucket width for the city-name index (keeps per-keystroke work small). */
 const PREFIX_BUCKET_LEN = 2
 
 /**
  * Well-known cities shown when the query is empty so users see they can
- * type a city/country — not only Remote / Other.
+ * type a city/country or scroll for more.
  */
 const EXAMPLE_CITIES: Array<{ city: string; countryCode: string }> = [
   { city: 'San Francisco', countryCode: 'US' },
@@ -50,6 +57,7 @@ export class LocationsService implements OnModuleInit {
   >()
 
   private cityIndex: CityIndexRow[] | null = null
+  private sortedCityRows: CityIndexRow[] = []
   /** First 1–2 chars of city name → rows (prefix search only). */
   private prefixBuckets = new Map<string, CityIndexRow[]>()
   /** Curated empty-state suggestions resolved from the city index. */
@@ -73,15 +81,6 @@ export class LocationsService implements OnModuleInit {
 
   rememberSuggestion(key: string, name: string, placeId: string): void {
     this.recent.set(key, { name, placeId, at: Date.now() })
-  }
-
-  private matchingFixed(q: string): LocationSuggestion[] {
-    const needle = q.trim().toLowerCase()
-    if (!needle) return [...FIXED_LOCATION_OPTIONS]
-    return FIXED_LOCATION_OPTIONS.filter(
-      (opt) =>
-        opt.key.includes(needle) || opt.name.toLowerCase().includes(needle),
-    )
   }
 
   private addToBucket(prefix: string, row: CityIndexRow) {
@@ -129,6 +128,7 @@ export class LocationsService implements OnModuleInit {
     }
 
     this.cityIndex = rows
+    this.sortedCityRows = [...rows].sort((a, b) => a.name.localeCompare(b.name))
 
     for (const list of this.prefixBuckets.values()) {
       list.sort(
@@ -191,11 +191,60 @@ export class LocationsService implements OnModuleInit {
     return this.indexReady
   }
 
+  private rowToSuggestion(row: CityIndexRow): LocationSuggestion {
+    return {
+      key: row.key,
+      name: row.name,
+      placeId: row.sourceId,
+    }
+  }
+
+  private rememberPage(items: LocationSuggestion[]) {
+    for (const row of items) {
+      if (row.placeId) this.rememberSuggestion(row.key, row.name, row.placeId)
+    }
+  }
+
+  private clampLimit(limit?: number): number {
+    const n = limit ?? DEFAULT_LIMIT
+    return Math.min(MAX_LIMIT, Math.max(1, n))
+  }
+
+  private emptyStatePage(
+    offset: number,
+    limit: number,
+  ): CatalogSearchPage<LocationSuggestion> {
+    this.ensureCityIndex()
+    const examples = this.exampleSuggestions
+    const exampleKeys = new Set(examples.map((row) => row.key))
+    const browseRows = this.sortedCityRows.filter(
+      (row) => !exampleKeys.has(row.key),
+    )
+    const total = examples.length + browseRows.length
+    const items: LocationSuggestion[] = []
+
+    for (let i = offset; i < offset + limit && i < total; i++) {
+      if (i < examples.length) {
+        items.push(examples[i])
+      } else {
+        const row = browseRows[i - examples.length]
+        items.push(this.rowToSuggestion(row))
+      }
+    }
+
+    this.rememberPage(items)
+    return {
+      items,
+      total,
+      hasMore: offset + items.length < total,
+    }
+  }
+
   /**
    * Prefix match on city name only (letter-based typeahead).
    * Uses 1–2 char buckets so we never scan ~150k rows per keystroke.
    */
-  private searchCities(query: string): LocationSuggestion[] {
+  private collectCityMatches(query: string): LocationSuggestion[] {
     const needle = query.toLowerCase()
     this.ensureCityIndex()
 
@@ -208,48 +257,38 @@ export class LocationsService implements OnModuleInit {
     const out: LocationSuggestion[] = []
     for (const row of bucket) {
       if (!row.citySearch.startsWith(needle)) continue
-      out.push({
-        key: row.key,
-        name: row.name,
-        placeId: row.sourceId,
-      })
-      if (out.length >= MAX_RESULTS) break
+      out.push(this.rowToSuggestion(row))
     }
 
-    for (const row of out) {
-      if (row.placeId) this.rememberSuggestion(row.key, row.name, row.placeId)
-    }
+    out.sort((a, b) => a.name.localeCompare(b.name))
     return out
   }
 
   /**
    * Search cities from the free country-state-city dataset.
-   * Empty query → sample cities + fixed options (`remote`, `location_other`)
-   * so users know they can type a city/country.
-   * 1+ chars → matching fixed options + prefix city matches.
+   * Empty query → examples first, then alphabetical browse (paginated).
+   * 1+ chars → prefix city matches (paginated).
    */
-  search(q: string): LocationSuggestion[] {
+  search(
+    q: string,
+    offset = 0,
+    limit = DEFAULT_LIMIT,
+  ): CatalogSearchPage<LocationSuggestion> {
     const query = q.trim()
-    const fixed = this.matchingFixed(query)
+    const safeOffset = Math.max(0, offset)
+    const safeLimit = this.clampLimit(limit)
 
     if (query.length < MIN_QUERY_LEN) {
-      this.ensureCityIndex()
-      const examples = this.exampleSuggestions
-      for (const row of examples) {
-        if (row.placeId) this.rememberSuggestion(row.key, row.name, row.placeId)
-      }
-      // Cities first so the empty dropdown teaches typeahead, then Remote/Other.
-      return [...examples, ...fixed]
+      return this.emptyStatePage(safeOffset, safeLimit)
     }
 
-    const cities = this.searchCities(query)
-    const seen = new Set<string>(fixed.map((f) => f.key))
-    const merged: LocationSuggestion[] = [...fixed]
-    for (const city of cities) {
-      if (seen.has(city.key)) continue
-      seen.add(city.key)
-      merged.push(city)
+    const matches = this.collectCityMatches(query)
+    const items = matches.slice(safeOffset, safeOffset + safeLimit)
+    this.rememberPage(items)
+    return {
+      items,
+      total: matches.length,
+      hasMore: safeOffset + items.length < matches.length,
     }
-    return merged
   }
 }

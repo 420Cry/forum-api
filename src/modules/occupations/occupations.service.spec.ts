@@ -1,38 +1,47 @@
 import { OccupationsService } from './occupations.service'
 
 describe('OccupationsService', () => {
-  it('shows sample titles plus Other when query is empty', () => {
+  it('shows sample titles when query is empty (no Other)', () => {
     const service = new OccupationsService()
-    const rows = service.search('')
-    const keys = rows.map((r) => r.key)
+    const page = service.search('')
+    const keys = page.items.map((r) => r.key)
     expect(keys.length).toBeGreaterThan(5)
-    expect(keys.at(-1)).toBe('occupation_other')
+    expect(keys).not.toContain('occupation_other')
     expect(keys).toContain('founder')
     expect(keys).toContain('engineer')
   })
 
   it('returns ranked title matches from the first letter', () => {
     const service = new OccupationsService()
-    const rows = service.search('eng')
-    expect(rows.some((r) => /eng/i.test(r.name) || /eng/i.test(r.key))).toBe(
-      true,
-    )
-    expect(rows.length).toBeLessThanOrEqual(16)
+    const page = service.search('eng')
+    expect(
+      page.items.some((r) => /eng/i.test(r.name) || /eng/i.test(r.key)),
+    ).toBe(true)
   })
 
-  it('keeps Other last when it matches the query', () => {
+  it('does not return Other for partial queries', () => {
     const service = new OccupationsService()
-    const rows = service.search('o')
-    expect(rows.map((r) => r.key)).toContain('occupation_other')
-    expect(rows.at(-1)?.key).toBe('occupation_other')
+    const page = service.search('o')
+    expect(page.items.map((r) => r.key)).not.toContain('occupation_other')
   })
 
-  it('limits results for snappy dropdowns', () => {
+  it('paginates empty-state browse', () => {
     const service = new OccupationsService()
-    const rows = service.search('a')
-    const titles = rows.filter((r) => r.key !== 'occupation_other')
-    expect(titles.length).toBeGreaterThan(0)
-    expect(titles.length).toBeLessThanOrEqual(15)
+    const first = service.search('', 0, 5)
+    const second = service.search('', 5, 5)
+    expect(first.items.length).toBe(5)
+    expect(second.items.length).toBe(5)
+    expect(first.hasMore).toBe(true)
+    expect(first.total).toBeGreaterThan(10)
+  })
+
+  it('paginates ranked search results', () => {
+    const service = new OccupationsService()
+    const all = service.search('a', 0, 1000)
+    const page = service.search('a', 0, 10)
+    expect(page.items.length).toBe(10)
+    expect(page.total).toBe(all.total)
+    if (all.total > 10) expect(page.hasMore).toBe(true)
   })
 
   it('remembers suggestion names for later upsert', () => {

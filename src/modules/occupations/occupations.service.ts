@@ -1,14 +1,16 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common'
-import {
-  FIXED_OCCUPATION_OPTIONS,
-  isOtherOccupationKey,
-  type OccupationTitle,
-} from './occupation-key'
+import { isOtherOccupationKey, type OccupationTitle } from './occupation-key'
 import { OCCUPATION_TITLES } from './occupation-titles.data'
 
 export type OccupationSuggestion = {
   key: string
   name: string
+}
+
+export type CatalogSearchPage<T> = {
+  items: T[]
+  total: number
+  hasMore: boolean
 }
 
 type TitleIndexRow = {
@@ -20,7 +22,8 @@ type TitleIndexRow = {
 
 const CACHE_TTL_MS = 30 * 60 * 1000
 const MIN_QUERY_LEN = 1
-const MAX_RESULTS = 15
+const DEFAULT_LIMIT = 20
+const MAX_LIMIT = 50
 const PREFIX_BUCKET_LEN = 2
 
 /** Empty-state examples so users see they can type a title. */
@@ -43,6 +46,7 @@ export class OccupationsService implements OnModuleInit {
   private readonly recent = new Map<string, { name: string; at: number }>()
 
   private titleIndex: TitleIndexRow[] | null = null
+  private sortedTitleRows: TitleIndexRow[] = []
   private byKey = new Map<string, TitleIndexRow>()
   private prefixBuckets = new Map<string, TitleIndexRow[]>()
   private exampleSuggestions: OccupationSuggestion[] = []
@@ -79,25 +83,6 @@ export class OccupationsService implements OnModuleInit {
       .filter(Boolean)
   }
 
-  private pinOtherLast(rows: OccupationSuggestion[]): OccupationSuggestion[] {
-    const rest: OccupationSuggestion[] = []
-    const others: OccupationSuggestion[] = []
-    for (const row of rows) {
-      if (isOtherOccupationKey(row.key)) others.push(row)
-      else rest.push(row)
-    }
-    return [...rest, ...others]
-  }
-
-  private matchingFixed(q: string): OccupationSuggestion[] {
-    const needle = q.trim().toLowerCase()
-    if (!needle) return [...FIXED_OCCUPATION_OPTIONS]
-    return FIXED_OCCUPATION_OPTIONS.filter(
-      (opt) =>
-        opt.key.includes(needle) || opt.name.toLowerCase().includes(needle),
-    )
-  }
-
   private addToBucket(prefix: string, row: TitleIndexRow) {
     if (!prefix) return
     const list = this.prefixBuckets.get(prefix)
@@ -112,13 +97,10 @@ export class OccupationsService implements OnModuleInit {
     this.byKey = new Map()
 
     const seen = new Set<string>()
-    const corpus: OccupationTitle[] = [
-      ...OCCUPATION_TITLES,
-      ...FIXED_OCCUPATION_OPTIONS,
-    ]
+    const corpus: OccupationTitle[] = [...OCCUPATION_TITLES]
 
     for (const title of corpus) {
-      if (seen.has(title.key)) continue
+      if (seen.has(title.key) || isOtherOccupationKey(title.key)) continue
       seen.add(title.key)
       const search = title.name.toLowerCase()
       const row: TitleIndexRow = {
@@ -149,6 +131,9 @@ export class OccupationsService implements OnModuleInit {
     }
 
     this.titleIndex = rows
+    this.sortedTitleRows = [...rows].sort((a, b) =>
+      a.name.localeCompare(b.name),
+    )
     this.exampleSuggestions = this.resolveExamples()
 
     this.logger.log(
@@ -189,6 +174,45 @@ export class OccupationsService implements OnModuleInit {
     return this.indexReady
   }
 
+  private clampLimit(limit?: number): number {
+    const n = limit ?? DEFAULT_LIMIT
+    return Math.min(MAX_LIMIT, Math.max(1, n))
+  }
+
+  private rememberPage(items: OccupationSuggestion[]) {
+    for (const row of items) this.rememberSuggestion(row.key, row.name)
+  }
+
+  private emptyStatePage(
+    offset: number,
+    limit: number,
+  ): CatalogSearchPage<OccupationSuggestion> {
+    this.ensureTitleIndex()
+    const examples = this.exampleSuggestions
+    const exampleKeys = new Set(examples.map((row) => row.key))
+    const browseRows = this.sortedTitleRows.filter(
+      (row) => !exampleKeys.has(row.key),
+    )
+    const total = examples.length + browseRows.length
+    const items: OccupationSuggestion[] = []
+
+    for (let i = offset; i < offset + limit && i < total; i++) {
+      if (i < examples.length) {
+        items.push(examples[i])
+      } else {
+        const row = browseRows[i - examples.length]
+        items.push({ key: row.key, name: row.name })
+      }
+    }
+
+    this.rememberPage(items)
+    return {
+      items,
+      total,
+      hasMore: offset + items.length < total,
+    }
+  }
+
   private rankRow(
     row: TitleIndexRow,
     needle: string,
@@ -217,7 +241,7 @@ export class OccupationsService implements OnModuleInit {
     return rank
   }
 
-  private searchTitles(query: string): OccupationSuggestion[] {
+  private collectTitleMatches(query: string): OccupationSuggestion[] {
     const needle = query.toLowerCase()
     const tokens = this.words(needle)
     this.ensureTitleIndex()
@@ -241,43 +265,39 @@ export class OccupationsService implements OnModuleInit {
     )
 
     const out: OccupationSuggestion[] = []
+    const seen = new Set<string>()
     for (const { row } of ranked) {
+      if (seen.has(row.key)) continue
+      seen.add(row.key)
       out.push({ key: row.key, name: row.name })
-      if (out.length >= MAX_RESULTS) break
     }
-
-    for (const row of out) this.rememberSuggestion(row.key, row.name)
     return out
   }
 
   /**
-   * Empty query → sample titles + Other.
-   * 1+ chars → ranked title matches + Other when it matches (always pin Other last).
+   * Empty query → sample titles first, then alphabetical browse (paginated).
+   * 1+ chars → ranked title matches (paginated).
    */
-  search(q: string): OccupationSuggestion[] {
+  search(
+    q: string,
+    offset = 0,
+    limit = DEFAULT_LIMIT,
+  ): CatalogSearchPage<OccupationSuggestion> {
     const query = q.trim()
-    const fixed = this.matchingFixed(query)
+    const safeOffset = Math.max(0, offset)
+    const safeLimit = this.clampLimit(limit)
 
     if (query.length < MIN_QUERY_LEN) {
-      this.ensureTitleIndex()
-      const examples = this.exampleSuggestions
-      for (const row of examples) this.rememberSuggestion(row.key, row.name)
-      return this.pinOtherLast([...examples, ...fixed])
+      return this.emptyStatePage(safeOffset, safeLimit)
     }
 
-    const titles = this.searchTitles(query)
-    const seen = new Set<string>()
-    const merged: OccupationSuggestion[] = []
-    for (const row of titles) {
-      if (seen.has(row.key)) continue
-      seen.add(row.key)
-      merged.push(row)
+    const matches = this.collectTitleMatches(query)
+    const items = matches.slice(safeOffset, safeOffset + safeLimit)
+    this.rememberPage(items)
+    return {
+      items,
+      total: matches.length,
+      hasMore: safeOffset + items.length < matches.length,
     }
-    for (const row of fixed) {
-      if (seen.has(row.key)) continue
-      seen.add(row.key)
-      merged.push(row)
-    }
-    return this.pinOtherLast(merged)
   }
 }
