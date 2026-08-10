@@ -87,12 +87,12 @@ When `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` are unset and `NODE_ENV !== 'p
 
 ## Database
 
-Two migration tracks (do not mix them up):
+Two migration tracks (do not mix them up) — both run from GitHub Actions on merge to `main` (see [`.github/workflows/database.yml`](.github/workflows/database.yml)). Heroku only starts the web process (`Procfile`); it does **not** migrate.
 
 | Track | Path | Applied by |
 |---|---|---|
-| TypeORM (app tables) | `src/database/migrations/` | Heroku `release` (`bun run migration:run`) |
-| Supabase CLI (Storage buckets, Storage RLS, auth/config SQL) | `supabase/migrations/` | GitHub Action [`.github/workflows/supabase-migrations.yml`](.github/workflows/supabase-migrations.yml) on merge to `main` (path-filtered) or `workflow_dispatch` |
+| TypeORM (app tables) | `src/database/migrations/` | Job **TypeORM migrate + seed** |
+| Supabase CLI (Storage buckets, Storage RLS) | `supabase/migrations/` | Job **Supabase CLI migrations** |
 
 ```bash
 bun run migration:run     # TypeORM — apply migrations
@@ -102,13 +102,18 @@ bun run seed                # goal tags (required for onboarding)
 
 With forum-server: `forum db:migrate`, `forum db:seed`.
 
-**Prod Supabase CLI migrations** need repo (or `production` environment) secrets:
+**Repo secrets** for [`.github/workflows/database.yml`](.github/workflows/database.yml):
 
-- `SUPABASE_ACCESS_TOKEN` — [Account → Access Tokens](https://supabase.com/dashboard/account/tokens)
-- `SUPABASE_PROJECT_ID` — project ref from the dashboard URL
-- `SUPABASE_DB_PASSWORD` — database password for that project
+| Secret | Purpose |
+|---|---|
+| `DB_HOST` | **Session pooler** host (IPv4). From Supabase → Database → Connect → Session pooler. Direct `db.*.supabase.co` fails on GitHub Actions (IPv6-only). |
+| `DB_PASSWORD` or `SUPABASE_DB_PASSWORD` | Same database password (keep both in sync with Heroku `DB_PASSWORD` if the app still uses it at runtime) |
+| `DB_USERNAME` (optional) | Defaults to `postgres.<SUPABASE_PROJECT_ID>` for the pooler |
+| `DB_PORT` / `DB_NAME` (optional) | Default `5432` / `postgres` |
+| `SUPABASE_ACCESS_TOKEN` | [Account → Access Tokens](https://supabase.com/dashboard/account/tokens) |
+| `SUPABASE_PROJECT_ID` | Project ref from the dashboard URL |
 
-Until those secrets exist, create Storage resources manually (e.g. the public `avatars` bucket) or run `npx supabase link && npx supabase db push` locally against prod.
+Manual run: **Actions → Deploy database → Run workflow**.
 
 ## Module layout
 
