@@ -39,8 +39,18 @@ jobs:
         with:
           version: latest
 
+      # Pass -p explicitly (env alone can still prompt/hang). Prefer direct
+      # connection — pooler has been flaky with password auth in CI.
       - name: Link project
-        run: supabase link --project-ref "$SUPABASE_PROJECT_ID"
+        run: >
+          supabase link
+          --project-ref "$SUPABASE_PROJECT_ID"
+          --password "$SUPABASE_DB_PASSWORD"
+          --skip-pooler
+          --yes
 
       - name: Push migrations
-        run: supabase db push
+        run: >
+          supabase db push
+          --password "$SUPABASE_DB_PASSWORD"
+          --yes
