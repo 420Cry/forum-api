@@ -104,6 +104,8 @@ npx supabase stop   # when done
 
 TypeORM is configured in `src/database/dataSource.config.ts` (also used by the running app via `EnvService.getDBConfig`). `synchronize` is off — all schema changes go through migrations in `src/database/migrations`, which are registered explicitly in the data source's `migrations` array.
 
+Heroku’s `release` phase runs TypeORM only (`bun run migration:run && bun run seed`). It does **not** apply `supabase/migrations/` (Storage buckets / Storage RLS). Those are pushed by [`.github/workflows/supabase-migrations.yml`](.github/workflows/supabase-migrations.yml) on merge to `main` when that folder changes (or via **Actions → Supabase migrations → Run workflow**). Required secrets: `SUPABASE_ACCESS_TOKEN`, `SUPABASE_PROJECT_ID`, `SUPABASE_DB_PASSWORD` (see `AGENTS.md`).
+
 ```bash
 # Apply all pending migrations (runs the full chain on a fresh DB)
 bun run migration:run
