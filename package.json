@@ -24,6 +24,7 @@
     "typeorm": "bun ./node_modules/typeorm/cli.js",
     "migration:create": "bun ./node_modules/typeorm/cli.js migration:create ./src/database/migrations/${MIGRATION_NAME}",
     "migration:run": "bun run typeorm -- --dataSource=src/database/dataSource.config.ts migration:run",
+    "migration:show": "bun run typeorm -- --dataSource=src/database/dataSource.config.ts migration:show",
     "migration:revert": "bun run typeorm -- --dataSource=src/database/dataSource.config.ts migration:revert",
     "migration:generate": "bun run typeorm -- migration:generate src/database/migrations/${NAME} -d src/database/dataSource.config.ts",
     "seed": "bun src/database/seed.ts",
