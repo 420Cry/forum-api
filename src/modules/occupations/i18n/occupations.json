@@ -1,0 +1,5306 @@
+{
+  "3d_designer": {
+    "en": "3D Designer",
+    "vn": "Nhà thiết kế 3D"
+  },
+  "accelerator_manager": {
+    "en": "Accelerator Manager",
+    "vn": "Quản lý Tăng tốc khởi nghiệp"
+  },
+  "accessibility_specialist": {
+    "en": "Accessibility Specialist",
+    "vn": "Chuyên viên Khả năng tiếp cận"
+  },
+  "account_executive": {
+    "en": "Account Executive",
+    "vn": "Chuyên viên kinh doanh"
+  },
+  "account_manager": {
+    "en": "Account Manager",
+    "vn": "Quản lý Khách hàng"
+  },
+  "accountant": {
+    "en": "Accountant",
+    "vn": "Kế toán"
+  },
+  "actuary": {
+    "en": "Actuary",
+    "vn": "Chuyên viên định phí bảo hiểm"
+  },
+  "ads_analyst": {
+    "en": "Ads Analyst",
+    "vn": "Chuyên viên phân tích Quảng cáo"
+  },
+  "ads_architect": {
+    "en": "Ads Architect",
+    "vn": "Kiến trúc sư Quảng cáo"
+  },
+  "ads_consultant": {
+    "en": "Ads Consultant",
+    "vn": "Tư vấn Quảng cáo"
+  },
+  "ads_designer": {
+    "en": "Ads Designer",
+    "vn": "Nhà thiết kế Quảng cáo"
+  },
+  "ads_director": {
+    "en": "Ads Director",
+    "vn": "Giám đốc Quảng cáo"
+  },
+  "ads_engineer": {
+    "en": "Ads Engineer",
+    "vn": "Kỹ sư Quảng cáo"
+  },
+  "ads_lead": {
+    "en": "Ads Lead",
+    "vn": "Trưởng nhóm Quảng cáo"
+  },
+  "ads_manager": {
+    "en": "Ads Manager",
+    "vn": "Quản lý Quảng cáo"
+  },
+  "ads_marketer": {
+    "en": "Ads Marketer",
+    "vn": "Chuyên viên marketing Quảng cáo"
+  },
+  "ads_operator": {
+    "en": "Ads Operator",
+    "vn": "Vận hành Quảng cáo"
+  },
+  "ads_product_manager": {
+    "en": "Ads Product Manager",
+    "vn": "Quản lý sản phẩm Quảng cáo"
+  },
+  "ads_researcher": {
+    "en": "Ads Researcher",
+    "vn": "Nhà nghiên cứu Quảng cáo"
+  },
+  "ads_sales_lead": {
+    "en": "Ads Sales Lead",
+    "vn": "Phụ trách bán hàng Quảng cáo"
+  },
+  "ads_scientist": {
+    "en": "Ads Scientist",
+    "vn": "Nhà khoa học Quảng cáo"
+  },
+  "ads_specialist": {
+    "en": "Ads Specialist",
+    "vn": "Chuyên viên Quảng cáo"
+  },
+  "advisor": {
+    "en": "Advisor",
+    "vn": "Cố vấn"
+  },
+  "aerospace_analyst": {
+    "en": "Aerospace Analyst",
+    "vn": "Chuyên viên phân tích Hàng không vũ trụ"
+  },
+  "aerospace_architect": {
+    "en": "Aerospace Architect",
+    "vn": "Kiến trúc sư Hàng không vũ trụ"
+  },
+  "aerospace_consultant": {
+    "en": "Aerospace Consultant",
+    "vn": "Tư vấn Hàng không vũ trụ"
+  },
+  "aerospace_designer": {
+    "en": "Aerospace Designer",
+    "vn": "Nhà thiết kế Hàng không vũ trụ"
+  },
+  "aerospace_director": {
+    "en": "Aerospace Director",
+    "vn": "Giám đốc Hàng không vũ trụ"
+  },
+  "aerospace_engineer": {
+    "en": "Aerospace Engineer",
+    "vn": "Kỹ sư Hàng không vũ trụ"
+  },
+  "aerospace_lead": {
+    "en": "Aerospace Lead",
+    "vn": "Trưởng nhóm Hàng không vũ trụ"
+  },
+  "aerospace_manager": {
+    "en": "Aerospace Manager",
+    "vn": "Quản lý Hàng không vũ trụ"
+  },
+  "aerospace_marketer": {
+    "en": "Aerospace Marketer",
+    "vn": "Chuyên viên marketing Hàng không vũ trụ"
+  },
+  "aerospace_operator": {
+    "en": "Aerospace Operator",
+    "vn": "Vận hành Hàng không vũ trụ"
+  },
+  "aerospace_product_manager": {
+    "en": "Aerospace Product Manager",
+    "vn": "Quản lý sản phẩm Hàng không vũ trụ"
+  },
+  "aerospace_researcher": {
+    "en": "Aerospace Researcher",
+    "vn": "Nhà nghiên cứu Hàng không vũ trụ"
+  },
+  "aerospace_sales_lead": {
+    "en": "Aerospace Sales Lead",
+    "vn": "Phụ trách bán hàng Hàng không vũ trụ"
+  },
+  "aerospace_scientist": {
+    "en": "Aerospace Scientist",
+    "vn": "Nhà khoa học Hàng không vũ trụ"
+  },
+  "aerospace_specialist": {
+    "en": "Aerospace Specialist",
+    "vn": "Chuyên viên Hàng không vũ trụ"
+  },
+  "affiliate_manager": {
+    "en": "Affiliate Manager",
+    "vn": "Quản lý Affiliate"
+  },
+  "agile_coach": {
+    "en": "Agile Coach",
+    "vn": "Huấn luyện viên Agile"
+  },
+  "agriculture_analyst": {
+    "en": "Agriculture Analyst",
+    "vn": "Chuyên viên phân tích Nông nghiệp"
+  },
+  "agriculture_architect": {
+    "en": "Agriculture Architect",
+    "vn": "Kiến trúc sư Nông nghiệp"
+  },
+  "agriculture_consultant": {
+    "en": "Agriculture Consultant",
+    "vn": "Tư vấn Nông nghiệp"
+  },
+  "agriculture_designer": {
+    "en": "Agriculture Designer",
+    "vn": "Nhà thiết kế Nông nghiệp"
+  },
+  "agriculture_director": {
+    "en": "Agriculture Director",
+    "vn": "Giám đốc Nông nghiệp"
+  },
+  "agriculture_engineer": {
+    "en": "Agriculture Engineer",
+    "vn": "Kỹ sư Nông nghiệp"
+  },
+  "agriculture_lead": {
+    "en": "Agriculture Lead",
+    "vn": "Trưởng nhóm Nông nghiệp"
+  },
+  "agriculture_manager": {
+    "en": "Agriculture Manager",
+    "vn": "Quản lý Nông nghiệp"
+  },
+  "agriculture_marketer": {
+    "en": "Agriculture Marketer",
+    "vn": "Chuyên viên marketing Nông nghiệp"
+  },
+  "agriculture_operator": {
+    "en": "Agriculture Operator",
+    "vn": "Vận hành Nông nghiệp"
+  },
+  "agriculture_product_manager": {
+    "en": "Agriculture Product Manager",
+    "vn": "Quản lý sản phẩm Nông nghiệp"
+  },
+  "agriculture_researcher": {
+    "en": "Agriculture Researcher",
+    "vn": "Nhà nghiên cứu Nông nghiệp"
+  },
+  "agriculture_sales_lead": {
+    "en": "Agriculture Sales Lead",
+    "vn": "Phụ trách bán hàng Nông nghiệp"
+  },
+  "agriculture_scientist": {
+    "en": "Agriculture Scientist",
+    "vn": "Nhà khoa học Nông nghiệp"
+  },
+  "agriculture_specialist": {
+    "en": "Agriculture Specialist",
+    "vn": "Chuyên viên Nông nghiệp"
+  },
+  "ai_analyst": {
+    "en": "AI Analyst",
+    "vn": "Chuyên viên phân tích AI"
+  },
+  "ai_architect": {
+    "en": "AI Architect",
+    "vn": "Kiến trúc sư AI"
+  },
+  "ai_consultant": {
+    "en": "AI Consultant",
+    "vn": "Tư vấn AI"
+  },
+  "ai_designer": {
+    "en": "AI Designer",
+    "vn": "Nhà thiết kế AI"
+  },
+  "ai_director": {
+    "en": "AI Director",
+    "vn": "Giám đốc AI"
+  },
+  "ai_engineer": {
+    "en": "AI Engineer",
+    "vn": "Kỹ sư AI"
+  },
+  "ai_lead": {
+    "en": "AI Lead",
+    "vn": "Trưởng nhóm AI"
+  },
+  "ai_manager": {
+    "en": "AI Manager",
+    "vn": "Quản lý AI"
+  },
+  "ai_marketer": {
+    "en": "AI Marketer",
+    "vn": "Chuyên viên marketing AI"
+  },
+  "ai_operator": {
+    "en": "AI Operator",
+    "vn": "Vận hành AI"
+  },
+  "ai_product_manager": {
+    "en": "AI Product Manager",
+    "vn": "Quản lý sản phẩm AI"
+  },
+  "ai_researcher": {
+    "en": "AI Researcher",
+    "vn": "Nhà nghiên cứu AI"
+  },
+  "ai_sales_lead": {
+    "en": "AI Sales Lead",
+    "vn": "Phụ trách bán hàng AI"
+  },
+  "ai_scientist": {
+    "en": "AI Scientist",
+    "vn": "Nhà khoa học AI"
+  },
+  "ai_specialist": {
+    "en": "AI Specialist",
+    "vn": "Chuyên viên AI"
+  },
+  "analytics_analyst": {
+    "en": "Analytics Analyst",
+    "vn": "Chuyên viên phân tích Phân tích dữ liệu"
+  },
+  "analytics_architect": {
+    "en": "Analytics Architect",
+    "vn": "Kiến trúc sư Phân tích dữ liệu"
+  },
+  "analytics_consultant": {
+    "en": "Analytics Consultant",
+    "vn": "Tư vấn Phân tích dữ liệu"
+  },
+  "analytics_designer": {
+    "en": "Analytics Designer",
+    "vn": "Nhà thiết kế Phân tích dữ liệu"
+  },
+  "analytics_director": {
+    "en": "Analytics Director",
+    "vn": "Giám đốc Phân tích dữ liệu"
+  },
+  "analytics_engineer": {
+    "en": "Analytics Engineer",
+    "vn": "Kỹ sư Phân tích dữ liệu"
+  },
+  "analytics_lead": {
+    "en": "Analytics Lead",
+    "vn": "Trưởng nhóm Phân tích dữ liệu"
+  },
+  "analytics_manager": {
+    "en": "Analytics Manager",
+    "vn": "Quản lý Phân tích dữ liệu"
+  },
+  "analytics_marketer": {
+    "en": "Analytics Marketer",
+    "vn": "Chuyên viên marketing Phân tích dữ liệu"
+  },
+  "analytics_operator": {
+    "en": "Analytics Operator",
+    "vn": "Vận hành Phân tích dữ liệu"
+  },
+  "analytics_product_manager": {
+    "en": "Analytics Product Manager",
+    "vn": "Quản lý sản phẩm Phân tích dữ liệu"
+  },
+  "analytics_researcher": {
+    "en": "Analytics Researcher",
+    "vn": "Nhà nghiên cứu Phân tích dữ liệu"
+  },
+  "analytics_sales_lead": {
+    "en": "Analytics Sales Lead",
+    "vn": "Phụ trách bán hàng Phân tích dữ liệu"
+  },
+  "analytics_scientist": {
+    "en": "Analytics Scientist",
+    "vn": "Nhà khoa học Phân tích dữ liệu"
+  },
+  "analytics_specialist": {
+    "en": "Analytics Specialist",
+    "vn": "Chuyên viên Phân tích dữ liệu"
+  },
+  "android_engineer": {
+    "en": "Android Engineer",
+    "vn": "Kỹ sư Android"
+  },
+  "angel_investor": {
+    "en": "Angel investor",
+    "vn": "Nhà đầu tư thiên thần"
+  },
+  "animator": {
+    "en": "Animator",
+    "vn": "Họa sĩ hoạt hình"
+  },
+  "api_engineer": {
+    "en": "API Engineer",
+    "vn": "Kỹ sư API"
+  },
+  "applied_scientist": {
+    "en": "Applied Scientist",
+    "vn": "Nhà khoa học Ứng dụng"
+  },
+  "ar_vr_engineer": {
+    "en": "AR/VR Engineer",
+    "vn": "Kỹ sư AR/VR"
+  },
+  "architect": {
+    "en": "Architect",
+    "vn": "Kiến trúc sư"
+  },
+  "art_director": {
+    "en": "Art Director",
+    "vn": "Giám đốc Nghệ thuật"
+  },
+  "assistant_professor": {
+    "en": "Assistant Professor",
+    "vn": "Trợ lý giáo sư"
+  },
+  "associate_account_executive": {
+    "en": "Associate Account Executive",
+    "vn": "Chuyên viên kinh doanh cộng sự"
+  },
+  "associate_backend_engineer": {
+    "en": "Associate Backend Engineer",
+    "vn": "Kỹ sư Backend Cộng sự"
+  },
+  "associate_business_analyst": {
+    "en": "Associate Business Analyst",
+    "vn": "Chuyên viên phân tích Kinh doanh Cộng sự"
+  },
+  "associate_consultant": {
+    "en": "Associate Consultant",
+    "vn": "Tư vấn Cộng sự"
+  },
+  "associate_content_writer": {
+    "en": "Associate Content Writer",
+    "vn": "Người viết nội dung cộng sự"
+  },
+  "associate_data_analyst": {
+    "en": "Associate Data Analyst",
+    "vn": "Chuyên viên phân tích Dữ liệu Cộng sự"
+  },
+  "associate_data_engineer": {
+    "en": "Associate Data Engineer",
+    "vn": "Kỹ sư Dữ liệu Cộng sự"
+  },
+  "associate_data_scientist": {
+    "en": "Associate Data Scientist",
+    "vn": "Nhà khoa học Dữ liệu Cộng sự"
+  },
+  "associate_designer": {
+    "en": "Associate Designer",
+    "vn": "Nhà thiết kế Cộng sự"
+  },
+  "associate_devops_engineer": {
+    "en": "Associate DevOps Engineer",
+    "vn": "Kỹ sư DevOps Cộng sự"
+  },
+  "associate_finance_manager": {
+    "en": "Associate Finance Manager",
+    "vn": "Quản lý Tài chính Cộng sự"
+  },
+  "associate_frontend_engineer": {
+    "en": "Associate Frontend Engineer",
+    "vn": "Kỹ sư Frontend Cộng sự"
+  },
+  "associate_fullstack_engineer": {
+    "en": "Associate Fullstack Engineer",
+    "vn": "Kỹ sư Full-stack Cộng sự"
+  },
+  "associate_growth_manager": {
+    "en": "Associate Growth Manager",
+    "vn": "Quản lý Tăng trưởng Cộng sự"
+  },
+  "associate_marketing_manager": {
+    "en": "Associate Marketing Manager",
+    "vn": "Quản lý Marketing Cộng sự"
+  },
+  "associate_ml_engineer": {
+    "en": "Associate ML Engineer",
+    "vn": "Kỹ sư ML Cộng sự"
+  },
+  "associate_mobile_engineer": {
+    "en": "Associate Mobile Engineer",
+    "vn": "Kỹ sư Di động Cộng sự"
+  },
+  "associate_operations_manager": {
+    "en": "Associate Operations Manager",
+    "vn": "Quản lý Vận hành Cộng sự"
+  },
+  "associate_product_designer": {
+    "en": "Associate Product Designer",
+    "vn": "Nhà thiết kế Sản phẩm Cộng sự"
+  },
+  "associate_product_manager": {
+    "en": "Associate Product Manager",
+    "vn": "Quản lý sản phẩm Cộng sự"
+  },
+  "associate_professor": {
+    "en": "Associate Professor",
+    "vn": "Phó giáo sư"
+  },
+  "associate_program_manager": {
+    "en": "Associate Program Manager",
+    "vn": "Quản lý Chương trình Cộng sự"
+  },
+  "associate_project_manager": {
+    "en": "Associate Project Manager",
+    "vn": "Quản lý Dự án Cộng sự"
+  },
+  "associate_qa_engineer": {
+    "en": "Associate QA Engineer",
+    "vn": "Kỹ sư QA Cộng sự"
+  },
+  "associate_recruiter": {
+    "en": "Associate Recruiter",
+    "vn": "Chuyên viên tuyển dụng cộng sự"
+  },
+  "associate_researcher": {
+    "en": "Associate Researcher",
+    "vn": "Nhà nghiên cứu Cộng sự"
+  },
+  "associate_sales_manager": {
+    "en": "Associate Sales Manager",
+    "vn": "Quản lý Kinh doanh Cộng sự"
+  },
+  "associate_security_engineer": {
+    "en": "Associate Security Engineer",
+    "vn": "Kỹ sư Bảo mật Cộng sự"
+  },
+  "associate_software_engineer": {
+    "en": "Associate Software Engineer",
+    "vn": "Kỹ sư phần mềm Cộng sự"
+  },
+  "associate_strategy_manager": {
+    "en": "Associate Strategy Manager",
+    "vn": "Quản lý Chiến lược Cộng sự"
+  },
+  "associate_ux_designer": {
+    "en": "Associate UX Designer",
+    "vn": "Nhà thiết kế UX Cộng sự"
+  },
+  "athlete": {
+    "en": "Athlete",
+    "vn": "Vận động viên"
+  },
+  "attorney": {
+    "en": "Attorney",
+    "vn": "Luật sư"
+  },
+  "automation_engineer": {
+    "en": "Automation Engineer",
+    "vn": "Kỹ sư Tự động hóa"
+  },
+  "automation_specialist": {
+    "en": "Automation Specialist",
+    "vn": "Chuyên viên Tự động hóa"
+  },
+  "automotive_analyst": {
+    "en": "Automotive Analyst",
+    "vn": "Chuyên viên phân tích Ô tô"
+  },
+  "automotive_architect": {
+    "en": "Automotive Architect",
+    "vn": "Kiến trúc sư Ô tô"
+  },
+  "automotive_consultant": {
+    "en": "Automotive Consultant",
+    "vn": "Tư vấn Ô tô"
+  },
+  "automotive_designer": {
+    "en": "Automotive Designer",
+    "vn": "Nhà thiết kế Ô tô"
+  },
+  "automotive_director": {
+    "en": "Automotive Director",
+    "vn": "Giám đốc Ô tô"
+  },
+  "automotive_engineer": {
+    "en": "Automotive Engineer",
+    "vn": "Kỹ sư Ô tô"
+  },
+  "automotive_lead": {
+    "en": "Automotive Lead",
+    "vn": "Trưởng nhóm Ô tô"
+  },
+  "automotive_manager": {
+    "en": "Automotive Manager",
+    "vn": "Quản lý Ô tô"
+  },
+  "automotive_marketer": {
+    "en": "Automotive Marketer",
+    "vn": "Chuyên viên marketing Ô tô"
+  },
+  "automotive_operator": {
+    "en": "Automotive Operator",
+    "vn": "Vận hành Ô tô"
+  },
+  "automotive_product_manager": {
+    "en": "Automotive Product Manager",
+    "vn": "Quản lý sản phẩm Ô tô"
+  },
+  "automotive_researcher": {
+    "en": "Automotive Researcher",
+    "vn": "Nhà nghiên cứu Ô tô"
+  },
+  "automotive_sales_lead": {
+    "en": "Automotive Sales Lead",
+    "vn": "Phụ trách bán hàng Ô tô"
+  },
+  "automotive_scientist": {
+    "en": "Automotive Scientist",
+    "vn": "Nhà khoa học Ô tô"
+  },
+  "automotive_specialist": {
+    "en": "Automotive Specialist",
+    "vn": "Chuyên viên Ô tô"
+  },
+  "b2b_analyst": {
+    "en": "B2B Analyst",
+    "vn": "Chuyên viên phân tích B2B"
+  },
+  "b2b_architect": {
+    "en": "B2B Architect",
+    "vn": "Kiến trúc sư B2B"
+  },
+  "b2b_consultant": {
+    "en": "B2B Consultant",
+    "vn": "Tư vấn B2B"
+  },
+  "b2b_designer": {
+    "en": "B2B Designer",
+    "vn": "Nhà thiết kế B2B"
+  },
+  "b2b_director": {
+    "en": "B2B Director",
+    "vn": "Giám đốc B2B"
+  },
+  "b2b_engineer": {
+    "en": "B2B Engineer",
+    "vn": "Kỹ sư B2B"
+  },
+  "b2b_lead": {
+    "en": "B2B Lead",
+    "vn": "Trưởng nhóm B2B"
+  },
+  "b2b_manager": {
+    "en": "B2B Manager",
+    "vn": "Quản lý B2B"
+  },
+  "b2b_marketer": {
+    "en": "B2B Marketer",
+    "vn": "Chuyên viên marketing B2B"
+  },
+  "b2b_operator": {
+    "en": "B2B Operator",
+    "vn": "Vận hành B2B"
+  },
+  "b2b_product_manager": {
+    "en": "B2B Product Manager",
+    "vn": "Quản lý sản phẩm B2B"
+  },
+  "b2b_researcher": {
+    "en": "B2B Researcher",
+    "vn": "Nhà nghiên cứu B2B"
+  },
+  "b2b_sales_lead": {
+    "en": "B2B Sales Lead",
+    "vn": "Phụ trách bán hàng B2B"
+  },
+  "b2b_scientist": {
+    "en": "B2B Scientist",
+    "vn": "Nhà khoa học B2B"
+  },
+  "b2b_specialist": {
+    "en": "B2B Specialist",
+    "vn": "Chuyên viên B2B"
+  },
+  "b2c_analyst": {
+    "en": "B2C Analyst",
+    "vn": "Chuyên viên phân tích B2C"
+  },
+  "b2c_architect": {
+    "en": "B2C Architect",
+    "vn": "Kiến trúc sư B2C"
+  },
+  "b2c_consultant": {
+    "en": "B2C Consultant",
+    "vn": "Tư vấn B2C"
+  },
+  "b2c_designer": {
+    "en": "B2C Designer",
+    "vn": "Nhà thiết kế B2C"
+  },
+  "b2c_director": {
+    "en": "B2C Director",
+    "vn": "Giám đốc B2C"
+  },
+  "b2c_engineer": {
+    "en": "B2C Engineer",
+    "vn": "Kỹ sư B2C"
+  },
+  "b2c_lead": {
+    "en": "B2C Lead",
+    "vn": "Trưởng nhóm B2C"
+  },
+  "b2c_manager": {
+    "en": "B2C Manager",
+    "vn": "Quản lý B2C"
+  },
+  "b2c_marketer": {
+    "en": "B2C Marketer",
+    "vn": "Chuyên viên marketing B2C"
+  },
+  "b2c_operator": {
+    "en": "B2C Operator",
+    "vn": "Vận hành B2C"
+  },
+  "b2c_product_manager": {
+    "en": "B2C Product Manager",
+    "vn": "Quản lý sản phẩm B2C"
+  },
+  "b2c_researcher": {
+    "en": "B2C Researcher",
+    "vn": "Nhà nghiên cứu B2C"
+  },
+  "b2c_sales_lead": {
+    "en": "B2C Sales Lead",
+    "vn": "Phụ trách bán hàng B2C"
+  },
+  "b2c_scientist": {
+    "en": "B2C Scientist",
+    "vn": "Nhà khoa học B2C"
+  },
+  "b2c_specialist": {
+    "en": "B2C Specialist",
+    "vn": "Chuyên viên B2C"
+  },
+  "backend_engineer": {
+    "en": "Backend Engineer",
+    "vn": "Kỹ sư Backend"
+  },
+  "banker": {
+    "en": "Banker",
+    "vn": "Nhân viên ngân hàng"
+  },
+  "banking_analyst": {
+    "en": "Banking Analyst",
+    "vn": "Chuyên viên phân tích Ngân hàng"
+  },
+  "banking_architect": {
+    "en": "Banking Architect",
+    "vn": "Kiến trúc sư Ngân hàng"
+  },
+  "banking_consultant": {
+    "en": "Banking Consultant",
+    "vn": "Tư vấn Ngân hàng"
+  },
+  "banking_designer": {
+    "en": "Banking Designer",
+    "vn": "Nhà thiết kế Ngân hàng"
+  },
+  "banking_director": {
+    "en": "Banking Director",
+    "vn": "Giám đốc Ngân hàng"
+  },
+  "banking_engineer": {
+    "en": "Banking Engineer",
+    "vn": "Kỹ sư Ngân hàng"
+  },
+  "banking_lead": {
+    "en": "Banking Lead",
+    "vn": "Trưởng nhóm Ngân hàng"
+  },
+  "banking_manager": {
+    "en": "Banking Manager",
+    "vn": "Quản lý Ngân hàng"
+  },
+  "banking_marketer": {
+    "en": "Banking Marketer",
+    "vn": "Chuyên viên marketing Ngân hàng"
+  },
+  "banking_operator": {
+    "en": "Banking Operator",
+    "vn": "Vận hành Ngân hàng"
+  },
+  "banking_product_manager": {
+    "en": "Banking Product Manager",
+    "vn": "Quản lý sản phẩm Ngân hàng"
+  },
+  "banking_researcher": {
+    "en": "Banking Researcher",
+    "vn": "Nhà nghiên cứu Ngân hàng"
+  },
+  "banking_sales_lead": {
+    "en": "Banking Sales Lead",
+    "vn": "Phụ trách bán hàng Ngân hàng"
+  },
+  "banking_scientist": {
+    "en": "Banking Scientist",
+    "vn": "Nhà khoa học Ngân hàng"
+  },
+  "banking_specialist": {
+    "en": "Banking Specialist",
+    "vn": "Chuyên viên Ngân hàng"
+  },
+  "barista": {
+    "en": "Barista",
+    "vn": "Pha chế"
+  },
+  "between_roles": {
+    "en": "Between Roles",
+    "vn": "Đang chuyển việc"
+  },
+  "bi_analyst": {
+    "en": "BI Analyst",
+    "vn": "Chuyên viên phân tích BI"
+  },
+  "bi_developer": {
+    "en": "BI Developer",
+    "vn": "Lập trình viên BI"
+  },
+  "biomedical_engineer": {
+    "en": "Biomedical Engineer",
+    "vn": "Kỹ sư Y sinh"
+  },
+  "biotech_analyst": {
+    "en": "Biotech Analyst",
+    "vn": "Chuyên viên phân tích Công nghệ sinh học"
+  },
+  "biotech_architect": {
+    "en": "Biotech Architect",
+    "vn": "Kiến trúc sư Công nghệ sinh học"
+  },
+  "biotech_consultant": {
+    "en": "Biotech Consultant",
+    "vn": "Tư vấn Công nghệ sinh học"
+  },
+  "biotech_designer": {
+    "en": "Biotech Designer",
+    "vn": "Nhà thiết kế Công nghệ sinh học"
+  },
+  "biotech_director": {
+    "en": "Biotech Director",
+    "vn": "Giám đốc Công nghệ sinh học"
+  },
+  "biotech_engineer": {
+    "en": "Biotech Engineer",
+    "vn": "Kỹ sư Công nghệ sinh học"
+  },
+  "biotech_lead": {
+    "en": "Biotech Lead",
+    "vn": "Trưởng nhóm Công nghệ sinh học"
+  },
+  "biotech_manager": {
+    "en": "Biotech Manager",
+    "vn": "Quản lý Công nghệ sinh học"
+  },
+  "biotech_marketer": {
+    "en": "Biotech Marketer",
+    "vn": "Chuyên viên marketing Công nghệ sinh học"
+  },
+  "biotech_operator": {
+    "en": "Biotech Operator",
+    "vn": "Vận hành Công nghệ sinh học"
+  },
+  "biotech_product_manager": {
+    "en": "Biotech Product Manager",
+    "vn": "Quản lý sản phẩm Công nghệ sinh học"
+  },
+  "biotech_researcher": {
+    "en": "Biotech Researcher",
+    "vn": "Nhà nghiên cứu Công nghệ sinh học"
+  },
+  "biotech_sales_lead": {
+    "en": "Biotech Sales Lead",
+    "vn": "Phụ trách bán hàng Công nghệ sinh học"
+  },
+  "biotech_scientist": {
+    "en": "Biotech Scientist",
+    "vn": "Nhà khoa học Công nghệ sinh học"
+  },
+  "biotech_specialist": {
+    "en": "Biotech Specialist",
+    "vn": "Chuyên viên Công nghệ sinh học"
+  },
+  "blockchain_engineer": {
+    "en": "Blockchain Engineer",
+    "vn": "Kỹ sư Blockchain"
+  },
+  "board_member": {
+    "en": "Board Member",
+    "vn": "Thành viên hội đồng"
+  },
+  "bookkeeper": {
+    "en": "Bookkeeper",
+    "vn": "Nhân viên sổ sách"
+  },
+  "brand_designer": {
+    "en": "Brand Designer",
+    "vn": "Nhà thiết kế Thương hiệu"
+  },
+  "brand_manager": {
+    "en": "Brand Manager",
+    "vn": "Quản lý Thương hiệu"
+  },
+  "build_engineer": {
+    "en": "Build Engineer",
+    "vn": "Kỹ sư Build"
+  },
+  "business_analyst": {
+    "en": "Business Analyst",
+    "vn": "Chuyên viên phân tích Kinh doanh"
+  },
+  "business_development_manager": {
+    "en": "Business Development Manager",
+    "vn": "Quản lý Phát triển kinh doanh"
+  },
+  "business_operations_manager": {
+    "en": "Business Operations Manager",
+    "vn": "Quản lý Vận hành kinh doanh"
+  },
+  "cao": {
+    "en": "CAO",
+    "vn": "CAO"
+  },
+  "career_break": {
+    "en": "Career Break",
+    "vn": "Tạm nghỉ sự nghiệp"
+  },
+  "ceo": {
+    "en": "CEO",
+    "vn": "CEO"
+  },
+  "cfo": {
+    "en": "CFO",
+    "vn": "CFO"
+  },
+  "channel_partner_manager": {
+    "en": "Channel Partner Manager",
+    "vn": "Quản lý Đối tác kênh"
+  },
+  "chef": {
+    "en": "Chef",
+    "vn": "Đầu bếp"
+  },
+  "chemical_engineer": {
+    "en": "Chemical Engineer",
+    "vn": "Kỹ sư Hóa học"
+  },
+  "chief_ai_officer": {
+    "en": "Chief AI Officer",
+    "vn": "Giám đốc AI"
+  },
+  "chief_data_officer": {
+    "en": "Chief Data Officer",
+    "vn": "Giám đốc dữ liệu"
+  },
+  "chief_of_staff": {
+    "en": "Chief of Staff",
+    "vn": "Chánh văn phòng"
+  },
+  "chief_product_officer": {
+    "en": "Chief Product Officer",
+    "vn": "Giám đốc sản phẩm"
+  },
+  "chief_technology_officer": {
+    "en": "Chief Technology Officer",
+    "vn": "Giám đốc công nghệ"
+  },
+  "chro": {
+    "en": "CHRO",
+    "vn": "CHRO"
+  },
+  "cio": {
+    "en": "CIO",
+    "vn": "CIO"
+  },
+  "ciso": {
+    "en": "CISO",
+    "vn": "CISO"
+  },
+  "civil_engineer": {
+    "en": "Civil Engineer",
+    "vn": "Kỹ sư Dân dụng"
+  },
+  "civil_servant": {
+    "en": "Civil Servant",
+    "vn": "Công chức"
+  },
+  "client_partner": {
+    "en": "Client Partner",
+    "vn": "Đối tác khách hàng"
+  },
+  "climate_analyst": {
+    "en": "Climate Analyst",
+    "vn": "Chuyên viên phân tích Khí hậu"
+  },
+  "climate_architect": {
+    "en": "Climate Architect",
+    "vn": "Kiến trúc sư Khí hậu"
+  },
+  "climate_consultant": {
+    "en": "Climate Consultant",
+    "vn": "Tư vấn Khí hậu"
+  },
+  "climate_designer": {
+    "en": "Climate Designer",
+    "vn": "Nhà thiết kế Khí hậu"
+  },
+  "climate_director": {
+    "en": "Climate Director",
+    "vn": "Giám đốc Khí hậu"
+  },
+  "climate_engineer": {
+    "en": "Climate Engineer",
+    "vn": "Kỹ sư Khí hậu"
+  },
+  "climate_lead": {
+    "en": "Climate Lead",
+    "vn": "Trưởng nhóm Khí hậu"
+  },
+  "climate_manager": {
+    "en": "Climate Manager",
+    "vn": "Quản lý Khí hậu"
+  },
+  "climate_marketer": {
+    "en": "Climate Marketer",
+    "vn": "Chuyên viên marketing Khí hậu"
+  },
+  "climate_operator": {
+    "en": "Climate Operator",
+    "vn": "Vận hành Khí hậu"
+  },
+  "climate_product_manager": {
+    "en": "Climate Product Manager",
+    "vn": "Quản lý sản phẩm Khí hậu"
+  },
+  "climate_researcher": {
+    "en": "Climate Researcher",
+    "vn": "Nhà nghiên cứu Khí hậu"
+  },
+  "climate_sales_lead": {
+    "en": "Climate Sales Lead",
+    "vn": "Phụ trách bán hàng Khí hậu"
+  },
+  "climate_scientist": {
+    "en": "Climate Scientist",
+    "vn": "Nhà khoa học Khí hậu"
+  },
+  "climate_specialist": {
+    "en": "Climate Specialist",
+    "vn": "Chuyên viên Khí hậu"
+  },
+  "cloud_analyst": {
+    "en": "Cloud Analyst",
+    "vn": "Chuyên viên phân tích Điện toán đám mây"
+  },
+  "cloud_architect": {
+    "en": "Cloud Architect",
+    "vn": "Kiến trúc sư Điện toán đám mây"
+  },
+  "cloud_consultant": {
+    "en": "Cloud Consultant",
+    "vn": "Tư vấn Điện toán đám mây"
+  },
+  "cloud_designer": {
+    "en": "Cloud Designer",
+    "vn": "Nhà thiết kế Điện toán đám mây"
+  },
+  "cloud_director": {
+    "en": "Cloud Director",
+    "vn": "Giám đốc Điện toán đám mây"
+  },
+  "cloud_engineer": {
+    "en": "Cloud Engineer",
+    "vn": "Kỹ sư Điện toán đám mây"
+  },
+  "cloud_lead": {
+    "en": "Cloud Lead",
+    "vn": "Trưởng nhóm Điện toán đám mây"
+  },
+  "cloud_manager": {
+    "en": "Cloud Manager",
+    "vn": "Quản lý Điện toán đám mây"
+  },
+  "cloud_marketer": {
+    "en": "Cloud Marketer",
+    "vn": "Chuyên viên marketing Điện toán đám mây"
+  },
+  "cloud_operator": {
+    "en": "Cloud Operator",
+    "vn": "Vận hành Điện toán đám mây"
+  },
+  "cloud_product_manager": {
+    "en": "Cloud Product Manager",
+    "vn": "Quản lý sản phẩm Điện toán đám mây"
+  },
+  "cloud_researcher": {
+    "en": "Cloud Researcher",
+    "vn": "Nhà nghiên cứu Điện toán đám mây"
+  },
+  "cloud_sales_lead": {
+    "en": "Cloud Sales Lead",
+    "vn": "Phụ trách bán hàng Điện toán đám mây"
+  },
+  "cloud_scientist": {
+    "en": "Cloud Scientist",
+    "vn": "Nhà khoa học Điện toán đám mây"
+  },
+  "cloud_specialist": {
+    "en": "Cloud Specialist",
+    "vn": "Chuyên viên Điện toán đám mây"
+  },
+  "cmo": {
+    "en": "CMO",
+    "vn": "CMO"
+  },
+  "co_founder": {
+    "en": "Co-founder",
+    "vn": "Đồng sáng lập"
+  },
+  "coach": {
+    "en": "Coach",
+    "vn": "Huấn luyện viên"
+  },
+  "communications_analyst": {
+    "en": "Communications Analyst",
+    "vn": "Chuyên viên phân tích Truyền thông"
+  },
+  "communications_architect": {
+    "en": "Communications Architect",
+    "vn": "Kiến trúc sư Truyền thông"
+  },
+  "communications_consultant": {
+    "en": "Communications Consultant",
+    "vn": "Tư vấn Truyền thông"
+  },
+  "communications_designer": {
+    "en": "Communications Designer",
+    "vn": "Nhà thiết kế Truyền thông"
+  },
+  "communications_director": {
+    "en": "Communications Director",
+    "vn": "Giám đốc Truyền thông"
+  },
+  "communications_engineer": {
+    "en": "Communications Engineer",
+    "vn": "Kỹ sư Truyền thông"
+  },
+  "communications_lead": {
+    "en": "Communications Lead",
+    "vn": "Trưởng nhóm Truyền thông"
+  },
+  "communications_manager": {
+    "en": "Communications Manager",
+    "vn": "Quản lý Truyền thông"
+  },
+  "communications_marketer": {
+    "en": "Communications Marketer",
+    "vn": "Chuyên viên marketing Truyền thông"
+  },
+  "communications_operator": {
+    "en": "Communications Operator",
+    "vn": "Vận hành Truyền thông"
+  },
+  "communications_researcher": {
+    "en": "Communications Researcher",
+    "vn": "Nhà nghiên cứu Truyền thông"
+  },
+  "communications_sales_lead": {
+    "en": "Communications Sales Lead",
+    "vn": "Phụ trách bán hàng Truyền thông"
+  },
+  "communications_scientist": {
+    "en": "Communications Scientist",
+    "vn": "Nhà khoa học Truyền thông"
+  },
+  "communications_specialist": {
+    "en": "Communications Specialist",
+    "vn": "Chuyên viên Truyền thông"
+  },
+  "community_lead": {
+    "en": "Community Lead",
+    "vn": "Trưởng nhóm Cộng đồng"
+  },
+  "community_manager": {
+    "en": "Community Manager",
+    "vn": "Quản lý Cộng đồng"
+  },
+  "compliance_manager": {
+    "en": "Compliance Manager",
+    "vn": "Quản lý Tuân thủ"
+  },
+  "computer_vision_engineer": {
+    "en": "Computer Vision Engineer",
+    "vn": "Kỹ sư Thị giác máy tính"
+  },
+  "consultant": {
+    "en": "Consultant",
+    "vn": "Tư vấn"
+  },
+  "consumer_analyst": {
+    "en": "Consumer Analyst",
+    "vn": "Chuyên viên phân tích Tiêu dùng"
+  },
+  "consumer_architect": {
+    "en": "Consumer Architect",
+    "vn": "Kiến trúc sư Tiêu dùng"
+  },
+  "consumer_consultant": {
+    "en": "Consumer Consultant",
+    "vn": "Tư vấn Tiêu dùng"
+  },
+  "consumer_designer": {
+    "en": "Consumer Designer",
+    "vn": "Nhà thiết kế Tiêu dùng"
+  },
+  "consumer_director": {
+    "en": "Consumer Director",
+    "vn": "Giám đốc Tiêu dùng"
+  },
+  "consumer_engineer": {
+    "en": "Consumer Engineer",
+    "vn": "Kỹ sư Tiêu dùng"
+  },
+  "consumer_lead": {
+    "en": "Consumer Lead",
+    "vn": "Trưởng nhóm Tiêu dùng"
+  },
+  "consumer_manager": {
+    "en": "Consumer Manager",
+    "vn": "Quản lý Tiêu dùng"
+  },
+  "consumer_marketer": {
+    "en": "Consumer Marketer",
+    "vn": "Chuyên viên marketing Tiêu dùng"
+  },
+  "consumer_operator": {
+    "en": "Consumer Operator",
+    "vn": "Vận hành Tiêu dùng"
+  },
+  "consumer_product_manager": {
+    "en": "Consumer Product Manager",
+    "vn": "Quản lý sản phẩm Tiêu dùng"
+  },
+  "consumer_researcher": {
+    "en": "Consumer Researcher",
+    "vn": "Nhà nghiên cứu Tiêu dùng"
+  },
+  "consumer_sales_lead": {
+    "en": "Consumer Sales Lead",
+    "vn": "Phụ trách bán hàng Tiêu dùng"
+  },
+  "consumer_scientist": {
+    "en": "Consumer Scientist",
+    "vn": "Nhà khoa học Tiêu dùng"
+  },
+  "consumer_specialist": {
+    "en": "Consumer Specialist",
+    "vn": "Chuyên viên Tiêu dùng"
+  },
+  "content_marketer": {
+    "en": "Content Marketer",
+    "vn": "Chuyên viên marketing Nội dung"
+  },
+  "content_moderator": {
+    "en": "Content Moderator",
+    "vn": "Kiểm duyệt nội dung"
+  },
+  "content_writer": {
+    "en": "Content Writer",
+    "vn": "Người viết nội dung"
+  },
+  "contractor": {
+    "en": "Contractor",
+    "vn": "Cộng tác viên theo hợp đồng"
+  },
+  "controller": {
+    "en": "Controller",
+    "vn": "Kiểm soát viên tài chính"
+  },
+  "coo": {
+    "en": "COO",
+    "vn": "COO"
+  },
+  "copywriter": {
+    "en": "Copywriter",
+    "vn": "Người viết quảng cáo"
+  },
+  "corporate_counsel": {
+    "en": "Corporate Counsel",
+    "vn": "Luật sư nội bộ"
+  },
+  "corporate_strategy_associate": {
+    "en": "Corporate Strategy Associate",
+    "vn": "Chuyên viên chiến lược doanh nghiệp"
+  },
+  "corporate_venture_capitalist": {
+    "en": "Corporate Venture Capitalist",
+    "vn": "Nhà đầu tư CVC"
+  },
+  "cpo": {
+    "en": "CPO",
+    "vn": "CPO"
+  },
+  "creative_director": {
+    "en": "Creative Director",
+    "vn": "Giám đốc Sáng tạo"
+  },
+  "creator": {
+    "en": "Creator",
+    "vn": "Nhà sáng tạo nội dung"
+  },
+  "cro": {
+    "en": "CRO",
+    "vn": "CRO"
+  },
+  "crypto_analyst": {
+    "en": "Crypto Analyst",
+    "vn": "Chuyên viên phân tích Crypto"
+  },
+  "crypto_architect": {
+    "en": "Crypto Architect",
+    "vn": "Kiến trúc sư Crypto"
+  },
+  "crypto_consultant": {
+    "en": "Crypto Consultant",
+    "vn": "Tư vấn Crypto"
+  },
+  "crypto_designer": {
+    "en": "Crypto Designer",
+    "vn": "Nhà thiết kế Crypto"
+  },
+  "crypto_director": {
+    "en": "Crypto Director",
+    "vn": "Giám đốc Crypto"
+  },
+  "crypto_engineer": {
+    "en": "Crypto Engineer",
+    "vn": "Kỹ sư Crypto"
+  },
+  "crypto_lead": {
+    "en": "Crypto Lead",
+    "vn": "Trưởng nhóm Crypto"
+  },
+  "crypto_manager": {
+    "en": "Crypto Manager",
+    "vn": "Quản lý Crypto"
+  },
+  "crypto_marketer": {
+    "en": "Crypto Marketer",
+    "vn": "Chuyên viên marketing Crypto"
+  },
+  "crypto_operator": {
+    "en": "Crypto Operator",
+    "vn": "Vận hành Crypto"
+  },
+  "crypto_product_manager": {
+    "en": "Crypto Product Manager",
+    "vn": "Quản lý sản phẩm Crypto"
+  },
+  "crypto_researcher": {
+    "en": "Crypto Researcher",
+    "vn": "Nhà nghiên cứu Crypto"
+  },
+  "crypto_sales_lead": {
+    "en": "Crypto Sales Lead",
+    "vn": "Phụ trách bán hàng Crypto"
+  },
+  "crypto_scientist": {
+    "en": "Crypto Scientist",
+    "vn": "Nhà khoa học Crypto"
+  },
+  "crypto_specialist": {
+    "en": "Crypto Specialist",
+    "vn": "Chuyên viên Crypto"
+  },
+  "crypto_trader": {
+    "en": "Crypto Trader",
+    "vn": "Nhà giao dịch crypto"
+  },
+  "cto": {
+    "en": "CTO",
+    "vn": "CTO"
+  },
+  "customer_success_engineer": {
+    "en": "Customer Success Engineer",
+    "vn": "Kỹ sư Thành công khách hàng"
+  },
+  "customer_success_manager": {
+    "en": "Customer Success Manager",
+    "vn": "Quản lý Thành công khách hàng"
+  },
+  "customer_support_specialist": {
+    "en": "Customer Support Specialist",
+    "vn": "Chuyên viên Hỗ trợ khách hàng"
+  },
+  "cybersecurity_analyst": {
+    "en": "Cybersecurity Analyst",
+    "vn": "Chuyên viên phân tích An ninh mạng"
+  },
+  "cybersecurity_architect": {
+    "en": "Cybersecurity Architect",
+    "vn": "Kiến trúc sư An ninh mạng"
+  },
+  "cybersecurity_consultant": {
+    "en": "Cybersecurity Consultant",
+    "vn": "Tư vấn An ninh mạng"
+  },
+  "cybersecurity_designer": {
+    "en": "Cybersecurity Designer",
+    "vn": "Nhà thiết kế An ninh mạng"
+  },
+  "cybersecurity_director": {
+    "en": "Cybersecurity Director",
+    "vn": "Giám đốc An ninh mạng"
+  },
+  "cybersecurity_engineer": {
+    "en": "Cybersecurity Engineer",
+    "vn": "Kỹ sư An ninh mạng"
+  },
+  "cybersecurity_lead": {
+    "en": "Cybersecurity Lead",
+    "vn": "Trưởng nhóm An ninh mạng"
+  },
+  "cybersecurity_manager": {
+    "en": "Cybersecurity Manager",
+    "vn": "Quản lý An ninh mạng"
+  },
+  "cybersecurity_marketer": {
+    "en": "Cybersecurity Marketer",
+    "vn": "Chuyên viên marketing An ninh mạng"
+  },
+  "cybersecurity_operator": {
+    "en": "Cybersecurity Operator",
+    "vn": "Vận hành An ninh mạng"
+  },
+  "cybersecurity_researcher": {
+    "en": "Cybersecurity Researcher",
+    "vn": "Nhà nghiên cứu An ninh mạng"
+  },
+  "cybersecurity_sales_lead": {
+    "en": "Cybersecurity Sales Lead",
+    "vn": "Phụ trách bán hàng An ninh mạng"
+  },
+  "cybersecurity_scientist": {
+    "en": "Cybersecurity Scientist",
+    "vn": "Nhà khoa học An ninh mạng"
+  },
+  "cybersecurity_specialist": {
+    "en": "Cybersecurity Specialist",
+    "vn": "Chuyên viên An ninh mạng"
+  },
+  "data_analyst": {
+    "en": "Data Analyst",
+    "vn": "Chuyên viên phân tích Dữ liệu"
+  },
+  "data_engineer": {
+    "en": "Data Engineer",
+    "vn": "Kỹ sư Dữ liệu"
+  },
+  "data_platform_engineer": {
+    "en": "Data Platform Engineer",
+    "vn": "Kỹ sư Nền tảng dữ liệu"
+  },
+  "data_scientist": {
+    "en": "Data Scientist",
+    "vn": "Nhà khoa học Dữ liệu"
+  },
+  "database_administrator": {
+    "en": "Database Administrator",
+    "vn": "Quản trị viên cơ sở dữ liệu"
+  },
+  "decision_scientist": {
+    "en": "Decision Scientist",
+    "vn": "Nhà khoa học Ra quyết định"
+  },
+  "deep_learning_engineer": {
+    "en": "Deep Learning Engineer",
+    "vn": "Kỹ sư Deep learning"
+  },
+  "defense_analyst": {
+    "en": "Defense Analyst",
+    "vn": "Chuyên viên phân tích Quốc phòng"
+  },
+  "defense_architect": {
+    "en": "Defense Architect",
+    "vn": "Kiến trúc sư Quốc phòng"
+  },
+  "defense_consultant": {
+    "en": "Defense Consultant",
+    "vn": "Tư vấn Quốc phòng"
+  },
+  "defense_designer": {
+    "en": "Defense Designer",
+    "vn": "Nhà thiết kế Quốc phòng"
+  },
+  "defense_director": {
+    "en": "Defense Director",
+    "vn": "Giám đốc Quốc phòng"
+  },
+  "defense_engineer": {
+    "en": "Defense Engineer",
+    "vn": "Kỹ sư Quốc phòng"
+  },
+  "defense_lead": {
+    "en": "Defense Lead",
+    "vn": "Trưởng nhóm Quốc phòng"
+  },
+  "defense_manager": {
+    "en": "Defense Manager",
+    "vn": "Quản lý Quốc phòng"
+  },
+  "defense_marketer": {
+    "en": "Defense Marketer",
+    "vn": "Chuyên viên marketing Quốc phòng"
+  },
+  "defense_operator": {
+    "en": "Defense Operator",
+    "vn": "Vận hành Quốc phòng"
+  },
+  "defense_product_manager": {
+    "en": "Defense Product Manager",
+    "vn": "Quản lý sản phẩm Quốc phòng"
+  },
+  "defense_researcher": {
+    "en": "Defense Researcher",
+    "vn": "Nhà nghiên cứu Quốc phòng"
+  },
+  "defense_sales_lead": {
+    "en": "Defense Sales Lead",
+    "vn": "Phụ trách bán hàng Quốc phòng"
+  },
+  "defense_scientist": {
+    "en": "Defense Scientist",
+    "vn": "Nhà khoa học Quốc phòng"
+  },
+  "defense_specialist": {
+    "en": "Defense Specialist",
+    "vn": "Chuyên viên Quốc phòng"
+  },
+  "demand_generation_manager": {
+    "en": "Demand Generation Manager",
+    "vn": "Quản lý Tạo nhu cầu"
+  },
+  "dentist": {
+    "en": "Dentist",
+    "vn": "Nha sĩ"
+  },
+  "design_manager": {
+    "en": "Design Manager",
+    "vn": "Quản lý Thiết kế"
+  },
+  "design_system_designer": {
+    "en": "Design System Designer",
+    "vn": "Nhà thiết kế Hệ thống thiết kế"
+  },
+  "designer": {
+    "en": "Designer",
+    "vn": "Nhà thiết kế"
+  },
+  "designops_manager": {
+    "en": "DesignOps Manager",
+    "vn": "Quản lý DesignOps"
+  },
+  "developer_advocate": {
+    "en": "Developer Advocate",
+    "vn": "Đại sứ nhà phát triển"
+  },
+  "developer_relations_manager": {
+    "en": "Developer Relations Manager",
+    "vn": "Quản lý Quan hệ nhà phát triển"
+  },
+  "devops_engineer": {
+    "en": "DevOps Engineer",
+    "vn": "Kỹ sư DevOps"
+  },
+  "devtools_analyst": {
+    "en": "DevTools Analyst",
+    "vn": "Chuyên viên phân tích Công cụ dành cho nhà phát triển"
+  },
+  "devtools_architect": {
+    "en": "DevTools Architect",
+    "vn": "Kiến trúc sư Công cụ dành cho nhà phát triển"
+  },
+  "devtools_consultant": {
+    "en": "DevTools Consultant",
+    "vn": "Tư vấn Công cụ dành cho nhà phát triển"
+  },
+  "devtools_designer": {
+    "en": "DevTools Designer",
+    "vn": "Nhà thiết kế Công cụ dành cho nhà phát triển"
+  },
+  "devtools_director": {
+    "en": "DevTools Director",
+    "vn": "Giám đốc Công cụ dành cho nhà phát triển"
+  },
+  "devtools_engineer": {
+    "en": "DevTools Engineer",
+    "vn": "Kỹ sư Công cụ dành cho nhà phát triển"
+  },
+  "devtools_lead": {
+    "en": "DevTools Lead",
+    "vn": "Trưởng nhóm Công cụ dành cho nhà phát triển"
+  },
+  "devtools_manager": {
+    "en": "DevTools Manager",
+    "vn": "Quản lý Công cụ dành cho nhà phát triển"
+  },
+  "devtools_marketer": {
+    "en": "DevTools Marketer",
+    "vn": "Chuyên viên marketing Công cụ dành cho nhà phát triển"
+  },
+  "devtools_operator": {
+    "en": "DevTools Operator",
+    "vn": "Vận hành Công cụ dành cho nhà phát triển"
+  },
+  "devtools_product_manager": {
+    "en": "DevTools Product Manager",
+    "vn": "Quản lý sản phẩm Công cụ dành cho nhà phát triển"
+  },
+  "devtools_researcher": {
+    "en": "DevTools Researcher",
+    "vn": "Nhà nghiên cứu Công cụ dành cho nhà phát triển"
+  },
+  "devtools_sales_lead": {
+    "en": "DevTools Sales Lead",
+    "vn": "Phụ trách bán hàng Công cụ dành cho nhà phát triển"
+  },
+  "devtools_scientist": {
+    "en": "DevTools Scientist",
+    "vn": "Nhà khoa học Công cụ dành cho nhà phát triển"
+  },
+  "devtools_specialist": {
+    "en": "DevTools Specialist",
+    "vn": "Chuyên viên Công cụ dành cho nhà phát triển"
+  },
+  "digital_marketing_manager": {
+    "en": "Digital Marketing Manager",
+    "vn": "Quản lý Marketing số"
+  },
+  "diplomat": {
+    "en": "Diplomat",
+    "vn": "Nhà ngoại giao"
+  },
+  "director_of_engineering": {
+    "en": "Director of Engineering",
+    "vn": "Giám đốc kỹ thuật"
+  },
+  "director_of_marketing": {
+    "en": "Director of Marketing",
+    "vn": "Giám đốc marketing"
+  },
+  "director_of_product": {
+    "en": "Director of Product",
+    "vn": "Giám đốc sản phẩm"
+  },
+  "director_of_sales": {
+    "en": "Director of Sales",
+    "vn": "Giám đốc kinh doanh"
+  },
+  "driver": {
+    "en": "Driver",
+    "vn": "Tài xế"
+  },
+  "e_commerce_analyst": {
+    "en": "E-commerce Analyst",
+    "vn": "Chuyên viên phân tích Thương mại điện tử"
+  },
+  "e_commerce_architect": {
+    "en": "E-commerce Architect",
+    "vn": "Kiến trúc sư Thương mại điện tử"
+  },
+  "e_commerce_consultant": {
+    "en": "E-commerce Consultant",
+    "vn": "Tư vấn Thương mại điện tử"
+  },
+  "e_commerce_designer": {
+    "en": "E-commerce Designer",
+    "vn": "Nhà thiết kế Thương mại điện tử"
+  },
+  "e_commerce_director": {
+    "en": "E-commerce Director",
+    "vn": "Giám đốc Thương mại điện tử"
+  },
+  "e_commerce_engineer": {
+    "en": "E-commerce Engineer",
+    "vn": "Kỹ sư Thương mại điện tử"
+  },
+  "e_commerce_lead": {
+    "en": "E-commerce Lead",
+    "vn": "Trưởng nhóm Thương mại điện tử"
+  },
+  "e_commerce_manager": {
+    "en": "E-commerce Manager",
+    "vn": "Quản lý Thương mại điện tử"
+  },
+  "e_commerce_marketer": {
+    "en": "E-commerce Marketer",
+    "vn": "Chuyên viên marketing Thương mại điện tử"
+  },
+  "e_commerce_operator": {
+    "en": "E-commerce Operator",
+    "vn": "Vận hành Thương mại điện tử"
+  },
+  "e_commerce_product_manager": {
+    "en": "E-commerce Product Manager",
+    "vn": "Quản lý sản phẩm Thương mại điện tử"
+  },
+  "e_commerce_researcher": {
+    "en": "E-commerce Researcher",
+    "vn": "Nhà nghiên cứu Thương mại điện tử"
+  },
+  "e_commerce_sales_lead": {
+    "en": "E-commerce Sales Lead",
+    "vn": "Phụ trách bán hàng Thương mại điện tử"
+  },
+  "e_commerce_scientist": {
+    "en": "E-commerce Scientist",
+    "vn": "Nhà khoa học Thương mại điện tử"
+  },
+  "e_commerce_specialist": {
+    "en": "E-commerce Specialist",
+    "vn": "Chuyên viên Thương mại điện tử"
+  },
+  "economist": {
+    "en": "Economist",
+    "vn": "Nhà kinh tế"
+  },
+  "editor": {
+    "en": "Editor",
+    "vn": "Biên tập viên"
+  },
+  "edtech_analyst": {
+    "en": "Edtech Analyst",
+    "vn": "Chuyên viên phân tích EdTech"
+  },
+  "edtech_architect": {
+    "en": "Edtech Architect",
+    "vn": "Kiến trúc sư EdTech"
+  },
+  "edtech_consultant": {
+    "en": "Edtech Consultant",
+    "vn": "Tư vấn EdTech"
+  },
+  "edtech_designer": {
+    "en": "Edtech Designer",
+    "vn": "Nhà thiết kế EdTech"
+  },
+  "edtech_director": {
+    "en": "Edtech Director",
+    "vn": "Giám đốc EdTech"
+  },
+  "edtech_engineer": {
+    "en": "Edtech Engineer",
+    "vn": "Kỹ sư EdTech"
+  },
+  "edtech_lead": {
+    "en": "Edtech Lead",
+    "vn": "Trưởng nhóm EdTech"
+  },
+  "edtech_manager": {
+    "en": "Edtech Manager",
+    "vn": "Quản lý EdTech"
+  },
+  "edtech_marketer": {
+    "en": "Edtech Marketer",
+    "vn": "Chuyên viên marketing EdTech"
+  },
+  "edtech_operator": {
+    "en": "Edtech Operator",
+    "vn": "Vận hành EdTech"
+  },
+  "edtech_product_manager": {
+    "en": "Edtech Product Manager",
+    "vn": "Quản lý sản phẩm EdTech"
+  },
+  "edtech_researcher": {
+    "en": "Edtech Researcher",
+    "vn": "Nhà nghiên cứu EdTech"
+  },
+  "edtech_sales_lead": {
+    "en": "Edtech Sales Lead",
+    "vn": "Phụ trách bán hàng EdTech"
+  },
+  "edtech_scientist": {
+    "en": "Edtech Scientist",
+    "vn": "Nhà khoa học EdTech"
+  },
+  "edtech_specialist": {
+    "en": "Edtech Specialist",
+    "vn": "Chuyên viên EdTech"
+  },
+  "electrical_engineer": {
+    "en": "Electrical Engineer",
+    "vn": "Kỹ sư Điện"
+  },
+  "email_marketing_manager": {
+    "en": "Email Marketing Manager",
+    "vn": "Quản lý Email marketing"
+  },
+  "embedded_engineer": {
+    "en": "Embedded Engineer",
+    "vn": "Kỹ sư Nhúng"
+  },
+  "energy_analyst": {
+    "en": "Energy Analyst",
+    "vn": "Chuyên viên phân tích Năng lượng"
+  },
+  "energy_architect": {
+    "en": "Energy Architect",
+    "vn": "Kiến trúc sư Năng lượng"
+  },
+  "energy_consultant": {
+    "en": "Energy Consultant",
+    "vn": "Tư vấn Năng lượng"
+  },
+  "energy_designer": {
+    "en": "Energy Designer",
+    "vn": "Nhà thiết kế Năng lượng"
+  },
+  "energy_director": {
+    "en": "Energy Director",
+    "vn": "Giám đốc Năng lượng"
+  },
+  "energy_engineer": {
+    "en": "Energy Engineer",
+    "vn": "Kỹ sư Năng lượng"
+  },
+  "energy_lead": {
+    "en": "Energy Lead",
+    "vn": "Trưởng nhóm Năng lượng"
+  },
+  "energy_manager": {
+    "en": "Energy Manager",
+    "vn": "Quản lý Năng lượng"
+  },
+  "energy_marketer": {
+    "en": "Energy Marketer",
+    "vn": "Chuyên viên marketing Năng lượng"
+  },
+  "energy_operator": {
+    "en": "Energy Operator",
+    "vn": "Vận hành Năng lượng"
+  },
+  "energy_product_manager": {
+    "en": "Energy Product Manager",
+    "vn": "Quản lý sản phẩm Năng lượng"
+  },
+  "energy_researcher": {
+    "en": "Energy Researcher",
+    "vn": "Nhà nghiên cứu Năng lượng"
+  },
+  "energy_sales_lead": {
+    "en": "Energy Sales Lead",
+    "vn": "Phụ trách bán hàng Năng lượng"
+  },
+  "energy_scientist": {
+    "en": "Energy Scientist",
+    "vn": "Nhà khoa học Năng lượng"
+  },
+  "energy_specialist": {
+    "en": "Energy Specialist",
+    "vn": "Chuyên viên Năng lượng"
+  },
+  "engineer": {
+    "en": "Engineer",
+    "vn": "Kỹ sư"
+  },
+  "engineering_manager": {
+    "en": "Engineering Manager",
+    "vn": "Quản lý Kỹ thuật"
+  },
+  "enterprise_account_executive": {
+    "en": "Enterprise Account Executive",
+    "vn": "Chuyên viên kinh doanh doanh nghiệp"
+  },
+  "enterprise_analyst": {
+    "en": "Enterprise Analyst",
+    "vn": "Chuyên viên phân tích Doanh nghiệp"
+  },
+  "enterprise_architect": {
+    "en": "Enterprise Architect",
+    "vn": "Kiến trúc sư Doanh nghiệp"
+  },
+  "enterprise_consultant": {
+    "en": "Enterprise Consultant",
+    "vn": "Tư vấn Doanh nghiệp"
+  },
+  "enterprise_designer": {
+    "en": "Enterprise Designer",
+    "vn": "Nhà thiết kế Doanh nghiệp"
+  },
+  "enterprise_director": {
+    "en": "Enterprise Director",
+    "vn": "Giám đốc Doanh nghiệp"
+  },
+  "enterprise_engineer": {
+    "en": "Enterprise Engineer",
+    "vn": "Kỹ sư Doanh nghiệp"
+  },
+  "enterprise_lead": {
+    "en": "Enterprise Lead",
+    "vn": "Trưởng nhóm Doanh nghiệp"
+  },
+  "enterprise_manager": {
+    "en": "Enterprise Manager",
+    "vn": "Quản lý Doanh nghiệp"
+  },
+  "enterprise_marketer": {
+    "en": "Enterprise Marketer",
+    "vn": "Chuyên viên marketing Doanh nghiệp"
+  },
+  "enterprise_operator": {
+    "en": "Enterprise Operator",
+    "vn": "Vận hành Doanh nghiệp"
+  },
+  "enterprise_product_manager": {
+    "en": "Enterprise Product Manager",
+    "vn": "Quản lý sản phẩm Doanh nghiệp"
+  },
+  "enterprise_researcher": {
+    "en": "Enterprise Researcher",
+    "vn": "Nhà nghiên cứu Doanh nghiệp"
+  },
+  "enterprise_sales_lead": {
+    "en": "Enterprise Sales Lead",
+    "vn": "Phụ trách bán hàng Doanh nghiệp"
+  },
+  "enterprise_scientist": {
+    "en": "Enterprise Scientist",
+    "vn": "Nhà khoa học Doanh nghiệp"
+  },
+  "enterprise_specialist": {
+    "en": "Enterprise Specialist",
+    "vn": "Chuyên viên Doanh nghiệp"
+  },
+  "entertainment_analyst": {
+    "en": "Entertainment Analyst",
+    "vn": "Chuyên viên phân tích Giải trí"
+  },
+  "entertainment_architect": {
+    "en": "Entertainment Architect",
+    "vn": "Kiến trúc sư Giải trí"
+  },
+  "entertainment_consultant": {
+    "en": "Entertainment Consultant",
+    "vn": "Tư vấn Giải trí"
+  },
+  "entertainment_designer": {
+    "en": "Entertainment Designer",
+    "vn": "Nhà thiết kế Giải trí"
+  },
+  "entertainment_director": {
+    "en": "Entertainment Director",
+    "vn": "Giám đốc Giải trí"
+  },
+  "entertainment_engineer": {
+    "en": "Entertainment Engineer",
+    "vn": "Kỹ sư Giải trí"
+  },
+  "entertainment_lead": {
+    "en": "Entertainment Lead",
+    "vn": "Trưởng nhóm Giải trí"
+  },
+  "entertainment_manager": {
+    "en": "Entertainment Manager",
+    "vn": "Quản lý Giải trí"
+  },
+  "entertainment_marketer": {
+    "en": "Entertainment Marketer",
+    "vn": "Chuyên viên marketing Giải trí"
+  },
+  "entertainment_operator": {
+    "en": "Entertainment Operator",
+    "vn": "Vận hành Giải trí"
+  },
+  "entertainment_researcher": {
+    "en": "Entertainment Researcher",
+    "vn": "Nhà nghiên cứu Giải trí"
+  },
+  "entertainment_sales_lead": {
+    "en": "Entertainment Sales Lead",
+    "vn": "Phụ trách bán hàng Giải trí"
+  },
+  "entertainment_scientist": {
+    "en": "Entertainment Scientist",
+    "vn": "Nhà khoa học Giải trí"
+  },
+  "entertainment_specialist": {
+    "en": "Entertainment Specialist",
+    "vn": "Chuyên viên Giải trí"
+  },
+  "entrepreneur": {
+    "en": "Entrepreneur",
+    "vn": "Doanh nhân"
+  },
+  "environmental_engineer": {
+    "en": "Environmental Engineer",
+    "vn": "Kỹ sư Môi trường"
+  },
+  "erp_consultant": {
+    "en": "ERP Consultant",
+    "vn": "Tư vấn ERP"
+  },
+  "event_manager": {
+    "en": "Event Manager",
+    "vn": "Quản lý Sự kiện"
+  },
+  "evp": {
+    "en": "EVP",
+    "vn": "EVP"
+  },
+  "executive_assistant": {
+    "en": "Executive Assistant",
+    "vn": "Trợ lý điều hành"
+  },
+  "executive_director": {
+    "en": "Executive Director",
+    "vn": "Giám đốc Điều hành"
+  },
+  "factory_worker": {
+    "en": "Factory Worker",
+    "vn": "Công nhân nhà máy"
+  },
+  "family_office_investor": {
+    "en": "Family Office Investor",
+    "vn": "Nhà đầu tư family office"
+  },
+  "farmer": {
+    "en": "Farmer",
+    "vn": "Nông dân"
+  },
+  "fashion_analyst": {
+    "en": "Fashion Analyst",
+    "vn": "Chuyên viên phân tích Thời trang"
+  },
+  "fashion_architect": {
+    "en": "Fashion Architect",
+    "vn": "Kiến trúc sư Thời trang"
+  },
+  "fashion_consultant": {
+    "en": "Fashion Consultant",
+    "vn": "Tư vấn Thời trang"
+  },
+  "fashion_designer": {
+    "en": "Fashion Designer",
+    "vn": "Nhà thiết kế Thời trang"
+  },
+  "fashion_director": {
+    "en": "Fashion Director",
+    "vn": "Giám đốc Thời trang"
+  },
+  "fashion_engineer": {
+    "en": "Fashion Engineer",
+    "vn": "Kỹ sư Thời trang"
+  },
+  "fashion_lead": {
+    "en": "Fashion Lead",
+    "vn": "Trưởng nhóm Thời trang"
+  },
+  "fashion_manager": {
+    "en": "Fashion Manager",
+    "vn": "Quản lý Thời trang"
+  },
+  "fashion_marketer": {
+    "en": "Fashion Marketer",
+    "vn": "Chuyên viên marketing Thời trang"
+  },
+  "fashion_operator": {
+    "en": "Fashion Operator",
+    "vn": "Vận hành Thời trang"
+  },
+  "fashion_product_manager": {
+    "en": "Fashion Product Manager",
+    "vn": "Quản lý sản phẩm Thời trang"
+  },
+  "fashion_researcher": {
+    "en": "Fashion Researcher",
+    "vn": "Nhà nghiên cứu Thời trang"
+  },
+  "fashion_sales_lead": {
+    "en": "Fashion Sales Lead",
+    "vn": "Phụ trách bán hàng Thời trang"
+  },
+  "fashion_scientist": {
+    "en": "Fashion Scientist",
+    "vn": "Nhà khoa học Thời trang"
+  },
+  "fashion_specialist": {
+    "en": "Fashion Specialist",
+    "vn": "Chuyên viên Thời trang"
+  },
+  "field_marketing_manager": {
+    "en": "Field Marketing Manager",
+    "vn": "Quản lý Field marketing"
+  },
+  "film_analyst": {
+    "en": "Film Analyst",
+    "vn": "Chuyên viên phân tích Phim ảnh"
+  },
+  "film_architect": {
+    "en": "Film Architect",
+    "vn": "Kiến trúc sư Phim ảnh"
+  },
+  "film_consultant": {
+    "en": "Film Consultant",
+    "vn": "Tư vấn Phim ảnh"
+  },
+  "film_designer": {
+    "en": "Film Designer",
+    "vn": "Nhà thiết kế Phim ảnh"
+  },
+  "film_director": {
+    "en": "Film Director",
+    "vn": "Giám đốc Phim ảnh"
+  },
+  "film_engineer": {
+    "en": "Film Engineer",
+    "vn": "Kỹ sư Phim ảnh"
+  },
+  "film_lead": {
+    "en": "Film Lead",
+    "vn": "Trưởng nhóm Phim ảnh"
+  },
+  "film_manager": {
+    "en": "Film Manager",
+    "vn": "Quản lý Phim ảnh"
+  },
+  "film_marketer": {
+    "en": "Film Marketer",
+    "vn": "Chuyên viên marketing Phim ảnh"
+  },
+  "film_operator": {
+    "en": "Film Operator",
+    "vn": "Vận hành Phim ảnh"
+  },
+  "film_product_manager": {
+    "en": "Film Product Manager",
+    "vn": "Quản lý sản phẩm Phim ảnh"
+  },
+  "film_researcher": {
+    "en": "Film Researcher",
+    "vn": "Nhà nghiên cứu Phim ảnh"
+  },
+  "film_sales_lead": {
+    "en": "Film Sales Lead",
+    "vn": "Phụ trách bán hàng Phim ảnh"
+  },
+  "film_scientist": {
+    "en": "Film Scientist",
+    "vn": "Nhà khoa học Phim ảnh"
+  },
+  "film_specialist": {
+    "en": "Film Specialist",
+    "vn": "Chuyên viên Phim ảnh"
+  },
+  "filmmaker": {
+    "en": "Filmmaker",
+    "vn": "Nhà làm phim"
+  },
+  "finance_manager": {
+    "en": "Finance Manager",
+    "vn": "Quản lý Tài chính"
+  },
+  "financial_advisor": {
+    "en": "Financial Advisor",
+    "vn": "Cố vấn tài chính"
+  },
+  "financial_analyst": {
+    "en": "Financial Analyst",
+    "vn": "Chuyên viên phân tích Tài chính"
+  },
+  "fintech_analyst": {
+    "en": "Fintech Analyst",
+    "vn": "Chuyên viên phân tích FinTech"
+  },
+  "fintech_architect": {
+    "en": "Fintech Architect",
+    "vn": "Kiến trúc sư FinTech"
+  },
+  "fintech_consultant": {
+    "en": "Fintech Consultant",
+    "vn": "Tư vấn FinTech"
+  },
+  "fintech_designer": {
+    "en": "Fintech Designer",
+    "vn": "Nhà thiết kế FinTech"
+  },
+  "fintech_director": {
+    "en": "Fintech Director",
+    "vn": "Giám đốc FinTech"
+  },
+  "fintech_engineer": {
+    "en": "Fintech Engineer",
+    "vn": "Kỹ sư FinTech"
+  },
+  "fintech_lead": {
+    "en": "Fintech Lead",
+    "vn": "Trưởng nhóm FinTech"
+  },
+  "fintech_manager": {
+    "en": "Fintech Manager",
+    "vn": "Quản lý FinTech"
+  },
+  "fintech_marketer": {
+    "en": "Fintech Marketer",
+    "vn": "Chuyên viên marketing FinTech"
+  },
+  "fintech_operator": {
+    "en": "Fintech Operator",
+    "vn": "Vận hành FinTech"
+  },
+  "fintech_product_manager": {
+    "en": "Fintech Product Manager",
+    "vn": "Quản lý sản phẩm FinTech"
+  },
+  "fintech_researcher": {
+    "en": "Fintech Researcher",
+    "vn": "Nhà nghiên cứu FinTech"
+  },
+  "fintech_sales_lead": {
+    "en": "Fintech Sales Lead",
+    "vn": "Phụ trách bán hàng FinTech"
+  },
+  "fintech_scientist": {
+    "en": "Fintech Scientist",
+    "vn": "Nhà khoa học FinTech"
+  },
+  "fintech_specialist": {
+    "en": "Fintech Specialist",
+    "vn": "Chuyên viên FinTech"
+  },
+  "firefighter": {
+    "en": "Firefighter",
+    "vn": "Lính cứu hỏa"
+  },
+  "firmware_engineer": {
+    "en": "Firmware Engineer",
+    "vn": "Kỹ sư Firmware"
+  },
+  "flight_attendant": {
+    "en": "Flight Attendant",
+    "vn": "Tiếp viên hàng không"
+  },
+  "food_analyst": {
+    "en": "Food Analyst",
+    "vn": "Chuyên viên phân tích Thực phẩm"
+  },
+  "food_architect": {
+    "en": "Food Architect",
+    "vn": "Kiến trúc sư Thực phẩm"
+  },
+  "food_consultant": {
+    "en": "Food Consultant",
+    "vn": "Tư vấn Thực phẩm"
+  },
+  "food_designer": {
+    "en": "Food Designer",
+    "vn": "Nhà thiết kế Thực phẩm"
+  },
+  "food_director": {
+    "en": "Food Director",
+    "vn": "Giám đốc Thực phẩm"
+  },
+  "food_engineer": {
+    "en": "Food Engineer",
+    "vn": "Kỹ sư Thực phẩm"
+  },
+  "food_lead": {
+    "en": "Food Lead",
+    "vn": "Trưởng nhóm Thực phẩm"
+  },
+  "food_manager": {
+    "en": "Food Manager",
+    "vn": "Quản lý Thực phẩm"
+  },
+  "food_marketer": {
+    "en": "Food Marketer",
+    "vn": "Chuyên viên marketing Thực phẩm"
+  },
+  "food_operator": {
+    "en": "Food Operator",
+    "vn": "Vận hành Thực phẩm"
+  },
+  "food_product_manager": {
+    "en": "Food Product Manager",
+    "vn": "Quản lý sản phẩm Thực phẩm"
+  },
+  "food_researcher": {
+    "en": "Food Researcher",
+    "vn": "Nhà nghiên cứu Thực phẩm"
+  },
+  "food_sales_lead": {
+    "en": "Food Sales Lead",
+    "vn": "Phụ trách bán hàng Thực phẩm"
+  },
+  "food_scientist": {
+    "en": "Food Scientist",
+    "vn": "Nhà khoa học Thực phẩm"
+  },
+  "food_specialist": {
+    "en": "Food Specialist",
+    "vn": "Chuyên viên Thực phẩm"
+  },
+  "founder": {
+    "en": "Founder",
+    "vn": "Nhà sáng lập"
+  },
+  "founding_designer": {
+    "en": "Founding Designer",
+    "vn": "Nhà thiết kế Sáng lập"
+  },
+  "founding_engineer": {
+    "en": "Founding Engineer",
+    "vn": "Kỹ sư Sáng lập"
+  },
+  "founding_product_manager": {
+    "en": "Founding Product Manager",
+    "vn": "Quản lý sản phẩm Sáng lập"
+  },
+  "fp_a_analyst": {
+    "en": "FP&A Analyst",
+    "vn": "Chuyên viên phân tích FP&A"
+  },
+  "fp_a_manager": {
+    "en": "FP&A Manager",
+    "vn": "Quản lý FP&A"
+  },
+  "fractional_ceo": {
+    "en": "Fractional CEO",
+    "vn": "CEO bán thời gian"
+  },
+  "fractional_cto": {
+    "en": "Fractional CTO",
+    "vn": "CTO bán thời gian"
+  },
+  "freelancer": {
+    "en": "Freelancer",
+    "vn": "Người làm việc tự do"
+  },
+  "frontend_engineer": {
+    "en": "Frontend Engineer",
+    "vn": "Kỹ sư Frontend"
+  },
+  "full_stack_engineer": {
+    "en": "Full Stack Engineer",
+    "vn": "Kỹ sư Full-stack"
+  },
+  "fullstack_engineer": {
+    "en": "Fullstack Engineer",
+    "vn": "Kỹ sư Full-stack"
+  },
+  "fundraiser": {
+    "en": "Fundraiser",
+    "vn": "Người gây quỹ"
+  },
+  "game_designer": {
+    "en": "Game Designer",
+    "vn": "Nhà thiết kế Game"
+  },
+  "game_engineer": {
+    "en": "Game Engineer",
+    "vn": "Kỹ sư Game"
+  },
+  "gaming_analyst": {
+    "en": "Gaming Analyst",
+    "vn": "Chuyên viên phân tích Trò chơi"
+  },
+  "gaming_architect": {
+    "en": "Gaming Architect",
+    "vn": "Kiến trúc sư Trò chơi"
+  },
+  "gaming_consultant": {
+    "en": "Gaming Consultant",
+    "vn": "Tư vấn Trò chơi"
+  },
+  "gaming_designer": {
+    "en": "Gaming Designer",
+    "vn": "Nhà thiết kế Trò chơi"
+  },
+  "gaming_director": {
+    "en": "Gaming Director",
+    "vn": "Giám đốc Trò chơi"
+  },
+  "gaming_engineer": {
+    "en": "Gaming Engineer",
+    "vn": "Kỹ sư Trò chơi"
+  },
+  "gaming_lead": {
+    "en": "Gaming Lead",
+    "vn": "Trưởng nhóm Trò chơi"
+  },
+  "gaming_manager": {
+    "en": "Gaming Manager",
+    "vn": "Quản lý Trò chơi"
+  },
+  "gaming_marketer": {
+    "en": "Gaming Marketer",
+    "vn": "Chuyên viên marketing Trò chơi"
+  },
+  "gaming_operator": {
+    "en": "Gaming Operator",
+    "vn": "Vận hành Trò chơi"
+  },
+  "gaming_product_manager": {
+    "en": "Gaming Product Manager",
+    "vn": "Quản lý sản phẩm Trò chơi"
+  },
+  "gaming_researcher": {
+    "en": "Gaming Researcher",
+    "vn": "Nhà nghiên cứu Trò chơi"
+  },
+  "gaming_sales_lead": {
+    "en": "Gaming Sales Lead",
+    "vn": "Phụ trách bán hàng Trò chơi"
+  },
+  "gaming_scientist": {
+    "en": "Gaming Scientist",
+    "vn": "Nhà khoa học Trò chơi"
+  },
+  "gaming_specialist": {
+    "en": "Gaming Specialist",
+    "vn": "Chuyên viên Trò chơi"
+  },
+  "general_counsel": {
+    "en": "General Counsel",
+    "vn": "Tổng cố vấn pháp lý"
+  },
+  "general_partner": {
+    "en": "General Partner",
+    "vn": "Thành viên hợp danh chung"
+  },
+  "gig_worker": {
+    "en": "Gig Worker",
+    "vn": "Người làm việc tự do theo ca"
+  },
+  "government_analyst": {
+    "en": "Government Analyst",
+    "vn": "Chuyên viên phân tích Chính phủ"
+  },
+  "government_architect": {
+    "en": "Government Architect",
+    "vn": "Kiến trúc sư Chính phủ"
+  },
+  "government_consultant": {
+    "en": "Government Consultant",
+    "vn": "Tư vấn Chính phủ"
+  },
+  "government_designer": {
+    "en": "Government Designer",
+    "vn": "Nhà thiết kế Chính phủ"
+  },
+  "government_director": {
+    "en": "Government Director",
+    "vn": "Giám đốc Chính phủ"
+  },
+  "government_engineer": {
+    "en": "Government Engineer",
+    "vn": "Kỹ sư Chính phủ"
+  },
+  "government_lead": {
+    "en": "Government Lead",
+    "vn": "Trưởng nhóm Chính phủ"
+  },
+  "government_manager": {
+    "en": "Government Manager",
+    "vn": "Quản lý Chính phủ"
+  },
+  "government_marketer": {
+    "en": "Government Marketer",
+    "vn": "Chuyên viên marketing Chính phủ"
+  },
+  "government_official": {
+    "en": "Government Official",
+    "vn": "Quan chức nhà nước"
+  },
+  "government_operator": {
+    "en": "Government Operator",
+    "vn": "Vận hành Chính phủ"
+  },
+  "government_product_manager": {
+    "en": "Government Product Manager",
+    "vn": "Quản lý sản phẩm Chính phủ"
+  },
+  "government_researcher": {
+    "en": "Government Researcher",
+    "vn": "Nhà nghiên cứu Chính phủ"
+  },
+  "government_sales_lead": {
+    "en": "Government Sales Lead",
+    "vn": "Phụ trách bán hàng Chính phủ"
+  },
+  "government_scientist": {
+    "en": "Government Scientist",
+    "vn": "Nhà khoa học Chính phủ"
+  },
+  "government_specialist": {
+    "en": "Government Specialist",
+    "vn": "Chuyên viên Chính phủ"
+  },
+  "graphic_designer": {
+    "en": "Graphic Designer",
+    "vn": "Nhà thiết kế Đồ họa"
+  },
+  "graphics_engineer": {
+    "en": "Graphics Engineer",
+    "vn": "Kỹ sư Đồ họa"
+  },
+  "group_product_manager": {
+    "en": "Group Product Manager",
+    "vn": "Quản lý sản phẩm Nhóm"
+  },
+  "growth_analyst": {
+    "en": "Growth Analyst",
+    "vn": "Chuyên viên phân tích Tăng trưởng"
+  },
+  "growth_manager": {
+    "en": "Growth Manager",
+    "vn": "Quản lý Tăng trưởng"
+  },
+  "growth_marketer": {
+    "en": "Growth Marketer",
+    "vn": "Chuyên viên marketing Tăng trưởng"
+  },
+  "growth_product_manager": {
+    "en": "Growth Product Manager",
+    "vn": "Quản lý sản phẩm Tăng trưởng"
+  },
+  "hardware_analyst": {
+    "en": "Hardware Analyst",
+    "vn": "Chuyên viên phân tích Phần cứng"
+  },
+  "hardware_architect": {
+    "en": "Hardware Architect",
+    "vn": "Kiến trúc sư Phần cứng"
+  },
+  "hardware_consultant": {
+    "en": "Hardware Consultant",
+    "vn": "Tư vấn Phần cứng"
+  },
+  "hardware_designer": {
+    "en": "Hardware Designer",
+    "vn": "Nhà thiết kế Phần cứng"
+  },
+  "hardware_director": {
+    "en": "Hardware Director",
+    "vn": "Giám đốc Phần cứng"
+  },
+  "hardware_engineer": {
+    "en": "Hardware Engineer",
+    "vn": "Kỹ sư Phần cứng"
+  },
+  "hardware_lead": {
+    "en": "Hardware Lead",
+    "vn": "Trưởng nhóm Phần cứng"
+  },
+  "hardware_manager": {
+    "en": "Hardware Manager",
+    "vn": "Quản lý Phần cứng"
+  },
+  "hardware_marketer": {
+    "en": "Hardware Marketer",
+    "vn": "Chuyên viên marketing Phần cứng"
+  },
+  "hardware_operator": {
+    "en": "Hardware Operator",
+    "vn": "Vận hành Phần cứng"
+  },
+  "hardware_product_manager": {
+    "en": "Hardware Product Manager",
+    "vn": "Quản lý sản phẩm Phần cứng"
+  },
+  "hardware_researcher": {
+    "en": "Hardware Researcher",
+    "vn": "Nhà nghiên cứu Phần cứng"
+  },
+  "hardware_sales_lead": {
+    "en": "Hardware Sales Lead",
+    "vn": "Phụ trách bán hàng Phần cứng"
+  },
+  "hardware_scientist": {
+    "en": "Hardware Scientist",
+    "vn": "Nhà khoa học Phần cứng"
+  },
+  "hardware_specialist": {
+    "en": "Hardware Specialist",
+    "vn": "Chuyên viên Phần cứng"
+  },
+  "head_of_data": {
+    "en": "Head of Data",
+    "vn": "Trưởng bộ phận dữ liệu"
+  },
+  "head_of_design": {
+    "en": "Head of Design",
+    "vn": "Trưởng bộ phận thiết kế"
+  },
+  "head_of_engineering": {
+    "en": "Head of Engineering",
+    "vn": "Trưởng bộ phận kỹ thuật"
+  },
+  "head_of_growth": {
+    "en": "Head of Growth",
+    "vn": "Trưởng bộ phận tăng trưởng"
+  },
+  "head_of_operations": {
+    "en": "Head of Operations",
+    "vn": "Trưởng bộ phận vận hành"
+  },
+  "head_of_people": {
+    "en": "Head of People",
+    "vn": "Trưởng bộ phận nhân sự"
+  },
+  "head_of_product": {
+    "en": "Head of Product",
+    "vn": "Trưởng bộ phận sản phẩm"
+  },
+  "head_of_sales": {
+    "en": "Head of Sales",
+    "vn": "Trưởng bộ phận kinh doanh"
+  },
+  "healthcare_analyst": {
+    "en": "Healthcare Analyst",
+    "vn": "Chuyên viên phân tích Y tế"
+  },
+  "healthcare_architect": {
+    "en": "Healthcare Architect",
+    "vn": "Kiến trúc sư Y tế"
+  },
+  "healthcare_consultant": {
+    "en": "Healthcare Consultant",
+    "vn": "Tư vấn Y tế"
+  },
+  "healthcare_designer": {
+    "en": "Healthcare Designer",
+    "vn": "Nhà thiết kế Y tế"
+  },
+  "healthcare_director": {
+    "en": "Healthcare Director",
+    "vn": "Giám đốc Y tế"
+  },
+  "healthcare_engineer": {
+    "en": "Healthcare Engineer",
+    "vn": "Kỹ sư Y tế"
+  },
+  "healthcare_lead": {
+    "en": "Healthcare Lead",
+    "vn": "Trưởng nhóm Y tế"
+  },
+  "healthcare_manager": {
+    "en": "Healthcare Manager",
+    "vn": "Quản lý Y tế"
+  },
+  "healthcare_marketer": {
+    "en": "Healthcare Marketer",
+    "vn": "Chuyên viên marketing Y tế"
+  },
+  "healthcare_operator": {
+    "en": "Healthcare Operator",
+    "vn": "Vận hành Y tế"
+  },
+  "healthcare_product_manager": {
+    "en": "Healthcare Product Manager",
+    "vn": "Quản lý sản phẩm Y tế"
+  },
+  "healthcare_researcher": {
+    "en": "Healthcare Researcher",
+    "vn": "Nhà nghiên cứu Y tế"
+  },
+  "healthcare_sales_lead": {
+    "en": "Healthcare Sales Lead",
+    "vn": "Phụ trách bán hàng Y tế"
+  },
+  "healthcare_scientist": {
+    "en": "Healthcare Scientist",
+    "vn": "Nhà khoa học Y tế"
+  },
+  "healthcare_specialist": {
+    "en": "Healthcare Specialist",
+    "vn": "Chuyên viên Y tế"
+  },
+  "healthtech_analyst": {
+    "en": "Healthtech Analyst",
+    "vn": "Chuyên viên phân tích HealthTech"
+  },
+  "healthtech_architect": {
+    "en": "Healthtech Architect",
+    "vn": "Kiến trúc sư HealthTech"
+  },
+  "healthtech_consultant": {
+    "en": "Healthtech Consultant",
+    "vn": "Tư vấn HealthTech"
+  },
+  "healthtech_designer": {
+    "en": "Healthtech Designer",
+    "vn": "Nhà thiết kế HealthTech"
+  },
+  "healthtech_director": {
+    "en": "Healthtech Director",
+    "vn": "Giám đốc HealthTech"
+  },
+  "healthtech_engineer": {
+    "en": "Healthtech Engineer",
+    "vn": "Kỹ sư HealthTech"
+  },
+  "healthtech_lead": {
+    "en": "Healthtech Lead",
+    "vn": "Trưởng nhóm HealthTech"
+  },
+  "healthtech_manager": {
+    "en": "Healthtech Manager",
+    "vn": "Quản lý HealthTech"
+  },
+  "healthtech_marketer": {
+    "en": "Healthtech Marketer",
+    "vn": "Chuyên viên marketing HealthTech"
+  },
+  "healthtech_operator": {
+    "en": "Healthtech Operator",
+    "vn": "Vận hành HealthTech"
+  },
+  "healthtech_product_manager": {
+    "en": "Healthtech Product Manager",
+    "vn": "Quản lý sản phẩm HealthTech"
+  },
+  "healthtech_researcher": {
+    "en": "Healthtech Researcher",
+    "vn": "Nhà nghiên cứu HealthTech"
+  },
+  "healthtech_sales_lead": {
+    "en": "Healthtech Sales Lead",
+    "vn": "Phụ trách bán hàng HealthTech"
+  },
+  "healthtech_scientist": {
+    "en": "Healthtech Scientist",
+    "vn": "Nhà khoa học HealthTech"
+  },
+  "healthtech_specialist": {
+    "en": "Healthtech Specialist",
+    "vn": "Chuyên viên HealthTech"
+  },
+  "hedge_fund_analyst": {
+    "en": "Hedge Fund Analyst",
+    "vn": "Chuyên viên phân tích Quỹ phòng hộ"
+  },
+  "help_desk_specialist": {
+    "en": "Help Desk Specialist",
+    "vn": "Chuyên viên Help desk"
+  },
+  "homemaker": {
+    "en": "Homemaker",
+    "vn": "Nội trợ"
+  },
+  "hospitality_analyst": {
+    "en": "Hospitality Analyst",
+    "vn": "Chuyên viên phân tích Khách sạn"
+  },
+  "hospitality_architect": {
+    "en": "Hospitality Architect",
+    "vn": "Kiến trúc sư Khách sạn"
+  },
+  "hospitality_consultant": {
+    "en": "Hospitality Consultant",
+    "vn": "Tư vấn Khách sạn"
+  },
+  "hospitality_designer": {
+    "en": "Hospitality Designer",
+    "vn": "Nhà thiết kế Khách sạn"
+  },
+  "hospitality_director": {
+    "en": "Hospitality Director",
+    "vn": "Giám đốc Khách sạn"
+  },
+  "hospitality_engineer": {
+    "en": "Hospitality Engineer",
+    "vn": "Kỹ sư Khách sạn"
+  },
+  "hospitality_lead": {
+    "en": "Hospitality Lead",
+    "vn": "Trưởng nhóm Khách sạn"
+  },
+  "hospitality_manager": {
+    "en": "Hospitality Manager",
+    "vn": "Quản lý Khách sạn"
+  },
+  "hospitality_marketer": {
+    "en": "Hospitality Marketer",
+    "vn": "Chuyên viên marketing Khách sạn"
+  },
+  "hospitality_operator": {
+    "en": "Hospitality Operator",
+    "vn": "Vận hành Khách sạn"
+  },
+  "hospitality_product_manager": {
+    "en": "Hospitality Product Manager",
+    "vn": "Quản lý sản phẩm Khách sạn"
+  },
+  "hospitality_researcher": {
+    "en": "Hospitality Researcher",
+    "vn": "Nhà nghiên cứu Khách sạn"
+  },
+  "hospitality_sales_lead": {
+    "en": "Hospitality Sales Lead",
+    "vn": "Phụ trách bán hàng Khách sạn"
+  },
+  "hospitality_scientist": {
+    "en": "Hospitality Scientist",
+    "vn": "Nhà khoa học Khách sạn"
+  },
+  "hospitality_specialist": {
+    "en": "Hospitality Specialist",
+    "vn": "Chuyên viên Khách sạn"
+  },
+  "hotel_manager": {
+    "en": "Hotel Manager",
+    "vn": "Quản lý Khách sạn"
+  },
+  "hr_manager": {
+    "en": "HR Manager",
+    "vn": "Quản lý Nhân sự"
+  },
+  "hr_tech_analyst": {
+    "en": "HR Tech Analyst",
+    "vn": "Chuyên viên phân tích Công nghệ nhân sự"
+  },
+  "hr_tech_architect": {
+    "en": "HR Tech Architect",
+    "vn": "Kiến trúc sư Công nghệ nhân sự"
+  },
+  "hr_tech_consultant": {
+    "en": "HR Tech Consultant",
+    "vn": "Tư vấn Công nghệ nhân sự"
+  },
+  "hr_tech_designer": {
+    "en": "HR Tech Designer",
+    "vn": "Nhà thiết kế Công nghệ nhân sự"
+  },
+  "hr_tech_director": {
+    "en": "HR Tech Director",
+    "vn": "Giám đốc Công nghệ nhân sự"
+  },
+  "hr_tech_engineer": {
+    "en": "HR Tech Engineer",
+    "vn": "Kỹ sư Công nghệ nhân sự"
+  },
+  "hr_tech_lead": {
+    "en": "HR Tech Lead",
+    "vn": "Trưởng nhóm Công nghệ nhân sự"
+  },
+  "hr_tech_manager": {
+    "en": "HR Tech Manager",
+    "vn": "Quản lý Công nghệ nhân sự"
+  },
+  "hr_tech_marketer": {
+    "en": "HR Tech Marketer",
+    "vn": "Chuyên viên marketing Công nghệ nhân sự"
+  },
+  "hr_tech_operator": {
+    "en": "HR Tech Operator",
+    "vn": "Vận hành Công nghệ nhân sự"
+  },
+  "hr_tech_product_manager": {
+    "en": "HR Tech Product Manager",
+    "vn": "Quản lý sản phẩm Công nghệ nhân sự"
+  },
+  "hr_tech_researcher": {
+    "en": "HR Tech Researcher",
+    "vn": "Nhà nghiên cứu Công nghệ nhân sự"
+  },
+  "hr_tech_sales_lead": {
+    "en": "HR Tech Sales Lead",
+    "vn": "Phụ trách bán hàng Công nghệ nhân sự"
+  },
+  "hr_tech_scientist": {
+    "en": "HR Tech Scientist",
+    "vn": "Nhà khoa học Công nghệ nhân sự"
+  },
+  "hr_tech_specialist": {
+    "en": "HR Tech Specialist",
+    "vn": "Chuyên viên Công nghệ nhân sự"
+  },
+  "identity_analyst": {
+    "en": "Identity Analyst",
+    "vn": "Chuyên viên phân tích Định danh"
+  },
+  "identity_architect": {
+    "en": "Identity Architect",
+    "vn": "Kiến trúc sư Định danh"
+  },
+  "identity_consultant": {
+    "en": "Identity Consultant",
+    "vn": "Tư vấn Định danh"
+  },
+  "identity_designer": {
+    "en": "Identity Designer",
+    "vn": "Nhà thiết kế Định danh"
+  },
+  "identity_director": {
+    "en": "Identity Director",
+    "vn": "Giám đốc Định danh"
+  },
+  "identity_engineer": {
+    "en": "Identity Engineer",
+    "vn": "Kỹ sư Định danh"
+  },
+  "identity_lead": {
+    "en": "Identity Lead",
+    "vn": "Trưởng nhóm Định danh"
+  },
+  "identity_manager": {
+    "en": "Identity Manager",
+    "vn": "Quản lý Định danh"
+  },
+  "identity_marketer": {
+    "en": "Identity Marketer",
+    "vn": "Chuyên viên marketing Định danh"
+  },
+  "identity_operator": {
+    "en": "Identity Operator",
+    "vn": "Vận hành Định danh"
+  },
+  "identity_product_manager": {
+    "en": "Identity Product Manager",
+    "vn": "Quản lý sản phẩm Định danh"
+  },
+  "identity_researcher": {
+    "en": "Identity Researcher",
+    "vn": "Nhà nghiên cứu Định danh"
+  },
+  "identity_sales_lead": {
+    "en": "Identity Sales Lead",
+    "vn": "Phụ trách bán hàng Định danh"
+  },
+  "identity_scientist": {
+    "en": "Identity Scientist",
+    "vn": "Nhà khoa học Định danh"
+  },
+  "identity_specialist": {
+    "en": "Identity Specialist",
+    "vn": "Chuyên viên Định danh"
+  },
+  "illustrator": {
+    "en": "Illustrator",
+    "vn": "Họa sĩ minh họa"
+  },
+  "incubator_director": {
+    "en": "Incubator Director",
+    "vn": "Giám đốc Vườn ươm"
+  },
+  "indie_hacker": {
+    "en": "Indie Hacker",
+    "vn": "Indie hacker"
+  },
+  "industrial_designer": {
+    "en": "Industrial Designer",
+    "vn": "Nhà thiết kế Công nghiệp"
+  },
+  "influencer": {
+    "en": "Influencer",
+    "vn": "Người ảnh hưởng"
+  },
+  "information_security_analyst": {
+    "en": "Information Security Analyst",
+    "vn": "Chuyên viên phân tích An ninh thông tin"
+  },
+  "infrastructure_analyst": {
+    "en": "Infrastructure Analyst",
+    "vn": "Chuyên viên phân tích Hạ tầng"
+  },
+  "infrastructure_architect": {
+    "en": "Infrastructure Architect",
+    "vn": "Kiến trúc sư Hạ tầng"
+  },
+  "infrastructure_consultant": {
+    "en": "Infrastructure Consultant",
+    "vn": "Tư vấn Hạ tầng"
+  },
+  "infrastructure_designer": {
+    "en": "Infrastructure Designer",
+    "vn": "Nhà thiết kế Hạ tầng"
+  },
+  "infrastructure_director": {
+    "en": "Infrastructure Director",
+    "vn": "Giám đốc Hạ tầng"
+  },
+  "infrastructure_engineer": {
+    "en": "Infrastructure Engineer",
+    "vn": "Kỹ sư Hạ tầng"
+  },
+  "infrastructure_lead": {
+    "en": "Infrastructure Lead",
+    "vn": "Trưởng nhóm Hạ tầng"
+  },
+  "infrastructure_manager": {
+    "en": "Infrastructure Manager",
+    "vn": "Quản lý Hạ tầng"
+  },
+  "infrastructure_marketer": {
+    "en": "Infrastructure Marketer",
+    "vn": "Chuyên viên marketing Hạ tầng"
+  },
+  "infrastructure_operator": {
+    "en": "Infrastructure Operator",
+    "vn": "Vận hành Hạ tầng"
+  },
+  "infrastructure_researcher": {
+    "en": "Infrastructure Researcher",
+    "vn": "Nhà nghiên cứu Hạ tầng"
+  },
+  "infrastructure_sales_lead": {
+    "en": "Infrastructure Sales Lead",
+    "vn": "Phụ trách bán hàng Hạ tầng"
+  },
+  "infrastructure_scientist": {
+    "en": "Infrastructure Scientist",
+    "vn": "Nhà khoa học Hạ tầng"
+  },
+  "infrastructure_specialist": {
+    "en": "Infrastructure Specialist",
+    "vn": "Chuyên viên Hạ tầng"
+  },
+  "inside_sales_representative": {
+    "en": "Inside Sales Representative",
+    "vn": "Nhân viên bán hàng nội bộ"
+  },
+  "insights_analyst": {
+    "en": "Insights Analyst",
+    "vn": "Chuyên viên phân tích Insight"
+  },
+  "insurance_agent": {
+    "en": "Insurance Agent",
+    "vn": "Đại lý bảo hiểm"
+  },
+  "insurance_analyst": {
+    "en": "Insurance Analyst",
+    "vn": "Chuyên viên phân tích Bảo hiểm"
+  },
+  "insurance_architect": {
+    "en": "Insurance Architect",
+    "vn": "Kiến trúc sư Bảo hiểm"
+  },
+  "insurance_consultant": {
+    "en": "Insurance Consultant",
+    "vn": "Tư vấn Bảo hiểm"
+  },
+  "insurance_designer": {
+    "en": "Insurance Designer",
+    "vn": "Nhà thiết kế Bảo hiểm"
+  },
+  "insurance_director": {
+    "en": "Insurance Director",
+    "vn": "Giám đốc Bảo hiểm"
+  },
+  "insurance_engineer": {
+    "en": "Insurance Engineer",
+    "vn": "Kỹ sư Bảo hiểm"
+  },
+  "insurance_lead": {
+    "en": "Insurance Lead",
+    "vn": "Trưởng nhóm Bảo hiểm"
+  },
+  "insurance_manager": {
+    "en": "Insurance Manager",
+    "vn": "Quản lý Bảo hiểm"
+  },
+  "insurance_marketer": {
+    "en": "Insurance Marketer",
+    "vn": "Chuyên viên marketing Bảo hiểm"
+  },
+  "insurance_operator": {
+    "en": "Insurance Operator",
+    "vn": "Vận hành Bảo hiểm"
+  },
+  "insurance_product_manager": {
+    "en": "Insurance Product Manager",
+    "vn": "Quản lý sản phẩm Bảo hiểm"
+  },
+  "insurance_researcher": {
+    "en": "Insurance Researcher",
+    "vn": "Nhà nghiên cứu Bảo hiểm"
+  },
+  "insurance_sales_lead": {
+    "en": "Insurance Sales Lead",
+    "vn": "Phụ trách bán hàng Bảo hiểm"
+  },
+  "insurance_scientist": {
+    "en": "Insurance Scientist",
+    "vn": "Nhà khoa học Bảo hiểm"
+  },
+  "insurance_specialist": {
+    "en": "Insurance Specialist",
+    "vn": "Chuyên viên Bảo hiểm"
+  },
+  "integration_engineer": {
+    "en": "Integration Engineer",
+    "vn": "Kỹ sư Tích hợp"
+  },
+  "interaction_designer": {
+    "en": "Interaction Designer",
+    "vn": "Nhà thiết kế Tương tác"
+  },
+  "interim_ceo": {
+    "en": "Interim CEO",
+    "vn": "CEO tạm thời"
+  },
+  "intern": {
+    "en": "Intern",
+    "vn": "Thực tập sinh"
+  },
+  "internal_auditor": {
+    "en": "Internal Auditor",
+    "vn": "Kiểm toán viên nội bộ"
+  },
+  "interpreter": {
+    "en": "Interpreter",
+    "vn": "Phiên dịch viên"
+  },
+  "investment_banker": {
+    "en": "Investment Banker",
+    "vn": "Chuyên viên ngân hàng đầu tư"
+  },
+  "investor": {
+    "en": "Investor",
+    "vn": "Nhà đầu tư"
+  },
+  "ios_engineer": {
+    "en": "iOS Engineer",
+    "vn": "Kỹ sư iOS"
+  },
+  "it_manager": {
+    "en": "IT Manager",
+    "vn": "Quản lý CNTT"
+  },
+  "journalist": {
+    "en": "Journalist",
+    "vn": "Nhà báo"
+  },
+  "judge": {
+    "en": "Judge",
+    "vn": "Thẩm phán"
+  },
+  "junior_account_executive": {
+    "en": "Junior Account Executive",
+    "vn": "Chuyên viên kinh doanh mới vào nghề"
+  },
+  "junior_backend_engineer": {
+    "en": "Junior Backend Engineer",
+    "vn": "Kỹ sư Backend Mới vào nghề"
+  },
+  "junior_business_analyst": {
+    "en": "Junior Business Analyst",
+    "vn": "Chuyên viên phân tích Kinh doanh Mới vào nghề"
+  },
+  "junior_consultant": {
+    "en": "Junior Consultant",
+    "vn": "Tư vấn Mới vào nghề"
+  },
+  "junior_content_writer": {
+    "en": "Junior Content Writer",
+    "vn": "Người viết nội dung mới vào nghề"
+  },
+  "junior_data_analyst": {
+    "en": "Junior Data Analyst",
+    "vn": "Chuyên viên phân tích Dữ liệu Mới vào nghề"
+  },
+  "junior_data_engineer": {
+    "en": "Junior Data Engineer",
+    "vn": "Kỹ sư Dữ liệu Mới vào nghề"
+  },
+  "junior_data_scientist": {
+    "en": "Junior Data Scientist",
+    "vn": "Nhà khoa học Dữ liệu Mới vào nghề"
+  },
+  "junior_designer": {
+    "en": "Junior Designer",
+    "vn": "Nhà thiết kế Mới vào nghề"
+  },
+  "junior_devops_engineer": {
+    "en": "Junior DevOps Engineer",
+    "vn": "Kỹ sư DevOps Mới vào nghề"
+  },
+  "junior_finance_manager": {
+    "en": "Junior Finance Manager",
+    "vn": "Quản lý Tài chính Mới vào nghề"
+  },
+  "junior_frontend_engineer": {
+    "en": "Junior Frontend Engineer",
+    "vn": "Kỹ sư Frontend Mới vào nghề"
+  },
+  "junior_full_stack_engineer": {
+    "en": "Junior Full Stack Engineer",
+    "vn": "Kỹ sư Full-stack Mới vào nghề"
+  },
+  "junior_fullstack_engineer": {
+    "en": "Junior Fullstack Engineer",
+    "vn": "Kỹ sư Full-stack Mới vào nghề"
+  },
+  "junior_growth_manager": {
+    "en": "Junior Growth Manager",
+    "vn": "Quản lý Tăng trưởng Mới vào nghề"
+  },
+  "junior_marketing_manager": {
+    "en": "Junior Marketing Manager",
+    "vn": "Quản lý Marketing Mới vào nghề"
+  },
+  "junior_ml_engineer": {
+    "en": "Junior ML Engineer",
+    "vn": "Kỹ sư ML Mới vào nghề"
+  },
+  "junior_mobile_engineer": {
+    "en": "Junior Mobile Engineer",
+    "vn": "Kỹ sư Di động Mới vào nghề"
+  },
+  "junior_operations_manager": {
+    "en": "Junior Operations Manager",
+    "vn": "Quản lý Vận hành Mới vào nghề"
+  },
+  "junior_product_designer": {
+    "en": "Junior Product Designer",
+    "vn": "Nhà thiết kế Sản phẩm Mới vào nghề"
+  },
+  "junior_product_manager": {
+    "en": "Junior Product Manager",
+    "vn": "Quản lý sản phẩm Mới vào nghề"
+  },
+  "junior_program_manager": {
+    "en": "Junior Program Manager",
+    "vn": "Quản lý Chương trình Mới vào nghề"
+  },
+  "junior_project_manager": {
+    "en": "Junior Project Manager",
+    "vn": "Quản lý Dự án Mới vào nghề"
+  },
+  "junior_qa_engineer": {
+    "en": "Junior QA Engineer",
+    "vn": "Kỹ sư QA Mới vào nghề"
+  },
+  "junior_recruiter": {
+    "en": "Junior Recruiter",
+    "vn": "Chuyên viên tuyển dụng mới vào nghề"
+  },
+  "junior_researcher": {
+    "en": "Junior Researcher",
+    "vn": "Nhà nghiên cứu Mới vào nghề"
+  },
+  "junior_sales_manager": {
+    "en": "Junior Sales Manager",
+    "vn": "Quản lý Kinh doanh Mới vào nghề"
+  },
+  "junior_security_engineer": {
+    "en": "Junior Security Engineer",
+    "vn": "Kỹ sư Bảo mật Mới vào nghề"
+  },
+  "junior_software_engineer": {
+    "en": "Junior Software Engineer",
+    "vn": "Kỹ sư phần mềm Mới vào nghề"
+  },
+  "junior_strategy_manager": {
+    "en": "Junior Strategy Manager",
+    "vn": "Quản lý Chiến lược Mới vào nghề"
+  },
+  "junior_ux_designer": {
+    "en": "Junior UX Designer",
+    "vn": "Nhà thiết kế UX Mới vào nghề"
+  },
+  "lab_technician": {
+    "en": "Lab Technician",
+    "vn": "Kỹ thuật viên phòng thí nghiệm"
+  },
+  "lawyer": {
+    "en": "Lawyer",
+    "vn": "Luật sư"
+  },
+  "lead_account_executive": {
+    "en": "Lead Account Executive",
+    "vn": "Trưởng nhóm chuyên viên kinh doanh"
+  },
+  "lead_backend_engineer": {
+    "en": "Lead Backend Engineer",
+    "vn": "Kỹ sư Backend Trưởng nhóm"
+  },
+  "lead_business_analyst": {
+    "en": "Lead Business Analyst",
+    "vn": "Chuyên viên phân tích Kinh doanh Trưởng nhóm"
+  },
+  "lead_consultant": {
+    "en": "Lead Consultant",
+    "vn": "Tư vấn Trưởng nhóm"
+  },
+  "lead_content_writer": {
+    "en": "Lead Content Writer",
+    "vn": "Trưởng nhóm người viết nội dung"
+  },
+  "lead_data_analyst": {
+    "en": "Lead Data Analyst",
+    "vn": "Chuyên viên phân tích Dữ liệu Trưởng nhóm"
+  },
+  "lead_data_engineer": {
+    "en": "Lead Data Engineer",
+    "vn": "Kỹ sư Dữ liệu Trưởng nhóm"
+  },
+  "lead_data_scientist": {
+    "en": "Lead Data Scientist",
+    "vn": "Nhà khoa học Dữ liệu Trưởng nhóm"
+  },
+  "lead_designer": {
+    "en": "Lead Designer",
+    "vn": "Nhà thiết kế Trưởng nhóm"
+  },
+  "lead_devops_engineer": {
+    "en": "Lead DevOps Engineer",
+    "vn": "Kỹ sư DevOps Trưởng nhóm"
+  },
+  "lead_finance_manager": {
+    "en": "Lead Finance Manager",
+    "vn": "Quản lý Tài chính Trưởng nhóm"
+  },
+  "lead_frontend_engineer": {
+    "en": "Lead Frontend Engineer",
+    "vn": "Kỹ sư Frontend Trưởng nhóm"
+  },
+  "lead_full_stack_engineer": {
+    "en": "Lead Full Stack Engineer",
+    "vn": "Kỹ sư Full-stack Trưởng nhóm"
+  },
+  "lead_fullstack_engineer": {
+    "en": "Lead Fullstack Engineer",
+    "vn": "Kỹ sư Full-stack Trưởng nhóm"
+  },
+  "lead_growth_manager": {
+    "en": "Lead Growth Manager",
+    "vn": "Quản lý Tăng trưởng Trưởng nhóm"
+  },
+  "lead_marketing_manager": {
+    "en": "Lead Marketing Manager",
+    "vn": "Quản lý Marketing Trưởng nhóm"
+  },
+  "lead_ml_engineer": {
+    "en": "Lead ML Engineer",
+    "vn": "Kỹ sư ML Trưởng nhóm"
+  },
+  "lead_mobile_engineer": {
+    "en": "Lead Mobile Engineer",
+    "vn": "Kỹ sư Di động Trưởng nhóm"
+  },
+  "lead_operations_manager": {
+    "en": "Lead Operations Manager",
+    "vn": "Quản lý Vận hành Trưởng nhóm"
+  },
+  "lead_product_designer": {
+    "en": "Lead Product Designer",
+    "vn": "Nhà thiết kế Sản phẩm Trưởng nhóm"
+  },
+  "lead_product_manager": {
+    "en": "Lead Product Manager",
+    "vn": "Quản lý sản phẩm Trưởng nhóm"
+  },
+  "lead_program_manager": {
+    "en": "Lead Program Manager",
+    "vn": "Quản lý Chương trình Trưởng nhóm"
+  },
+  "lead_project_manager": {
+    "en": "Lead Project Manager",
+    "vn": "Quản lý Dự án Trưởng nhóm"
+  },
+  "lead_qa_engineer": {
+    "en": "Lead QA Engineer",
+    "vn": "Kỹ sư QA Trưởng nhóm"
+  },
+  "lead_recruiter": {
+    "en": "Lead Recruiter",
+    "vn": "Trưởng nhóm tuyển dụng"
+  },
+  "lead_researcher": {
+    "en": "Lead Researcher",
+    "vn": "Nhà nghiên cứu Trưởng nhóm"
+  },
+  "lead_sales_manager": {
+    "en": "Lead Sales Manager",
+    "vn": "Quản lý Kinh doanh Trưởng nhóm"
+  },
+  "lead_security_engineer": {
+    "en": "Lead Security Engineer",
+    "vn": "Kỹ sư Bảo mật Trưởng nhóm"
+  },
+  "lead_software_engineer": {
+    "en": "Lead Software Engineer",
+    "vn": "Kỹ sư phần mềm Trưởng nhóm"
+  },
+  "lead_strategy_manager": {
+    "en": "Lead Strategy Manager",
+    "vn": "Quản lý Chiến lược Trưởng nhóm"
+  },
+  "lead_ux_designer": {
+    "en": "Lead UX Designer",
+    "vn": "Nhà thiết kế UX Trưởng nhóm"
+  },
+  "lecturer": {
+    "en": "Lecturer",
+    "vn": "Giảng viên"
+  },
+  "legal_analyst": {
+    "en": "Legal Analyst",
+    "vn": "Chuyên viên phân tích Pháp lý"
+  },
+  "legal_architect": {
+    "en": "Legal Architect",
+    "vn": "Kiến trúc sư Pháp lý"
+  },
+  "legal_consultant": {
+    "en": "Legal Consultant",
+    "vn": "Tư vấn Pháp lý"
+  },
+  "legal_designer": {
+    "en": "Legal Designer",
+    "vn": "Nhà thiết kế Pháp lý"
+  },
+  "legal_director": {
+    "en": "Legal Director",
+    "vn": "Giám đốc Pháp lý"
+  },
+  "legal_engineer": {
+    "en": "Legal Engineer",
+    "vn": "Kỹ sư Pháp lý"
+  },
+  "legal_lead": {
+    "en": "Legal Lead",
+    "vn": "Trưởng nhóm Pháp lý"
+  },
+  "legal_manager": {
+    "en": "Legal Manager",
+    "vn": "Quản lý Pháp lý"
+  },
+  "legal_marketer": {
+    "en": "Legal Marketer",
+    "vn": "Chuyên viên marketing Pháp lý"
+  },
+  "legal_operator": {
+    "en": "Legal Operator",
+    "vn": "Vận hành Pháp lý"
+  },
+  "legal_product_manager": {
+    "en": "Legal Product Manager",
+    "vn": "Quản lý sản phẩm Pháp lý"
+  },
+  "legal_researcher": {
+    "en": "Legal Researcher",
+    "vn": "Nhà nghiên cứu Pháp lý"
+  },
+  "legal_sales_lead": {
+    "en": "Legal Sales Lead",
+    "vn": "Phụ trách bán hàng Pháp lý"
+  },
+  "legal_scientist": {
+    "en": "Legal Scientist",
+    "vn": "Nhà khoa học Pháp lý"
+  },
+  "legal_specialist": {
+    "en": "Legal Specialist",
+    "vn": "Chuyên viên Pháp lý"
+  },
+  "level_designer": {
+    "en": "Level Designer",
+    "vn": "Nhà thiết kế Cấp độ"
+  },
+  "librarian": {
+    "en": "Librarian",
+    "vn": "Thủ thư"
+  },
+  "lifecycle_marketing_manager": {
+    "en": "Lifecycle Marketing Manager",
+    "vn": "Quản lý Lifecycle marketing"
+  },
+  "limited_partner": {
+    "en": "Limited Partner",
+    "vn": "Thành viên góp vốn hạn chế"
+  },
+  "localization_manager": {
+    "en": "Localization Manager",
+    "vn": "Quản lý Bản địa hóa"
+  },
+  "logistics_analyst": {
+    "en": "Logistics Analyst",
+    "vn": "Chuyên viên phân tích Hậu cần"
+  },
+  "logistics_architect": {
+    "en": "Logistics Architect",
+    "vn": "Kiến trúc sư Hậu cần"
+  },
+  "logistics_consultant": {
+    "en": "Logistics Consultant",
+    "vn": "Tư vấn Hậu cần"
+  },
+  "logistics_designer": {
+    "en": "Logistics Designer",
+    "vn": "Nhà thiết kế Hậu cần"
+  },
+  "logistics_director": {
+    "en": "Logistics Director",
+    "vn": "Giám đốc Hậu cần"
+  },
+  "logistics_engineer": {
+    "en": "Logistics Engineer",
+    "vn": "Kỹ sư Hậu cần"
+  },
+  "logistics_lead": {
+    "en": "Logistics Lead",
+    "vn": "Trưởng nhóm Hậu cần"
+  },
+  "logistics_manager": {
+    "en": "Logistics Manager",
+    "vn": "Quản lý Hậu cần"
+  },
+  "logistics_marketer": {
+    "en": "Logistics Marketer",
+    "vn": "Chuyên viên marketing Hậu cần"
+  },
+  "logistics_operator": {
+    "en": "Logistics Operator",
+    "vn": "Vận hành Hậu cần"
+  },
+  "logistics_product_manager": {
+    "en": "Logistics Product Manager",
+    "vn": "Quản lý sản phẩm Hậu cần"
+  },
+  "logistics_researcher": {
+    "en": "Logistics Researcher",
+    "vn": "Nhà nghiên cứu Hậu cần"
+  },
+  "logistics_sales_lead": {
+    "en": "Logistics Sales Lead",
+    "vn": "Phụ trách bán hàng Hậu cần"
+  },
+  "logistics_scientist": {
+    "en": "Logistics Scientist",
+    "vn": "Nhà khoa học Hậu cần"
+  },
+  "logistics_specialist": {
+    "en": "Logistics Specialist",
+    "vn": "Chuyên viên Hậu cần"
+  },
+  "low_code_developer": {
+    "en": "Low-Code Developer",
+    "vn": "Lập trình viên low-code"
+  },
+  "machine_learning_engineer": {
+    "en": "Machine Learning Engineer",
+    "vn": "Kỹ sư Machine learning"
+  },
+  "maker": {
+    "en": "Maker",
+    "vn": "Nhà sáng tạo / maker"
+  },
+  "management_consultant": {
+    "en": "Management Consultant",
+    "vn": "Tư vấn Quản lý"
+  },
+  "managing_director": {
+    "en": "Managing Director",
+    "vn": "Giám đốc Điều hành"
+  },
+  "managing_partner": {
+    "en": "Managing Partner",
+    "vn": "Đối tác điều hành"
+  },
+  "manufacturing_analyst": {
+    "en": "Manufacturing Analyst",
+    "vn": "Chuyên viên phân tích Sản xuất"
+  },
+  "manufacturing_architect": {
+    "en": "Manufacturing Architect",
+    "vn": "Kiến trúc sư Sản xuất"
+  },
+  "manufacturing_consultant": {
+    "en": "Manufacturing Consultant",
+    "vn": "Tư vấn Sản xuất"
+  },
+  "manufacturing_designer": {
+    "en": "Manufacturing Designer",
+    "vn": "Nhà thiết kế Sản xuất"
+  },
+  "manufacturing_director": {
+    "en": "Manufacturing Director",
+    "vn": "Giám đốc Sản xuất"
+  },
+  "manufacturing_engineer": {
+    "en": "Manufacturing Engineer",
+    "vn": "Kỹ sư Sản xuất"
+  },
+  "manufacturing_lead": {
+    "en": "Manufacturing Lead",
+    "vn": "Trưởng nhóm Sản xuất"
+  },
+  "manufacturing_manager": {
+    "en": "Manufacturing Manager",
+    "vn": "Quản lý Sản xuất"
+  },
+  "manufacturing_marketer": {
+    "en": "Manufacturing Marketer",
+    "vn": "Chuyên viên marketing Sản xuất"
+  },
+  "manufacturing_operator": {
+    "en": "Manufacturing Operator",
+    "vn": "Vận hành Sản xuất"
+  },
+  "manufacturing_researcher": {
+    "en": "Manufacturing Researcher",
+    "vn": "Nhà nghiên cứu Sản xuất"
+  },
+  "manufacturing_sales_lead": {
+    "en": "Manufacturing Sales Lead",
+    "vn": "Phụ trách bán hàng Sản xuất"
+  },
+  "manufacturing_scientist": {
+    "en": "Manufacturing Scientist",
+    "vn": "Nhà khoa học Sản xuất"
+  },
+  "manufacturing_specialist": {
+    "en": "Manufacturing Specialist",
+    "vn": "Chuyên viên Sản xuất"
+  },
+  "marketing_analyst": {
+    "en": "Marketing Analyst",
+    "vn": "Chuyên viên phân tích Marketing"
+  },
+  "marketing_manager": {
+    "en": "Marketing Manager",
+    "vn": "Quản lý Marketing"
+  },
+  "marketplace_analyst": {
+    "en": "Marketplace Analyst",
+    "vn": "Chuyên viên phân tích Sàn giao dịch"
+  },
+  "marketplace_architect": {
+    "en": "Marketplace Architect",
+    "vn": "Kiến trúc sư Sàn giao dịch"
+  },
+  "marketplace_consultant": {
+    "en": "Marketplace Consultant",
+    "vn": "Tư vấn Sàn giao dịch"
+  },
+  "marketplace_designer": {
+    "en": "Marketplace Designer",
+    "vn": "Nhà thiết kế Sàn giao dịch"
+  },
+  "marketplace_director": {
+    "en": "Marketplace Director",
+    "vn": "Giám đốc Sàn giao dịch"
+  },
+  "marketplace_engineer": {
+    "en": "Marketplace Engineer",
+    "vn": "Kỹ sư Sàn giao dịch"
+  },
+  "marketplace_lead": {
+    "en": "Marketplace Lead",
+    "vn": "Trưởng nhóm Sàn giao dịch"
+  },
+  "marketplace_manager": {
+    "en": "Marketplace Manager",
+    "vn": "Quản lý Sàn giao dịch"
+  },
+  "marketplace_marketer": {
+    "en": "Marketplace Marketer",
+    "vn": "Chuyên viên marketing Sàn giao dịch"
+  },
+  "marketplace_operator": {
+    "en": "Marketplace Operator",
+    "vn": "Vận hành Sàn giao dịch"
+  },
+  "marketplace_product_manager": {
+    "en": "Marketplace Product Manager",
+    "vn": "Quản lý sản phẩm Sàn giao dịch"
+  },
+  "marketplace_researcher": {
+    "en": "Marketplace Researcher",
+    "vn": "Nhà nghiên cứu Sàn giao dịch"
+  },
+  "marketplace_sales_lead": {
+    "en": "Marketplace Sales Lead",
+    "vn": "Phụ trách bán hàng Sàn giao dịch"
+  },
+  "marketplace_scientist": {
+    "en": "Marketplace Scientist",
+    "vn": "Nhà khoa học Sàn giao dịch"
+  },
+  "marketplace_specialist": {
+    "en": "Marketplace Specialist",
+    "vn": "Chuyên viên Sàn giao dịch"
+  },
+  "mechanical_engineer": {
+    "en": "Mechanical Engineer",
+    "vn": "Kỹ sư Cơ khí"
+  },
+  "media_analyst": {
+    "en": "Media Analyst",
+    "vn": "Chuyên viên phân tích Truyền thông"
+  },
+  "media_architect": {
+    "en": "Media Architect",
+    "vn": "Kiến trúc sư Truyền thông"
+  },
+  "media_consultant": {
+    "en": "Media Consultant",
+    "vn": "Tư vấn Truyền thông"
+  },
+  "media_designer": {
+    "en": "Media Designer",
+    "vn": "Nhà thiết kế Truyền thông"
+  },
+  "media_director": {
+    "en": "Media Director",
+    "vn": "Giám đốc Truyền thông"
+  },
+  "media_engineer": {
+    "en": "Media Engineer",
+    "vn": "Kỹ sư Truyền thông"
+  },
+  "media_lead": {
+    "en": "Media Lead",
+    "vn": "Trưởng nhóm Truyền thông"
+  },
+  "media_manager": {
+    "en": "Media Manager",
+    "vn": "Quản lý Truyền thông"
+  },
+  "media_marketer": {
+    "en": "Media Marketer",
+    "vn": "Chuyên viên marketing Truyền thông"
+  },
+  "media_operator": {
+    "en": "Media Operator",
+    "vn": "Vận hành Truyền thông"
+  },
+  "media_product_manager": {
+    "en": "Media Product Manager",
+    "vn": "Quản lý sản phẩm Truyền thông"
+  },
+  "media_researcher": {
+    "en": "Media Researcher",
+    "vn": "Nhà nghiên cứu Truyền thông"
+  },
+  "media_sales_lead": {
+    "en": "Media Sales Lead",
+    "vn": "Phụ trách bán hàng Truyền thông"
+  },
+  "media_scientist": {
+    "en": "Media Scientist",
+    "vn": "Nhà khoa học Truyền thông"
+  },
+  "media_specialist": {
+    "en": "Media Specialist",
+    "vn": "Chuyên viên Truyền thông"
+  },
+  "medical_doctor": {
+    "en": "Medical Doctor",
+    "vn": "Bác sĩ"
+  },
+  "military": {
+    "en": "Military",
+    "vn": "Quân nhân"
+  },
+  "ml_engineer": {
+    "en": "ML Engineer",
+    "vn": "Kỹ sư ML"
+  },
+  "mlops_engineer": {
+    "en": "MLOps Engineer",
+    "vn": "Kỹ sư MLOps"
+  },
+  "mobile_analyst": {
+    "en": "Mobile Analyst",
+    "vn": "Chuyên viên phân tích Di động"
+  },
+  "mobile_architect": {
+    "en": "Mobile Architect",
+    "vn": "Kiến trúc sư Di động"
+  },
+  "mobile_consultant": {
+    "en": "Mobile Consultant",
+    "vn": "Tư vấn Di động"
+  },
+  "mobile_designer": {
+    "en": "Mobile Designer",
+    "vn": "Nhà thiết kế Di động"
+  },
+  "mobile_director": {
+    "en": "Mobile Director",
+    "vn": "Giám đốc Di động"
+  },
+  "mobile_engineer": {
+    "en": "Mobile Engineer",
+    "vn": "Kỹ sư Di động"
+  },
+  "mobile_lead": {
+    "en": "Mobile Lead",
+    "vn": "Trưởng nhóm Di động"
+  },
+  "mobile_manager": {
+    "en": "Mobile Manager",
+    "vn": "Quản lý Di động"
+  },
+  "mobile_marketer": {
+    "en": "Mobile Marketer",
+    "vn": "Chuyên viên marketing Di động"
+  },
+  "mobile_operator": {
+    "en": "Mobile Operator",
+    "vn": "Vận hành Di động"
+  },
+  "mobile_product_manager": {
+    "en": "Mobile Product Manager",
+    "vn": "Quản lý sản phẩm Di động"
+  },
+  "mobile_researcher": {
+    "en": "Mobile Researcher",
+    "vn": "Nhà nghiên cứu Di động"
+  },
+  "mobile_sales_lead": {
+    "en": "Mobile Sales Lead",
+    "vn": "Phụ trách bán hàng Di động"
+  },
+  "mobile_scientist": {
+    "en": "Mobile Scientist",
+    "vn": "Nhà khoa học Di động"
+  },
+  "mobile_specialist": {
+    "en": "Mobile Specialist",
+    "vn": "Chuyên viên Di động"
+  },
+  "motion_designer": {
+    "en": "Motion Designer",
+    "vn": "Nhà thiết kế Motion"
+  },
+  "music_analyst": {
+    "en": "Music Analyst",
+    "vn": "Chuyên viên phân tích Âm nhạc"
+  },
+  "music_architect": {
+    "en": "Music Architect",
+    "vn": "Kiến trúc sư Âm nhạc"
+  },
+  "music_consultant": {
+    "en": "Music Consultant",
+    "vn": "Tư vấn Âm nhạc"
+  },
+  "music_designer": {
+    "en": "Music Designer",
+    "vn": "Nhà thiết kế Âm nhạc"
+  },
+  "music_director": {
+    "en": "Music Director",
+    "vn": "Giám đốc Âm nhạc"
+  },
+  "music_engineer": {
+    "en": "Music Engineer",
+    "vn": "Kỹ sư Âm nhạc"
+  },
+  "music_lead": {
+    "en": "Music Lead",
+    "vn": "Trưởng nhóm Âm nhạc"
+  },
+  "music_manager": {
+    "en": "Music Manager",
+    "vn": "Quản lý Âm nhạc"
+  },
+  "music_marketer": {
+    "en": "Music Marketer",
+    "vn": "Chuyên viên marketing Âm nhạc"
+  },
+  "music_operator": {
+    "en": "Music Operator",
+    "vn": "Vận hành Âm nhạc"
+  },
+  "music_producer": {
+    "en": "Music Producer",
+    "vn": "Nhà sản xuất âm nhạc"
+  },
+  "music_product_manager": {
+    "en": "Music Product Manager",
+    "vn": "Quản lý sản phẩm Âm nhạc"
+  },
+  "music_researcher": {
+    "en": "Music Researcher",
+    "vn": "Nhà nghiên cứu Âm nhạc"
+  },
+  "music_sales_lead": {
+    "en": "Music Sales Lead",
+    "vn": "Phụ trách bán hàng Âm nhạc"
+  },
+  "music_scientist": {
+    "en": "Music Scientist",
+    "vn": "Nhà khoa học Âm nhạc"
+  },
+  "music_specialist": {
+    "en": "Music Specialist",
+    "vn": "Chuyên viên Âm nhạc"
+  },
+  "narrative_designer": {
+    "en": "Narrative Designer",
+    "vn": "Nhà thiết kế Kể chuyện"
+  },
+  "network_engineer": {
+    "en": "Network Engineer",
+    "vn": "Kỹ sư Mạng"
+  },
+  "networking_analyst": {
+    "en": "Networking Analyst",
+    "vn": "Chuyên viên phân tích Mạng lưới"
+  },
+  "networking_architect": {
+    "en": "Networking Architect",
+    "vn": "Kiến trúc sư Mạng lưới"
+  },
+  "networking_consultant": {
+    "en": "Networking Consultant",
+    "vn": "Tư vấn Mạng lưới"
+  },
+  "networking_designer": {
+    "en": "Networking Designer",
+    "vn": "Nhà thiết kế Mạng lưới"
+  },
+  "networking_director": {
+    "en": "Networking Director",
+    "vn": "Giám đốc Mạng lưới"
+  },
+  "networking_engineer": {
+    "en": "Networking Engineer",
+    "vn": "Kỹ sư Mạng lưới"
+  },
+  "networking_lead": {
+    "en": "Networking Lead",
+    "vn": "Trưởng nhóm Mạng lưới"
+  },
+  "networking_manager": {
+    "en": "Networking Manager",
+    "vn": "Quản lý Mạng lưới"
+  },
+  "networking_marketer": {
+    "en": "Networking Marketer",
+    "vn": "Chuyên viên marketing Mạng lưới"
+  },
+  "networking_operator": {
+    "en": "Networking Operator",
+    "vn": "Vận hành Mạng lưới"
+  },
+  "networking_product_manager": {
+    "en": "Networking Product Manager",
+    "vn": "Quản lý sản phẩm Mạng lưới"
+  },
+  "networking_researcher": {
+    "en": "Networking Researcher",
+    "vn": "Nhà nghiên cứu Mạng lưới"
+  },
+  "networking_sales_lead": {
+    "en": "Networking Sales Lead",
+    "vn": "Phụ trách bán hàng Mạng lưới"
+  },
+  "networking_scientist": {
+    "en": "Networking Scientist",
+    "vn": "Nhà khoa học Mạng lưới"
+  },
+  "networking_specialist": {
+    "en": "Networking Specialist",
+    "vn": "Chuyên viên Mạng lưới"
+  },
+  "newsletter_writer": {
+    "en": "Newsletter Writer",
+    "vn": "Người viết newsletter"
+  },
+  "nlp_engineer": {
+    "en": "NLP Engineer",
+    "vn": "Kỹ sư NLP"
+  },
+  "no_code_developer": {
+    "en": "No-Code Developer",
+    "vn": "Lập trình viên no-code"
+  },
+  "non_technical_founder": {
+    "en": "Non-technical Founder",
+    "vn": "Founder phi kỹ thuật"
+  },
+  "nonprofit_analyst": {
+    "en": "Nonprofit Analyst",
+    "vn": "Chuyên viên phân tích Phi lợi nhuận"
+  },
+  "nonprofit_architect": {
+    "en": "Nonprofit Architect",
+    "vn": "Kiến trúc sư Phi lợi nhuận"
+  },
+  "nonprofit_consultant": {
+    "en": "Nonprofit Consultant",
+    "vn": "Tư vấn Phi lợi nhuận"
+  },
+  "nonprofit_designer": {
+    "en": "Nonprofit Designer",
+    "vn": "Nhà thiết kế Phi lợi nhuận"
+  },
+  "nonprofit_director": {
+    "en": "Nonprofit Director",
+    "vn": "Giám đốc Phi lợi nhuận"
+  },
+  "nonprofit_engineer": {
+    "en": "Nonprofit Engineer",
+    "vn": "Kỹ sư Phi lợi nhuận"
+  },
+  "nonprofit_lead": {
+    "en": "Nonprofit Lead",
+    "vn": "Trưởng nhóm Phi lợi nhuận"
+  },
+  "nonprofit_manager": {
+    "en": "Nonprofit Manager",
+    "vn": "Quản lý Phi lợi nhuận"
+  },
+  "nonprofit_marketer": {
+    "en": "Nonprofit Marketer",
+    "vn": "Chuyên viên marketing Phi lợi nhuận"
+  },
+  "nonprofit_operator": {
+    "en": "Nonprofit Operator",
+    "vn": "Vận hành Phi lợi nhuận"
+  },
+  "nonprofit_product_manager": {
+    "en": "Nonprofit Product Manager",
+    "vn": "Quản lý sản phẩm Phi lợi nhuận"
+  },
+  "nonprofit_researcher": {
+    "en": "Nonprofit Researcher",
+    "vn": "Nhà nghiên cứu Phi lợi nhuận"
+  },
+  "nonprofit_sales_lead": {
+    "en": "Nonprofit Sales Lead",
+    "vn": "Phụ trách bán hàng Phi lợi nhuận"
+  },
+  "nonprofit_scientist": {
+    "en": "Nonprofit Scientist",
+    "vn": "Nhà khoa học Phi lợi nhuận"
+  },
+  "nonprofit_specialist": {
+    "en": "Nonprofit Specialist",
+    "vn": "Chuyên viên Phi lợi nhuận"
+  },
+  "notion_consultant": {
+    "en": "Notion Consultant",
+    "vn": "Tư vấn Notion"
+  },
+  "nurse": {
+    "en": "Nurse",
+    "vn": "Điều dưỡng"
+  },
+  "occupation_other": {
+    "en": "Other",
+    "vn": "Khác"
+  },
+  "office_manager": {
+    "en": "Office Manager",
+    "vn": "Quản lý Văn phòng"
+  },
+  "open_source_maintainer": {
+    "en": "Open Source Maintainer",
+    "vn": "Người duy trì mã nguồn mở"
+  },
+  "operations_analyst": {
+    "en": "Operations Analyst",
+    "vn": "Chuyên viên phân tích Vận hành"
+  },
+  "operations_manager": {
+    "en": "Operations Manager",
+    "vn": "Quản lý Vận hành"
+  },
+  "operator": {
+    "en": "Operator",
+    "vn": "Người vận hành"
+  },
+  "partner": {
+    "en": "Partner",
+    "vn": "Đối tác"
+  },
+  "partnerships_manager": {
+    "en": "Partnerships Manager",
+    "vn": "Quản lý Đối tác"
+  },
+  "payments_analyst": {
+    "en": "Payments Analyst",
+    "vn": "Chuyên viên phân tích Thanh toán"
+  },
+  "payments_architect": {
+    "en": "Payments Architect",
+    "vn": "Kiến trúc sư Thanh toán"
+  },
+  "payments_consultant": {
+    "en": "Payments Consultant",
+    "vn": "Tư vấn Thanh toán"
+  },
+  "payments_designer": {
+    "en": "Payments Designer",
+    "vn": "Nhà thiết kế Thanh toán"
+  },
+  "payments_director": {
+    "en": "Payments Director",
+    "vn": "Giám đốc Thanh toán"
+  },
+  "payments_engineer": {
+    "en": "Payments Engineer",
+    "vn": "Kỹ sư Thanh toán"
+  },
+  "payments_lead": {
+    "en": "Payments Lead",
+    "vn": "Trưởng nhóm Thanh toán"
+  },
+  "payments_manager": {
+    "en": "Payments Manager",
+    "vn": "Quản lý Thanh toán"
+  },
+  "payments_marketer": {
+    "en": "Payments Marketer",
+    "vn": "Chuyên viên marketing Thanh toán"
+  },
+  "payments_operator": {
+    "en": "Payments Operator",
+    "vn": "Vận hành Thanh toán"
+  },
+  "payments_product_manager": {
+    "en": "Payments Product Manager",
+    "vn": "Quản lý sản phẩm Thanh toán"
+  },
+  "payments_researcher": {
+    "en": "Payments Researcher",
+    "vn": "Nhà nghiên cứu Thanh toán"
+  },
+  "payments_sales_lead": {
+    "en": "Payments Sales Lead",
+    "vn": "Phụ trách bán hàng Thanh toán"
+  },
+  "payments_scientist": {
+    "en": "Payments Scientist",
+    "vn": "Nhà khoa học Thanh toán"
+  },
+  "payments_specialist": {
+    "en": "Payments Specialist",
+    "vn": "Chuyên viên Thanh toán"
+  },
+  "penetration_tester": {
+    "en": "Penetration Tester",
+    "vn": "Chuyên viên kiểm thử xâm nhập"
+  },
+  "people_manager": {
+    "en": "People Manager",
+    "vn": "Quản lý Con người"
+  },
+  "people_operations_manager": {
+    "en": "People Operations Manager",
+    "vn": "Quản lý Vận hành nhân sự"
+  },
+  "performance_marketer": {
+    "en": "Performance Marketer",
+    "vn": "Chuyên viên marketing Hiệu suất"
+  },
+  "personal_trainer": {
+    "en": "Personal Trainer",
+    "vn": "Huấn luyện viên cá nhân"
+  },
+  "pharmacist": {
+    "en": "Pharmacist",
+    "vn": "Dược sĩ"
+  },
+  "phd_student": {
+    "en": "PhD Student",
+    "vn": "Nghiên cứu sinh tiến sĩ"
+  },
+  "photographer": {
+    "en": "Photographer",
+    "vn": "Nhiếp ảnh gia"
+  },
+  "physician": {
+    "en": "Physician",
+    "vn": "Bác sĩ"
+  },
+  "pilot": {
+    "en": "Pilot",
+    "vn": "Phi công"
+  },
+  "platform_analyst": {
+    "en": "Platform Analyst",
+    "vn": "Chuyên viên phân tích Nền tảng"
+  },
+  "platform_architect": {
+    "en": "Platform Architect",
+    "vn": "Kiến trúc sư Nền tảng"
+  },
+  "platform_consultant": {
+    "en": "Platform Consultant",
+    "vn": "Tư vấn Nền tảng"
+  },
+  "platform_designer": {
+    "en": "Platform Designer",
+    "vn": "Nhà thiết kế Nền tảng"
+  },
+  "platform_director": {
+    "en": "Platform Director",
+    "vn": "Giám đốc Nền tảng"
+  },
+  "platform_engineer": {
+    "en": "Platform Engineer",
+    "vn": "Kỹ sư Nền tảng"
+  },
+  "platform_lead": {
+    "en": "Platform Lead",
+    "vn": "Trưởng nhóm Nền tảng"
+  },
+  "platform_manager": {
+    "en": "Platform Manager",
+    "vn": "Quản lý Nền tảng"
+  },
+  "platform_marketer": {
+    "en": "Platform Marketer",
+    "vn": "Chuyên viên marketing Nền tảng"
+  },
+  "platform_operator": {
+    "en": "Platform Operator",
+    "vn": "Vận hành Nền tảng"
+  },
+  "platform_product_manager": {
+    "en": "Platform Product Manager",
+    "vn": "Quản lý sản phẩm Nền tảng"
+  },
+  "platform_researcher": {
+    "en": "Platform Researcher",
+    "vn": "Nhà nghiên cứu Nền tảng"
+  },
+  "platform_sales_lead": {
+    "en": "Platform Sales Lead",
+    "vn": "Phụ trách bán hàng Nền tảng"
+  },
+  "platform_scientist": {
+    "en": "Platform Scientist",
+    "vn": "Nhà khoa học Nền tảng"
+  },
+  "platform_specialist": {
+    "en": "Platform Specialist",
+    "vn": "Chuyên viên Nền tảng"
+  },
+  "podcaster": {
+    "en": "Podcaster",
+    "vn": "Người làm podcast"
+  },
+  "police_officer": {
+    "en": "Police Officer",
+    "vn": "Cảnh sát"
+  },
+  "policy_analyst": {
+    "en": "Policy Analyst",
+    "vn": "Chuyên viên phân tích Chính sách"
+  },
+  "politician": {
+    "en": "Politician",
+    "vn": "Chính trị gia"
+  },
+  "portfolio_manager": {
+    "en": "Portfolio Manager",
+    "vn": "Quản lý Danh mục"
+  },
+  "postdoctoral_researcher": {
+    "en": "Postdoctoral Researcher",
+    "vn": "Nhà nghiên cứu Sau tiến sĩ"
+  },
+  "pr_manager": {
+    "en": "PR Manager",
+    "vn": "Quản lý PR"
+  },
+  "president": {
+    "en": "President",
+    "vn": "Chủ tịch"
+  },
+  "principal_account_executive": {
+    "en": "Principal Account Executive",
+    "vn": "Chuyên viên kinh doanh principal"
+  },
+  "principal_architect": {
+    "en": "Principal Architect",
+    "vn": "Kiến trúc sư Principal"
+  },
+  "principal_backend_engineer": {
+    "en": "Principal Backend Engineer",
+    "vn": "Kỹ sư Backend Principal"
+  },
+  "principal_business_analyst": {
+    "en": "Principal Business Analyst",
+    "vn": "Chuyên viên phân tích Kinh doanh Principal"
+  },
+  "principal_consultant": {
+    "en": "Principal Consultant",
+    "vn": "Tư vấn Principal"
+  },
+  "principal_content_writer": {
+    "en": "Principal Content Writer",
+    "vn": "Người viết nội dung principal"
+  },
+  "principal_data_analyst": {
+    "en": "Principal Data Analyst",
+    "vn": "Chuyên viên phân tích Dữ liệu Principal"
+  },
+  "principal_data_engineer": {
+    "en": "Principal Data Engineer",
+    "vn": "Kỹ sư Dữ liệu Principal"
+  },
+  "principal_data_scientist": {
+    "en": "Principal Data Scientist",
+    "vn": "Nhà khoa học Dữ liệu Principal"
+  },
+  "principal_designer": {
+    "en": "Principal Designer",
+    "vn": "Nhà thiết kế Principal"
+  },
+  "principal_devops_engineer": {
+    "en": "Principal DevOps Engineer",
+    "vn": "Kỹ sư DevOps Principal"
+  },
+  "principal_finance_manager": {
+    "en": "Principal Finance Manager",
+    "vn": "Quản lý Tài chính Principal"
+  },
+  "principal_frontend_engineer": {
+    "en": "Principal Frontend Engineer",
+    "vn": "Kỹ sư Frontend Principal"
+  },
+  "principal_fullstack_engineer": {
+    "en": "Principal Fullstack Engineer",
+    "vn": "Kỹ sư Full-stack Principal"
+  },
+  "principal_growth_manager": {
+    "en": "Principal Growth Manager",
+    "vn": "Quản lý Tăng trưởng Principal"
+  },
+  "principal_marketing_manager": {
+    "en": "Principal Marketing Manager",
+    "vn": "Quản lý Marketing Principal"
+  },
+  "principal_ml_engineer": {
+    "en": "Principal ML Engineer",
+    "vn": "Kỹ sư ML Principal"
+  },
+  "principal_mobile_engineer": {
+    "en": "Principal Mobile Engineer",
+    "vn": "Kỹ sư Di động Principal"
+  },
+  "principal_operations_manager": {
+    "en": "Principal Operations Manager",
+    "vn": "Quản lý Vận hành Principal"
+  },
+  "principal_product_designer": {
+    "en": "Principal Product Designer",
+    "vn": "Nhà thiết kế Sản phẩm Principal"
+  },
+  "principal_product_manager": {
+    "en": "Principal Product Manager",
+    "vn": "Quản lý sản phẩm Principal"
+  },
+  "principal_program_manager": {
+    "en": "Principal Program Manager",
+    "vn": "Quản lý Chương trình Principal"
+  },
+  "principal_project_manager": {
+    "en": "Principal Project Manager",
+    "vn": "Quản lý Dự án Principal"
+  },
+  "principal_qa_engineer": {
+    "en": "Principal QA Engineer",
+    "vn": "Kỹ sư QA Principal"
+  },
+  "principal_recruiter": {
+    "en": "Principal Recruiter",
+    "vn": "Chuyên viên tuyển dụng principal"
+  },
+  "principal_researcher": {
+    "en": "Principal Researcher",
+    "vn": "Nhà nghiên cứu Principal"
+  },
+  "principal_sales_manager": {
+    "en": "Principal Sales Manager",
+    "vn": "Quản lý Kinh doanh Principal"
+  },
+  "principal_security_engineer": {
+    "en": "Principal Security Engineer",
+    "vn": "Kỹ sư Bảo mật Principal"
+  },
+  "principal_software_engineer": {
+    "en": "Principal Software Engineer",
+    "vn": "Kỹ sư phần mềm Principal"
+  },
+  "principal_strategy_manager": {
+    "en": "Principal Strategy Manager",
+    "vn": "Quản lý Chiến lược Principal"
+  },
+  "principal_ux_designer": {
+    "en": "Principal UX Designer",
+    "vn": "Nhà thiết kế UX Principal"
+  },
+  "privacy_analyst": {
+    "en": "Privacy Analyst",
+    "vn": "Chuyên viên phân tích Quyền riêng tư"
+  },
+  "privacy_architect": {
+    "en": "Privacy Architect",
+    "vn": "Kiến trúc sư Quyền riêng tư"
+  },
+  "privacy_consultant": {
+    "en": "Privacy Consultant",
+    "vn": "Tư vấn Quyền riêng tư"
+  },
+  "privacy_counsel": {
+    "en": "Privacy Counsel",
+    "vn": "Cố vấn quyền riêng tư"
+  },
+  "privacy_designer": {
+    "en": "Privacy Designer",
+    "vn": "Nhà thiết kế Quyền riêng tư"
+  },
+  "privacy_director": {
+    "en": "Privacy Director",
+    "vn": "Giám đốc Quyền riêng tư"
+  },
+  "privacy_engineer": {
+    "en": "Privacy Engineer",
+    "vn": "Kỹ sư Quyền riêng tư"
+  },
+  "privacy_lead": {
+    "en": "Privacy Lead",
+    "vn": "Trưởng nhóm Quyền riêng tư"
+  },
+  "privacy_manager": {
+    "en": "Privacy Manager",
+    "vn": "Quản lý Quyền riêng tư"
+  },
+  "privacy_marketer": {
+    "en": "Privacy Marketer",
+    "vn": "Chuyên viên marketing Quyền riêng tư"
+  },
+  "privacy_operator": {
+    "en": "Privacy Operator",
+    "vn": "Vận hành Quyền riêng tư"
+  },
+  "privacy_product_manager": {
+    "en": "Privacy Product Manager",
+    "vn": "Quản lý sản phẩm Quyền riêng tư"
+  },
+  "privacy_researcher": {
+    "en": "Privacy Researcher",
+    "vn": "Nhà nghiên cứu Quyền riêng tư"
+  },
+  "privacy_sales_lead": {
+    "en": "Privacy Sales Lead",
+    "vn": "Phụ trách bán hàng Quyền riêng tư"
+  },
+  "privacy_scientist": {
+    "en": "Privacy Scientist",
+    "vn": "Nhà khoa học Quyền riêng tư"
+  },
+  "privacy_specialist": {
+    "en": "Privacy Specialist",
+    "vn": "Chuyên viên Quyền riêng tư"
+  },
+  "product_designer": {
+    "en": "Product Designer",
+    "vn": "Nhà thiết kế Sản phẩm"
+  },
+  "product_manager": {
+    "en": "Product manager",
+    "vn": "Quản lý sản phẩm"
+  },
+  "product_marketing_manager": {
+    "en": "Product Marketing Manager",
+    "vn": "Quản lý Product marketing"
+  },
+  "program_manager": {
+    "en": "Program Manager",
+    "vn": "Quản lý Chương trình"
+  },
+  "project_manager": {
+    "en": "Project Manager",
+    "vn": "Quản lý Dự án"
+  },
+  "proptech_analyst": {
+    "en": "PropTech Analyst",
+    "vn": "Chuyên viên phân tích PropTech"
+  },
+  "proptech_architect": {
+    "en": "PropTech Architect",
+    "vn": "Kiến trúc sư PropTech"
+  },
+  "proptech_consultant": {
+    "en": "PropTech Consultant",
+    "vn": "Tư vấn PropTech"
+  },
+  "proptech_designer": {
+    "en": "PropTech Designer",
+    "vn": "Nhà thiết kế PropTech"
+  },
+  "proptech_director": {
+    "en": "PropTech Director",
+    "vn": "Giám đốc PropTech"
+  },
+  "proptech_engineer": {
+    "en": "PropTech Engineer",
+    "vn": "Kỹ sư PropTech"
+  },
+  "proptech_lead": {
+    "en": "PropTech Lead",
+    "vn": "Trưởng nhóm PropTech"
+  },
+  "proptech_manager": {
+    "en": "PropTech Manager",
+    "vn": "Quản lý PropTech"
+  },
+  "proptech_marketer": {
+    "en": "PropTech Marketer",
+    "vn": "Chuyên viên marketing PropTech"
+  },
+  "proptech_operator": {
+    "en": "PropTech Operator",
+    "vn": "Vận hành PropTech"
+  },
+  "proptech_product_manager": {
+    "en": "PropTech Product Manager",
+    "vn": "Quản lý sản phẩm PropTech"
+  },
+  "proptech_researcher": {
+    "en": "PropTech Researcher",
+    "vn": "Nhà nghiên cứu PropTech"
+  },
+  "proptech_sales_lead": {
+    "en": "PropTech Sales Lead",
+    "vn": "Phụ trách bán hàng PropTech"
+  },
+  "proptech_scientist": {
+    "en": "PropTech Scientist",
+    "vn": "Nhà khoa học PropTech"
+  },
+  "proptech_specialist": {
+    "en": "PropTech Specialist",
+    "vn": "Chuyên viên PropTech"
+  },
+  "qa_engineer": {
+    "en": "QA Engineer",
+    "vn": "Kỹ sư QA"
+  },
+  "quantitative_analyst": {
+    "en": "Quantitative Analyst",
+    "vn": "Chuyên viên phân tích Định lượng"
+  },
+  "real_estate_analyst": {
+    "en": "Real Estate Analyst",
+    "vn": "Chuyên viên phân tích Bất động sản"
+  },
+  "real_estate_architect": {
+    "en": "Real Estate Architect",
+    "vn": "Kiến trúc sư Bất động sản"
+  },
+  "real_estate_consultant": {
+    "en": "Real Estate Consultant",
+    "vn": "Tư vấn Bất động sản"
+  },
+  "real_estate_designer": {
+    "en": "Real Estate Designer",
+    "vn": "Nhà thiết kế Bất động sản"
+  },
+  "real_estate_director": {
+    "en": "Real Estate Director",
+    "vn": "Giám đốc Bất động sản"
+  },
+  "real_estate_engineer": {
+    "en": "Real Estate Engineer",
+    "vn": "Kỹ sư Bất động sản"
+  },
+  "real_estate_lead": {
+    "en": "Real Estate Lead",
+    "vn": "Trưởng nhóm Bất động sản"
+  },
+  "real_estate_manager": {
+    "en": "Real Estate Manager",
+    "vn": "Quản lý Bất động sản"
+  },
+  "real_estate_marketer": {
+    "en": "Real Estate Marketer",
+    "vn": "Chuyên viên marketing Bất động sản"
+  },
+  "real_estate_operator": {
+    "en": "Real Estate Operator",
+    "vn": "Vận hành Bất động sản"
+  },
+  "real_estate_product_manager": {
+    "en": "Real Estate Product Manager",
+    "vn": "Quản lý sản phẩm Bất động sản"
+  },
+  "real_estate_researcher": {
+    "en": "Real Estate Researcher",
+    "vn": "Nhà nghiên cứu Bất động sản"
+  },
+  "real_estate_sales_lead": {
+    "en": "Real Estate Sales Lead",
+    "vn": "Phụ trách bán hàng Bất động sản"
+  },
+  "real_estate_scientist": {
+    "en": "Real Estate Scientist",
+    "vn": "Nhà khoa học Bất động sản"
+  },
+  "real_estate_specialist": {
+    "en": "Real Estate Specialist",
+    "vn": "Chuyên viên Bất động sản"
+  },
+  "recruiter": {
+    "en": "Recruiter",
+    "vn": "Chuyên viên tuyển dụng"
+  },
+  "research_scientist": {
+    "en": "Research Scientist",
+    "vn": "Nhà khoa học Nghiên cứu"
+  },
+  "researcher": {
+    "en": "Researcher",
+    "vn": "Nhà nghiên cứu"
+  },
+  "retail_analyst": {
+    "en": "Retail Analyst",
+    "vn": "Chuyên viên phân tích Bán lẻ"
+  },
+  "retail_architect": {
+    "en": "Retail Architect",
+    "vn": "Kiến trúc sư Bán lẻ"
+  },
+  "retail_consultant": {
+    "en": "Retail Consultant",
+    "vn": "Tư vấn Bán lẻ"
+  },
+  "retail_designer": {
+    "en": "Retail Designer",
+    "vn": "Nhà thiết kế Bán lẻ"
+  },
+  "retail_director": {
+    "en": "Retail Director",
+    "vn": "Giám đốc Bán lẻ"
+  },
+  "retail_engineer": {
+    "en": "Retail Engineer",
+    "vn": "Kỹ sư Bán lẻ"
+  },
+  "retail_lead": {
+    "en": "Retail Lead",
+    "vn": "Trưởng nhóm Bán lẻ"
+  },
+  "retail_manager": {
+    "en": "Retail Manager",
+    "vn": "Quản lý Bán lẻ"
+  },
+  "retail_marketer": {
+    "en": "Retail Marketer",
+    "vn": "Chuyên viên marketing Bán lẻ"
+  },
+  "retail_operator": {
+    "en": "Retail Operator",
+    "vn": "Vận hành Bán lẻ"
+  },
+  "retail_product_manager": {
+    "en": "Retail Product Manager",
+    "vn": "Quản lý sản phẩm Bán lẻ"
+  },
+  "retail_researcher": {
+    "en": "Retail Researcher",
+    "vn": "Nhà nghiên cứu Bán lẻ"
+  },
+  "retail_sales_lead": {
+    "en": "Retail Sales Lead",
+    "vn": "Phụ trách bán hàng Bán lẻ"
+  },
+  "retail_scientist": {
+    "en": "Retail Scientist",
+    "vn": "Nhà khoa học Bán lẻ"
+  },
+  "retail_specialist": {
+    "en": "Retail Specialist",
+    "vn": "Chuyên viên Bán lẻ"
+  },
+  "robotics_analyst": {
+    "en": "Robotics Analyst",
+    "vn": "Chuyên viên phân tích Robot"
+  },
+  "robotics_architect": {
+    "en": "Robotics Architect",
+    "vn": "Kiến trúc sư Robot"
+  },
+  "robotics_consultant": {
+    "en": "Robotics Consultant",
+    "vn": "Tư vấn Robot"
+  },
+  "robotics_designer": {
+    "en": "Robotics Designer",
+    "vn": "Nhà thiết kế Robot"
+  },
+  "robotics_director": {
+    "en": "Robotics Director",
+    "vn": "Giám đốc Robot"
+  },
+  "robotics_engineer": {
+    "en": "Robotics Engineer",
+    "vn": "Kỹ sư Robot"
+  },
+  "robotics_lead": {
+    "en": "Robotics Lead",
+    "vn": "Trưởng nhóm Robot"
+  },
+  "robotics_manager": {
+    "en": "Robotics Manager",
+    "vn": "Quản lý Robot"
+  },
+  "robotics_marketer": {
+    "en": "Robotics Marketer",
+    "vn": "Chuyên viên marketing Robot"
+  },
+  "robotics_operator": {
+    "en": "Robotics Operator",
+    "vn": "Vận hành Robot"
+  },
+  "robotics_product_manager": {
+    "en": "Robotics Product Manager",
+    "vn": "Quản lý sản phẩm Robot"
+  },
+  "robotics_researcher": {
+    "en": "Robotics Researcher",
+    "vn": "Nhà nghiên cứu Robot"
+  },
+  "robotics_sales_lead": {
+    "en": "Robotics Sales Lead",
+    "vn": "Phụ trách bán hàng Robot"
+  },
+  "robotics_scientist": {
+    "en": "Robotics Scientist",
+    "vn": "Nhà khoa học Robot"
+  },
+  "robotics_specialist": {
+    "en": "Robotics Specialist",
+    "vn": "Chuyên viên Robot"
+  },
+  "saas_analyst": {
+    "en": "SaaS Analyst",
+    "vn": "Chuyên viên phân tích SaaS"
+  },
+  "saas_architect": {
+    "en": "SaaS Architect",
+    "vn": "Kiến trúc sư SaaS"
+  },
+  "saas_consultant": {
+    "en": "SaaS Consultant",
+    "vn": "Tư vấn SaaS"
+  },
+  "saas_designer": {
+    "en": "SaaS Designer",
+    "vn": "Nhà thiết kế SaaS"
+  },
+  "saas_director": {
+    "en": "SaaS Director",
+    "vn": "Giám đốc SaaS"
+  },
+  "saas_engineer": {
+    "en": "SaaS Engineer",
+    "vn": "Kỹ sư SaaS"
+  },
+  "saas_lead": {
+    "en": "SaaS Lead",
+    "vn": "Trưởng nhóm SaaS"
+  },
+  "saas_manager": {
+    "en": "SaaS Manager",
+    "vn": "Quản lý SaaS"
+  },
+  "saas_marketer": {
+    "en": "SaaS Marketer",
+    "vn": "Chuyên viên marketing SaaS"
+  },
+  "saas_operator": {
+    "en": "SaaS Operator",
+    "vn": "Vận hành SaaS"
+  },
+  "saas_product_manager": {
+    "en": "SaaS Product Manager",
+    "vn": "Quản lý sản phẩm SaaS"
+  },
+  "saas_researcher": {
+    "en": "SaaS Researcher",
+    "vn": "Nhà nghiên cứu SaaS"
+  },
+  "saas_sales_lead": {
+    "en": "SaaS Sales Lead",
+    "vn": "Phụ trách bán hàng SaaS"
+  },
+  "saas_scientist": {
+    "en": "SaaS Scientist",
+    "vn": "Nhà khoa học SaaS"
+  },
+  "saas_specialist": {
+    "en": "SaaS Specialist",
+    "vn": "Chuyên viên SaaS"
+  },
+  "sales_engineer": {
+    "en": "Sales Engineer",
+    "vn": "Kỹ sư Kinh doanh"
+  },
+  "sales_manager": {
+    "en": "Sales Manager",
+    "vn": "Quản lý Kinh doanh"
+  },
+  "security_analyst": {
+    "en": "Security Analyst",
+    "vn": "Chuyên viên phân tích Bảo mật"
+  },
+  "security_architect": {
+    "en": "Security Architect",
+    "vn": "Kiến trúc sư Bảo mật"
+  },
+  "security_consultant": {
+    "en": "Security Consultant",
+    "vn": "Tư vấn Bảo mật"
+  },
+  "security_designer": {
+    "en": "Security Designer",
+    "vn": "Nhà thiết kế Bảo mật"
+  },
+  "security_director": {
+    "en": "Security Director",
+    "vn": "Giám đốc Bảo mật"
+  },
+  "security_engineer": {
+    "en": "Security Engineer",
+    "vn": "Kỹ sư Bảo mật"
+  },
+  "security_lead": {
+    "en": "Security Lead",
+    "vn": "Trưởng nhóm Bảo mật"
+  },
+  "security_manager": {
+    "en": "Security Manager",
+    "vn": "Quản lý Bảo mật"
+  },
+  "security_marketer": {
+    "en": "Security Marketer",
+    "vn": "Chuyên viên marketing Bảo mật"
+  },
+  "security_operator": {
+    "en": "Security Operator",
+    "vn": "Vận hành Bảo mật"
+  },
+  "security_product_manager": {
+    "en": "Security Product Manager",
+    "vn": "Quản lý sản phẩm Bảo mật"
+  },
+  "security_researcher": {
+    "en": "Security Researcher",
+    "vn": "Nhà nghiên cứu Bảo mật"
+  },
+  "security_sales_lead": {
+    "en": "Security Sales Lead",
+    "vn": "Phụ trách bán hàng Bảo mật"
+  },
+  "security_scientist": {
+    "en": "Security Scientist",
+    "vn": "Nhà khoa học Bảo mật"
+  },
+  "security_specialist": {
+    "en": "Security Specialist",
+    "vn": "Chuyên viên Bảo mật"
+  },
+  "senior_software_engineer": {
+    "en": "Senior Software Engineer",
+    "vn": "Kỹ sư phần mềm cấp cao"
+  },
+  "site_reliability_engineer": {
+    "en": "Site Reliability Engineer",
+    "vn": "Kỹ sư SRE"
+  },
+  "social_analyst": {
+    "en": "Social Analyst",
+    "vn": "Chuyên viên phân tích Mạng xã hội"
+  },
+  "social_architect": {
+    "en": "Social Architect",
+    "vn": "Kiến trúc sư Mạng xã hội"
+  },
+  "social_consultant": {
+    "en": "Social Consultant",
+    "vn": "Tư vấn Mạng xã hội"
+  },
+  "social_designer": {
+    "en": "Social Designer",
+    "vn": "Nhà thiết kế Mạng xã hội"
+  },
+  "social_director": {
+    "en": "Social Director",
+    "vn": "Giám đốc Mạng xã hội"
+  },
+  "social_engineer": {
+    "en": "Social Engineer",
+    "vn": "Kỹ sư Mạng xã hội"
+  },
+  "social_lead": {
+    "en": "Social Lead",
+    "vn": "Trưởng nhóm Mạng xã hội"
+  },
+  "social_manager": {
+    "en": "Social Manager",
+    "vn": "Quản lý Mạng xã hội"
+  },
+  "social_marketer": {
+    "en": "Social Marketer",
+    "vn": "Chuyên viên marketing Mạng xã hội"
+  },
+  "social_operator": {
+    "en": "Social Operator",
+    "vn": "Vận hành Mạng xã hội"
+  },
+  "social_product_manager": {
+    "en": "Social Product Manager",
+    "vn": "Quản lý sản phẩm Mạng xã hội"
+  },
+  "social_researcher": {
+    "en": "Social Researcher",
+    "vn": "Nhà nghiên cứu Mạng xã hội"
+  },
+  "social_sales_lead": {
+    "en": "Social Sales Lead",
+    "vn": "Phụ trách bán hàng Mạng xã hội"
+  },
+  "social_scientist": {
+    "en": "Social Scientist",
+    "vn": "Nhà khoa học Mạng xã hội"
+  },
+  "social_specialist": {
+    "en": "Social Specialist",
+    "vn": "Chuyên viên Mạng xã hội"
+  },
+  "software_engineer": {
+    "en": "Software Engineer",
+    "vn": "Kỹ sư phần mềm"
+  },
+  "solution_architect": {
+    "en": "Solution Architect",
+    "vn": "Kiến trúc sư Giải pháp"
+  },
+  "space_analyst": {
+    "en": "Space Analyst",
+    "vn": "Chuyên viên phân tích Không gian"
+  },
+  "space_architect": {
+    "en": "Space Architect",
+    "vn": "Kiến trúc sư Không gian"
+  },
+  "space_consultant": {
+    "en": "Space Consultant",
+    "vn": "Tư vấn Không gian"
+  },
+  "space_designer": {
+    "en": "Space Designer",
+    "vn": "Nhà thiết kế Không gian"
+  },
+  "space_director": {
+    "en": "Space Director",
+    "vn": "Giám đốc Không gian"
+  },
+  "space_engineer": {
+    "en": "Space Engineer",
+    "vn": "Kỹ sư Không gian"
+  },
+  "space_lead": {
+    "en": "Space Lead",
+    "vn": "Trưởng nhóm Không gian"
+  },
+  "space_manager": {
+    "en": "Space Manager",
+    "vn": "Quản lý Không gian"
+  },
+  "space_marketer": {
+    "en": "Space Marketer",
+    "vn": "Chuyên viên marketing Không gian"
+  },
+  "space_operator": {
+    "en": "Space Operator",
+    "vn": "Vận hành Không gian"
+  },
+  "space_product_manager": {
+    "en": "Space Product Manager",
+    "vn": "Quản lý sản phẩm Không gian"
+  },
+  "space_researcher": {
+    "en": "Space Researcher",
+    "vn": "Nhà nghiên cứu Không gian"
+  },
+  "space_sales_lead": {
+    "en": "Space Sales Lead",
+    "vn": "Phụ trách bán hàng Không gian"
+  },
+  "space_scientist": {
+    "en": "Space Scientist",
+    "vn": "Nhà khoa học Không gian"
+  },
+  "space_specialist": {
+    "en": "Space Specialist",
+    "vn": "Chuyên viên Không gian"
+  },
+  "sports_analyst": {
+    "en": "Sports Analyst",
+    "vn": "Chuyên viên phân tích Thể thao"
+  },
+  "sports_architect": {
+    "en": "Sports Architect",
+    "vn": "Kiến trúc sư Thể thao"
+  },
+  "sports_consultant": {
+    "en": "Sports Consultant",
+    "vn": "Tư vấn Thể thao"
+  },
+  "sports_designer": {
+    "en": "Sports Designer",
+    "vn": "Nhà thiết kế Thể thao"
+  },
+  "sports_director": {
+    "en": "Sports Director",
+    "vn": "Giám đốc Thể thao"
+  },
+  "sports_engineer": {
+    "en": "Sports Engineer",
+    "vn": "Kỹ sư Thể thao"
+  },
+  "sports_lead": {
+    "en": "Sports Lead",
+    "vn": "Trưởng nhóm Thể thao"
+  },
+  "sports_manager": {
+    "en": "Sports Manager",
+    "vn": "Quản lý Thể thao"
+  },
+  "sports_marketer": {
+    "en": "Sports Marketer",
+    "vn": "Chuyên viên marketing Thể thao"
+  },
+  "sports_operator": {
+    "en": "Sports Operator",
+    "vn": "Vận hành Thể thao"
+  },
+  "sports_product_manager": {
+    "en": "Sports Product Manager",
+    "vn": "Quản lý sản phẩm Thể thao"
+  },
+  "sports_researcher": {
+    "en": "Sports Researcher",
+    "vn": "Nhà nghiên cứu Thể thao"
+  },
+  "sports_sales_lead": {
+    "en": "Sports Sales Lead",
+    "vn": "Phụ trách bán hàng Thể thao"
+  },
+  "sports_scientist": {
+    "en": "Sports Scientist",
+    "vn": "Nhà khoa học Thể thao"
+  },
+  "sports_specialist": {
+    "en": "Sports Specialist",
+    "vn": "Chuyên viên Thể thao"
+  },
+  "strategy_manager": {
+    "en": "Strategy Manager",
+    "vn": "Quản lý Chiến lược"
+  },
+  "student": {
+    "en": "Student",
+    "vn": "Sinh viên"
+  },
+  "talent_partner": {
+    "en": "Talent Partner",
+    "vn": "Đối tác nhân tài"
+  },
+  "teacher": {
+    "en": "Teacher",
+    "vn": "Giáo viên"
+  },
+  "technical_writer": {
+    "en": "Technical Writer",
+    "vn": "Người viết tài liệu kỹ thuật"
+  },
+  "telecom_analyst": {
+    "en": "Telecom Analyst",
+    "vn": "Chuyên viên phân tích Viễn thông"
+  },
+  "telecom_architect": {
+    "en": "Telecom Architect",
+    "vn": "Kiến trúc sư Viễn thông"
+  },
+  "telecom_consultant": {
+    "en": "Telecom Consultant",
+    "vn": "Tư vấn Viễn thông"
+  },
+  "telecom_designer": {
+    "en": "Telecom Designer",
+    "vn": "Nhà thiết kế Viễn thông"
+  },
+  "telecom_director": {
+    "en": "Telecom Director",
+    "vn": "Giám đốc Viễn thông"
+  },
+  "telecom_engineer": {
+    "en": "Telecom Engineer",
+    "vn": "Kỹ sư Viễn thông"
+  },
+  "telecom_lead": {
+    "en": "Telecom Lead",
+    "vn": "Trưởng nhóm Viễn thông"
+  },
+  "telecom_manager": {
+    "en": "Telecom Manager",
+    "vn": "Quản lý Viễn thông"
+  },
+  "telecom_marketer": {
+    "en": "Telecom Marketer",
+    "vn": "Chuyên viên marketing Viễn thông"
+  },
+  "telecom_operator": {
+    "en": "Telecom Operator",
+    "vn": "Vận hành Viễn thông"
+  },
+  "telecom_product_manager": {
+    "en": "Telecom Product Manager",
+    "vn": "Quản lý sản phẩm Viễn thông"
+  },
+  "telecom_researcher": {
+    "en": "Telecom Researcher",
+    "vn": "Nhà nghiên cứu Viễn thông"
+  },
+  "telecom_sales_lead": {
+    "en": "Telecom Sales Lead",
+    "vn": "Phụ trách bán hàng Viễn thông"
+  },
+  "telecom_scientist": {
+    "en": "Telecom Scientist",
+    "vn": "Nhà khoa học Viễn thông"
+  },
+  "telecom_specialist": {
+    "en": "Telecom Specialist",
+    "vn": "Chuyên viên Viễn thông"
+  },
+  "travel_analyst": {
+    "en": "Travel Analyst",
+    "vn": "Chuyên viên phân tích Du lịch"
+  },
+  "travel_architect": {
+    "en": "Travel Architect",
+    "vn": "Kiến trúc sư Du lịch"
+  },
+  "travel_consultant": {
+    "en": "Travel Consultant",
+    "vn": "Tư vấn Du lịch"
+  },
+  "travel_designer": {
+    "en": "Travel Designer",
+    "vn": "Nhà thiết kế Du lịch"
+  },
+  "travel_director": {
+    "en": "Travel Director",
+    "vn": "Giám đốc Du lịch"
+  },
+  "travel_engineer": {
+    "en": "Travel Engineer",
+    "vn": "Kỹ sư Du lịch"
+  },
+  "travel_lead": {
+    "en": "Travel Lead",
+    "vn": "Trưởng nhóm Du lịch"
+  },
+  "travel_manager": {
+    "en": "Travel Manager",
+    "vn": "Quản lý Du lịch"
+  },
+  "travel_marketer": {
+    "en": "Travel Marketer",
+    "vn": "Chuyên viên marketing Du lịch"
+  },
+  "travel_operator": {
+    "en": "Travel Operator",
+    "vn": "Vận hành Du lịch"
+  },
+  "travel_product_manager": {
+    "en": "Travel Product Manager",
+    "vn": "Quản lý sản phẩm Du lịch"
+  },
+  "travel_researcher": {
+    "en": "Travel Researcher",
+    "vn": "Nhà nghiên cứu Du lịch"
+  },
+  "travel_sales_lead": {
+    "en": "Travel Sales Lead",
+    "vn": "Phụ trách bán hàng Du lịch"
+  },
+  "travel_scientist": {
+    "en": "Travel Scientist",
+    "vn": "Nhà khoa học Du lịch"
+  },
+  "travel_specialist": {
+    "en": "Travel Specialist",
+    "vn": "Chuyên viên Du lịch"
+  },
+  "ux_designer": {
+    "en": "UX Designer",
+    "vn": "Nhà thiết kế UX"
+  },
+  "ux_researcher": {
+    "en": "UX Researcher",
+    "vn": "Nhà nghiên cứu UX"
+  },
+  "vc_partner": {
+    "en": "VC partner",
+    "vn": "Đối tác VC"
+  },
+  "venture_analyst": {
+    "en": "Venture Analyst",
+    "vn": "Chuyên viên phân tích Đầu tư mạo hiểm"
+  },
+  "venture_architect": {
+    "en": "Venture Architect",
+    "vn": "Kiến trúc sư Đầu tư mạo hiểm"
+  },
+  "venture_consultant": {
+    "en": "Venture Consultant",
+    "vn": "Tư vấn Đầu tư mạo hiểm"
+  },
+  "venture_designer": {
+    "en": "Venture Designer",
+    "vn": "Nhà thiết kế Đầu tư mạo hiểm"
+  },
+  "venture_director": {
+    "en": "Venture Director",
+    "vn": "Giám đốc Đầu tư mạo hiểm"
+  },
+  "venture_engineer": {
+    "en": "Venture Engineer",
+    "vn": "Kỹ sư Đầu tư mạo hiểm"
+  },
+  "venture_lead": {
+    "en": "Venture Lead",
+    "vn": "Trưởng nhóm Đầu tư mạo hiểm"
+  },
+  "venture_manager": {
+    "en": "Venture Manager",
+    "vn": "Quản lý Đầu tư mạo hiểm"
+  },
+  "venture_marketer": {
+    "en": "Venture Marketer",
+    "vn": "Chuyên viên marketing Đầu tư mạo hiểm"
+  },
+  "venture_operator": {
+    "en": "Venture Operator",
+    "vn": "Vận hành Đầu tư mạo hiểm"
+  },
+  "venture_product_manager": {
+    "en": "Venture Product Manager",
+    "vn": "Quản lý sản phẩm Đầu tư mạo hiểm"
+  },
+  "venture_researcher": {
+    "en": "Venture Researcher",
+    "vn": "Nhà nghiên cứu Đầu tư mạo hiểm"
+  },
+  "venture_sales_lead": {
+    "en": "Venture Sales Lead",
+    "vn": "Phụ trách bán hàng Đầu tư mạo hiểm"
+  },
+  "venture_scientist": {
+    "en": "Venture Scientist",
+    "vn": "Nhà khoa học Đầu tư mạo hiểm"
+  },
+  "venture_specialist": {
+    "en": "Venture Specialist",
+    "vn": "Chuyên viên Đầu tư mạo hiểm"
+  },
+  "web_developer": {
+    "en": "Web Developer",
+    "vn": "Lập trình viên web"
+  },
+  "web3_analyst": {
+    "en": "Web3 Analyst",
+    "vn": "Chuyên viên phân tích Web3"
+  },
+  "web3_architect": {
+    "en": "Web3 Architect",
+    "vn": "Kiến trúc sư Web3"
+  },
+  "web3_consultant": {
+    "en": "Web3 Consultant",
+    "vn": "Tư vấn Web3"
+  },
+  "web3_designer": {
+    "en": "Web3 Designer",
+    "vn": "Nhà thiết kế Web3"
+  },
+  "web3_director": {
+    "en": "Web3 Director",
+    "vn": "Giám đốc Web3"
+  },
+  "web3_engineer": {
+    "en": "Web3 Engineer",
+    "vn": "Kỹ sư Web3"
+  },
+  "web3_lead": {
+    "en": "Web3 Lead",
+    "vn": "Trưởng nhóm Web3"
+  },
+  "web3_manager": {
+    "en": "Web3 Manager",
+    "vn": "Quản lý Web3"
+  },
+  "web3_marketer": {
+    "en": "Web3 Marketer",
+    "vn": "Chuyên viên marketing Web3"
+  },
+  "web3_operator": {
+    "en": "Web3 Operator",
+    "vn": "Vận hành Web3"
+  },
+  "web3_product_manager": {
+    "en": "Web3 Product Manager",
+    "vn": "Quản lý sản phẩm Web3"
+  },
+  "web3_researcher": {
+    "en": "Web3 Researcher",
+    "vn": "Nhà nghiên cứu Web3"
+  },
+  "web3_sales_lead": {
+    "en": "Web3 Sales Lead",
+    "vn": "Phụ trách bán hàng Web3"
+  },
+  "web3_scientist": {
+    "en": "Web3 Scientist",
+    "vn": "Nhà khoa học Web3"
+  },
+  "web3_specialist": {
+    "en": "Web3 Specialist",
+    "vn": "Chuyên viên Web3"
+  },
+  "writer": {
+    "en": "Writer",
+    "vn": "Người viết"
+  }
+}

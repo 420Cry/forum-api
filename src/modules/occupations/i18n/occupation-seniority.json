@@ -1,0 +1,22 @@
+{
+  "associate": {
+    "en": "Associate",
+    "vn": "Cộng sự"
+  },
+  "junior": {
+    "en": "Junior",
+    "vn": "Mới vào nghề"
+  },
+  "lead": {
+    "en": "Lead",
+    "vn": "Trưởng nhóm"
+  },
+  "principal": {
+    "en": "Principal",
+    "vn": "Principal"
+  },
+  "senior": {
+    "en": "Senior",
+    "vn": "Cấp cao"
+  }
+}

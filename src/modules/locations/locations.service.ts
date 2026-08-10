@@ -1,6 +1,7 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common'
 import { City, Country } from 'country-state-city'
-import { cityToKey } from './place-key'
+import { foldSearchText } from '../../common/fold-search-text'
+import { cityToKey, FIXED_LOCATION_OPTIONS } from './place-key'
 
 export type LocationSuggestion = {
   key: string
@@ -19,6 +20,8 @@ type CityIndexRow = {
   name: string
   search: string
   citySearch: string
+  /** Diacritic-folded city name for locale-friendly typeahead. */
+  cityFold: string
   sourceId: string
 }
 
@@ -47,6 +50,40 @@ const EXAMPLE_CITIES: Array<{ city: string; countryCode: string }> = [
   { city: 'Dubai', countryCode: 'AE' },
 ]
 
+/**
+ * Local spellings → ASCII names as stored in country-state-city.
+ * Dataset uses Latin-ish names (Hanoi, Da Nang); users often type diacritics.
+ */
+const CITY_QUERY_ALIASES: Record<string, string[]> = {
+  'ha noi': ['hanoi'],
+  hanoi: ['hanoi'],
+  'da nang': ['da nang'],
+  danang: ['da nang'],
+  'ho chi minh': ['ho chi minh city', 'ho chi minh'],
+  'ho chi minh city': ['ho chi minh city', 'ho chi minh'],
+  'sai gon': ['ho chi minh city', 'ho chi minh', 'saigon'],
+  saigon: ['ho chi minh city', 'ho chi minh', 'saigon'],
+  'hai phong': ['haiphong', 'hai phong'],
+  haiphong: ['haiphong', 'hai phong'],
+  'can tho': ['can tho'],
+  hue: ['hue'],
+  'nha trang': ['nha trang'],
+  'vung tau': ['vung tau'],
+  'viet nam': ['vietnam'],
+  vietnam: ['vietnam'],
+}
+
+function expandQueryNeedles(raw: string): string[] {
+  const folded = foldSearchText(raw.trim())
+  if (!folded) return []
+  const out = new Set<string>([folded])
+  const aliases = CITY_QUERY_ALIASES[folded]
+  if (aliases) {
+    for (const alias of aliases) out.add(foldSearchText(alias))
+  }
+  return [...out]
+}
+
 @Injectable()
 export class LocationsService implements OnModuleInit {
   private readonly logger = new Logger(LocationsService.name)
@@ -60,6 +97,8 @@ export class LocationsService implements OnModuleInit {
   private sortedCityRows: CityIndexRow[] = []
   /** First 1–2 chars of city name → rows (prefix search only). */
   private prefixBuckets = new Map<string, CityIndexRow[]>()
+  /** Lowercased country name → cities in that country. */
+  private countryBuckets = new Map<string, CityIndexRow[]>()
   /** Curated empty-state suggestions resolved from the city index. */
   private exampleSuggestions: LocationSuggestion[] = []
   private indexReady: Promise<void> | null = null
@@ -77,6 +116,14 @@ export class LocationsService implements OnModuleInit {
       return undefined
     }
     return entry.name
+  }
+
+  /** Resolve display name from fixed options or the city index. */
+  nameForKey(key: string): string | undefined {
+    const fixed = FIXED_LOCATION_OPTIONS.find((row) => row.key === key)
+    if (fixed) return fixed.name
+    this.ensureCityIndex()
+    return this.sortedCityRows.find((row) => row.key === key)?.name
   }
 
   rememberSuggestion(key: string, name: string, placeId: string): void {
@@ -99,6 +146,7 @@ export class LocationsService implements OnModuleInit {
     const rows: CityIndexRow[] = []
     const seen = new Set<string>()
     this.prefixBuckets = new Map()
+    this.countryBuckets = new Map()
 
     for (const city of City.getAllCities()) {
       const countryName = countryNames.get(city.countryCode) ?? city.countryCode
@@ -111,26 +159,42 @@ export class LocationsService implements OnModuleInit {
       if (seen.has(key)) continue
       seen.add(key)
       const citySearch = city.name.toLowerCase()
+      const cityFold = foldSearchText(city.name)
       const row: CityIndexRow = {
         key,
         name,
         search: name.toLowerCase(),
         citySearch,
+        cityFold,
         sourceId: `${city.countryCode}:${city.stateCode || ''}:${city.name}`,
       }
       rows.push(row)
 
-      // Bucket by first letter and first two letters of the city name.
-      this.addToBucket(citySearch.slice(0, 1), row)
-      if (citySearch.length >= PREFIX_BUCKET_LEN) {
-        this.addToBucket(citySearch.slice(0, PREFIX_BUCKET_LEN), row)
+      // Bucket by first letter / two letters of raw + folded city names.
+      for (const hay of new Set([citySearch, cityFold])) {
+        this.addToBucket(hay.slice(0, 1), row)
+        if (hay.length >= PREFIX_BUCKET_LEN) {
+          this.addToBucket(hay.slice(0, PREFIX_BUCKET_LEN), row)
+        }
       }
+
+      const countryKey = foldSearchText(countryName)
+      const countryList = this.countryBuckets.get(countryKey)
+      if (countryList) countryList.push(row)
+      else this.countryBuckets.set(countryKey, [row])
     }
 
     this.cityIndex = rows
     this.sortedCityRows = [...rows].sort((a, b) => a.name.localeCompare(b.name))
 
     for (const list of this.prefixBuckets.values()) {
+      list.sort(
+        (a, b) =>
+          a.citySearch.length - b.citySearch.length ||
+          a.citySearch.localeCompare(b.citySearch),
+      )
+    }
+    for (const list of this.countryBuckets.values()) {
       list.sort(
         (a, b) =>
           a.citySearch.length - b.citySearch.length ||
@@ -210,24 +274,91 @@ export class LocationsService implements OnModuleInit {
     return Math.min(MAX_LIMIT, Math.max(1, n))
   }
 
+  private fixedMatches(needle: string): LocationSuggestion[] {
+    const q = foldSearchText(needle)
+    return FIXED_LOCATION_OPTIONS.filter((row) => {
+      if (!q) return true
+      const name = foldSearchText(row.name)
+      return row.key.includes(q) || name.startsWith(q) || name.includes(q)
+    }).map((row) => ({ key: row.key, name: row.name, placeId: null }))
+  }
+
+  private cityMatchesNeedle(row: CityIndexRow, needle: string): boolean {
+    return (
+      row.cityFold.startsWith(needle) ||
+      row.citySearch.startsWith(needle) ||
+      row.cityFold.includes(needle)
+    )
+  }
+
+  /**
+   * Prefix match on city name, plus country-name matches and fixed Remote/Other.
+   * City lookup uses 1–2 char buckets so we never scan ~150k rows per keystroke.
+   * Diacritic folding + aliases cover local spellings (e.g. "Hà Nội" → Hanoi).
+   */
+  private collectCityMatches(query: string): LocationSuggestion[] {
+    const needles = expandQueryNeedles(query)
+    this.ensureCityIndex()
+
+    const out: LocationSuggestion[] = [...this.fixedMatches(query)]
+    const seen = new Set(out.map((row) => row.key))
+
+    for (const needle of needles) {
+      const bucketKey =
+        needle.length >= PREFIX_BUCKET_LEN
+          ? needle.slice(0, PREFIX_BUCKET_LEN)
+          : needle.slice(0, 1)
+      const bucket = this.prefixBuckets.get(bucketKey) ?? []
+
+      for (const row of bucket) {
+        if (!this.cityMatchesNeedle(row, needle) || seen.has(row.key)) continue
+        seen.add(row.key)
+        out.push(this.rowToSuggestion(row))
+      }
+
+      // Country-name typeahead (e.g. "Viet" / "Việt Nam" → Vietnamese cities).
+      if (needle.length >= 2) {
+        for (const [country, rows] of this.countryBuckets) {
+          if (!country.startsWith(needle) && !country.includes(needle)) continue
+          for (const row of rows) {
+            if (seen.has(row.key)) continue
+            seen.add(row.key)
+            out.push(this.rowToSuggestion(row))
+            if (out.length >= MAX_LIMIT * 20) break
+          }
+          if (out.length >= MAX_LIMIT * 20) break
+        }
+      }
+    }
+
+    out.sort((a, b) => {
+      const aFixed = a.placeId == null ? 0 : 1
+      const bFixed = b.placeId == null ? 0 : 1
+      return aFixed - bFixed || a.name.localeCompare(b.name)
+    })
+    return out
+  }
+
   private emptyStatePage(
     offset: number,
     limit: number,
   ): CatalogSearchPage<LocationSuggestion> {
     this.ensureCityIndex()
+    const fixed = this.fixedMatches('')
     const examples = this.exampleSuggestions
     const exampleKeys = new Set(examples.map((row) => row.key))
     const browseRows = this.sortedCityRows.filter(
       (row) => !exampleKeys.has(row.key),
     )
-    const total = examples.length + browseRows.length
+    const head = [...fixed, ...examples]
+    const total = head.length + browseRows.length
     const items: LocationSuggestion[] = []
 
     for (let i = offset; i < offset + limit && i < total; i++) {
-      if (i < examples.length) {
-        items.push(examples[i])
+      if (i < head.length) {
+        items.push(head[i])
       } else {
-        const row = browseRows[i - examples.length]
+        const row = browseRows[i - head.length]
         items.push(this.rowToSuggestion(row))
       }
     }
@@ -241,31 +372,7 @@ export class LocationsService implements OnModuleInit {
   }
 
   /**
-   * Prefix match on city name only (letter-based typeahead).
-   * Uses 1–2 char buckets so we never scan ~150k rows per keystroke.
-   */
-  private collectCityMatches(query: string): LocationSuggestion[] {
-    const needle = query.toLowerCase()
-    this.ensureCityIndex()
-
-    const bucketKey =
-      needle.length >= PREFIX_BUCKET_LEN
-        ? needle.slice(0, PREFIX_BUCKET_LEN)
-        : needle.slice(0, 1)
-    const bucket = this.prefixBuckets.get(bucketKey) ?? []
-
-    const out: LocationSuggestion[] = []
-    for (const row of bucket) {
-      if (!row.citySearch.startsWith(needle)) continue
-      out.push(this.rowToSuggestion(row))
-    }
-
-    out.sort((a, b) => a.name.localeCompare(b.name))
-    return out
-  }
-
-  /**
-   * Search cities from the free country-state-city dataset.
+   * Search cities from the free country-state-city dataset (~148k cities).
    * Empty query → examples first, then alphabetical browse (paginated).
    * 1+ chars → prefix city matches (paginated).
    */

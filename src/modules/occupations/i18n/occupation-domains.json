@@ -1,0 +1,718 @@
+{
+  "3d": {
+    "en": "3D",
+    "vn": "3D"
+  },
+  "accelerator": {
+    "en": "Accelerator",
+    "vn": "Tăng tốc khởi nghiệp"
+  },
+  "accessibility": {
+    "en": "Accessibility",
+    "vn": "Khả năng tiếp cận"
+  },
+  "account": {
+    "en": "Account",
+    "vn": "Khách hàng"
+  },
+  "ads": {
+    "en": "Ads",
+    "vn": "Quảng cáo"
+  },
+  "aerospace": {
+    "en": "Aerospace",
+    "vn": "Hàng không vũ trụ"
+  },
+  "affiliate": {
+    "en": "Affiliate",
+    "vn": "Affiliate"
+  },
+  "agriculture": {
+    "en": "Agriculture",
+    "vn": "Nông nghiệp"
+  },
+  "ai": {
+    "en": "AI",
+    "vn": "AI"
+  },
+  "analytics": {
+    "en": "Analytics",
+    "vn": "Phân tích dữ liệu"
+  },
+  "android": {
+    "en": "Android",
+    "vn": "Android"
+  },
+  "api": {
+    "en": "API",
+    "vn": "API"
+  },
+  "applied": {
+    "en": "Applied",
+    "vn": "Ứng dụng"
+  },
+  "ar_vr": {
+    "en": "AR/VR",
+    "vn": "AR/VR"
+  },
+  "art": {
+    "en": "Art",
+    "vn": "Nghệ thuật"
+  },
+  "associate": {
+    "en": "Associate",
+    "vn": "Cộng sự"
+  },
+  "automation": {
+    "en": "Automation",
+    "vn": "Tự động hóa"
+  },
+  "automotive": {
+    "en": "Automotive",
+    "vn": "Ô tô"
+  },
+  "b2b": {
+    "en": "B2B",
+    "vn": "B2B"
+  },
+  "b2c": {
+    "en": "B2C",
+    "vn": "B2C"
+  },
+  "backend": {
+    "en": "Backend",
+    "vn": "Backend"
+  },
+  "banking": {
+    "en": "Banking",
+    "vn": "Ngân hàng"
+  },
+  "bi": {
+    "en": "BI",
+    "vn": "BI"
+  },
+  "biomedical": {
+    "en": "Biomedical",
+    "vn": "Y sinh"
+  },
+  "biotech": {
+    "en": "Biotech",
+    "vn": "Công nghệ sinh học"
+  },
+  "blockchain": {
+    "en": "Blockchain",
+    "vn": "Blockchain"
+  },
+  "brand": {
+    "en": "Brand",
+    "vn": "Thương hiệu"
+  },
+  "build": {
+    "en": "Build",
+    "vn": "Build"
+  },
+  "business": {
+    "en": "Business",
+    "vn": "Kinh doanh"
+  },
+  "business_development": {
+    "en": "Business Development",
+    "vn": "Phát triển kinh doanh"
+  },
+  "business_operations": {
+    "en": "Business Operations",
+    "vn": "Vận hành kinh doanh"
+  },
+  "channel_partner": {
+    "en": "Channel Partner",
+    "vn": "Đối tác kênh"
+  },
+  "chemical": {
+    "en": "Chemical",
+    "vn": "Hóa học"
+  },
+  "civil": {
+    "en": "Civil",
+    "vn": "Dân dụng"
+  },
+  "climate": {
+    "en": "Climate",
+    "vn": "Khí hậu"
+  },
+  "cloud": {
+    "en": "Cloud",
+    "vn": "Điện toán đám mây"
+  },
+  "communications": {
+    "en": "Communications",
+    "vn": "Truyền thông"
+  },
+  "community": {
+    "en": "Community",
+    "vn": "Cộng đồng"
+  },
+  "compliance": {
+    "en": "Compliance",
+    "vn": "Tuân thủ"
+  },
+  "computer_vision": {
+    "en": "Computer Vision",
+    "vn": "Thị giác máy tính"
+  },
+  "consumer": {
+    "en": "Consumer",
+    "vn": "Tiêu dùng"
+  },
+  "content": {
+    "en": "Content",
+    "vn": "Nội dung"
+  },
+  "creative": {
+    "en": "Creative",
+    "vn": "Sáng tạo"
+  },
+  "crypto": {
+    "en": "Crypto",
+    "vn": "Crypto"
+  },
+  "customer_success": {
+    "en": "Customer Success",
+    "vn": "Thành công khách hàng"
+  },
+  "customer_support": {
+    "en": "Customer Support",
+    "vn": "Hỗ trợ khách hàng"
+  },
+  "cybersecurity": {
+    "en": "Cybersecurity",
+    "vn": "An ninh mạng"
+  },
+  "data": {
+    "en": "Data",
+    "vn": "Dữ liệu"
+  },
+  "data_platform": {
+    "en": "Data Platform",
+    "vn": "Nền tảng dữ liệu"
+  },
+  "decision": {
+    "en": "Decision",
+    "vn": "Ra quyết định"
+  },
+  "deep_learning": {
+    "en": "Deep Learning",
+    "vn": "Deep learning"
+  },
+  "defense": {
+    "en": "Defense",
+    "vn": "Quốc phòng"
+  },
+  "demand_generation": {
+    "en": "Demand Generation",
+    "vn": "Tạo nhu cầu"
+  },
+  "design": {
+    "en": "Design",
+    "vn": "Thiết kế"
+  },
+  "design_system": {
+    "en": "Design System",
+    "vn": "Hệ thống thiết kế"
+  },
+  "designops": {
+    "en": "DesignOps",
+    "vn": "DesignOps"
+  },
+  "developer_relations": {
+    "en": "Developer Relations",
+    "vn": "Quan hệ nhà phát triển"
+  },
+  "devops": {
+    "en": "DevOps",
+    "vn": "DevOps"
+  },
+  "devtools": {
+    "en": "DevTools",
+    "vn": "Công cụ dành cho nhà phát triển"
+  },
+  "digital_marketing": {
+    "en": "Digital Marketing",
+    "vn": "Marketing số"
+  },
+  "e_commerce": {
+    "en": "E-Commerce",
+    "vn": "Thương mại điện tử"
+  },
+  "edtech": {
+    "en": "Edtech",
+    "vn": "EdTech"
+  },
+  "electrical": {
+    "en": "Electrical",
+    "vn": "Điện"
+  },
+  "email_marketing": {
+    "en": "Email Marketing",
+    "vn": "Email marketing"
+  },
+  "embedded": {
+    "en": "Embedded",
+    "vn": "Nhúng"
+  },
+  "energy": {
+    "en": "Energy",
+    "vn": "Năng lượng"
+  },
+  "engineering": {
+    "en": "Engineering",
+    "vn": "Kỹ thuật"
+  },
+  "enterprise": {
+    "en": "Enterprise",
+    "vn": "Doanh nghiệp"
+  },
+  "entertainment": {
+    "en": "Entertainment",
+    "vn": "Giải trí"
+  },
+  "environmental": {
+    "en": "Environmental",
+    "vn": "Môi trường"
+  },
+  "erp": {
+    "en": "ERP",
+    "vn": "ERP"
+  },
+  "event": {
+    "en": "Event",
+    "vn": "Sự kiện"
+  },
+  "executive": {
+    "en": "Executive",
+    "vn": "Điều hành"
+  },
+  "fashion": {
+    "en": "Fashion",
+    "vn": "Thời trang"
+  },
+  "field_marketing": {
+    "en": "Field Marketing",
+    "vn": "Field marketing"
+  },
+  "film": {
+    "en": "Film",
+    "vn": "Phim ảnh"
+  },
+  "finance": {
+    "en": "Finance",
+    "vn": "Tài chính"
+  },
+  "financial": {
+    "en": "Financial",
+    "vn": "Tài chính"
+  },
+  "fintech": {
+    "en": "Fintech",
+    "vn": "FinTech"
+  },
+  "firmware": {
+    "en": "Firmware",
+    "vn": "Firmware"
+  },
+  "food": {
+    "en": "Food",
+    "vn": "Thực phẩm"
+  },
+  "founding": {
+    "en": "Founding",
+    "vn": "Sáng lập"
+  },
+  "fp_a": {
+    "en": "FP&A",
+    "vn": "FP&A"
+  },
+  "frontend": {
+    "en": "Frontend",
+    "vn": "Frontend"
+  },
+  "full_stack": {
+    "en": "Full-Stack",
+    "vn": "Full-stack"
+  },
+  "fullstack": {
+    "en": "Full-Stack",
+    "vn": "Full-stack"
+  },
+  "game": {
+    "en": "Game",
+    "vn": "Game"
+  },
+  "gaming": {
+    "en": "Gaming",
+    "vn": "Trò chơi"
+  },
+  "government": {
+    "en": "Government",
+    "vn": "Chính phủ"
+  },
+  "graphic": {
+    "en": "Graphic",
+    "vn": "Đồ họa"
+  },
+  "graphics": {
+    "en": "Graphics",
+    "vn": "Đồ họa"
+  },
+  "group": {
+    "en": "Group",
+    "vn": "Nhóm"
+  },
+  "growth": {
+    "en": "Growth",
+    "vn": "Tăng trưởng"
+  },
+  "hardware": {
+    "en": "Hardware",
+    "vn": "Phần cứng"
+  },
+  "healthcare": {
+    "en": "Healthcare",
+    "vn": "Y tế"
+  },
+  "healthtech": {
+    "en": "Healthtech",
+    "vn": "HealthTech"
+  },
+  "hedge_fund": {
+    "en": "Hedge Fund",
+    "vn": "Quỹ phòng hộ"
+  },
+  "help_desk": {
+    "en": "Help Desk",
+    "vn": "Help desk"
+  },
+  "hospitality": {
+    "en": "Hospitality",
+    "vn": "Khách sạn"
+  },
+  "hotel": {
+    "en": "Hotel",
+    "vn": "Khách sạn"
+  },
+  "hr": {
+    "en": "HR",
+    "vn": "Nhân sự"
+  },
+  "hr_tech": {
+    "en": "HR Tech",
+    "vn": "Công nghệ nhân sự"
+  },
+  "identity": {
+    "en": "Identity",
+    "vn": "Định danh"
+  },
+  "incubator": {
+    "en": "Incubator",
+    "vn": "Vườn ươm"
+  },
+  "industrial": {
+    "en": "Industrial",
+    "vn": "Công nghiệp"
+  },
+  "information_security": {
+    "en": "Information Security",
+    "vn": "An ninh thông tin"
+  },
+  "infrastructure": {
+    "en": "Infrastructure",
+    "vn": "Hạ tầng"
+  },
+  "insights": {
+    "en": "Insights",
+    "vn": "Insight"
+  },
+  "insurance": {
+    "en": "Insurance",
+    "vn": "Bảo hiểm"
+  },
+  "integration": {
+    "en": "Integration",
+    "vn": "Tích hợp"
+  },
+  "interaction": {
+    "en": "Interaction",
+    "vn": "Tương tác"
+  },
+  "ios": {
+    "en": "iOS",
+    "vn": "iOS"
+  },
+  "it": {
+    "en": "IT",
+    "vn": "CNTT"
+  },
+  "junior": {
+    "en": "Junior",
+    "vn": "Mới vào nghề"
+  },
+  "lead": {
+    "en": "Lead",
+    "vn": "Trưởng nhóm"
+  },
+  "legal": {
+    "en": "Legal",
+    "vn": "Pháp lý"
+  },
+  "level": {
+    "en": "Level",
+    "vn": "Cấp độ"
+  },
+  "lifecycle_marketing": {
+    "en": "Lifecycle Marketing",
+    "vn": "Lifecycle marketing"
+  },
+  "localization": {
+    "en": "Localization",
+    "vn": "Bản địa hóa"
+  },
+  "logistics": {
+    "en": "Logistics",
+    "vn": "Hậu cần"
+  },
+  "machine_learning": {
+    "en": "Machine Learning",
+    "vn": "Machine learning"
+  },
+  "management": {
+    "en": "Management",
+    "vn": "Quản lý"
+  },
+  "managing": {
+    "en": "Managing",
+    "vn": "Điều hành"
+  },
+  "manufacturing": {
+    "en": "Manufacturing",
+    "vn": "Sản xuất"
+  },
+  "marketing": {
+    "en": "Marketing",
+    "vn": "Marketing"
+  },
+  "marketplace": {
+    "en": "Marketplace",
+    "vn": "Sàn giao dịch"
+  },
+  "mechanical": {
+    "en": "Mechanical",
+    "vn": "Cơ khí"
+  },
+  "media": {
+    "en": "Media",
+    "vn": "Truyền thông"
+  },
+  "ml": {
+    "en": "ML",
+    "vn": "ML"
+  },
+  "mlops": {
+    "en": "MLOps",
+    "vn": "MLOps"
+  },
+  "mobile": {
+    "en": "Mobile",
+    "vn": "Di động"
+  },
+  "motion": {
+    "en": "Motion",
+    "vn": "Motion"
+  },
+  "music": {
+    "en": "Music",
+    "vn": "Âm nhạc"
+  },
+  "narrative": {
+    "en": "Narrative",
+    "vn": "Kể chuyện"
+  },
+  "network": {
+    "en": "Network",
+    "vn": "Mạng"
+  },
+  "networking": {
+    "en": "Networking",
+    "vn": "Mạng lưới"
+  },
+  "nlp": {
+    "en": "NLP",
+    "vn": "NLP"
+  },
+  "nonprofit": {
+    "en": "Nonprofit",
+    "vn": "Phi lợi nhuận"
+  },
+  "notion": {
+    "en": "Notion",
+    "vn": "Notion"
+  },
+  "office": {
+    "en": "Office",
+    "vn": "Văn phòng"
+  },
+  "operations": {
+    "en": "Operations",
+    "vn": "Vận hành"
+  },
+  "partnerships": {
+    "en": "Partnerships",
+    "vn": "Đối tác"
+  },
+  "payments": {
+    "en": "Payments",
+    "vn": "Thanh toán"
+  },
+  "people": {
+    "en": "People",
+    "vn": "Con người"
+  },
+  "people_operations": {
+    "en": "People Operations",
+    "vn": "Vận hành nhân sự"
+  },
+  "performance": {
+    "en": "Performance",
+    "vn": "Hiệu suất"
+  },
+  "platform": {
+    "en": "Platform",
+    "vn": "Nền tảng"
+  },
+  "policy": {
+    "en": "Policy",
+    "vn": "Chính sách"
+  },
+  "portfolio": {
+    "en": "Portfolio",
+    "vn": "Danh mục"
+  },
+  "postdoctoral": {
+    "en": "Postdoctoral",
+    "vn": "Sau tiến sĩ"
+  },
+  "pr": {
+    "en": "PR",
+    "vn": "PR"
+  },
+  "principal": {
+    "en": "Principal",
+    "vn": "Principal"
+  },
+  "privacy": {
+    "en": "Privacy",
+    "vn": "Quyền riêng tư"
+  },
+  "product": {
+    "en": "Product",
+    "vn": "Sản phẩm"
+  },
+  "product_marketing": {
+    "en": "Product Marketing",
+    "vn": "Product marketing"
+  },
+  "program": {
+    "en": "Program",
+    "vn": "Chương trình"
+  },
+  "project": {
+    "en": "Project",
+    "vn": "Dự án"
+  },
+  "proptech": {
+    "en": "PropTech",
+    "vn": "PropTech"
+  },
+  "qa": {
+    "en": "QA",
+    "vn": "QA"
+  },
+  "quantitative": {
+    "en": "Quantitative",
+    "vn": "Định lượng"
+  },
+  "real_estate": {
+    "en": "Real Estate",
+    "vn": "Bất động sản"
+  },
+  "research": {
+    "en": "Research",
+    "vn": "Nghiên cứu"
+  },
+  "retail": {
+    "en": "Retail",
+    "vn": "Bán lẻ"
+  },
+  "robotics": {
+    "en": "Robotics",
+    "vn": "Robot"
+  },
+  "saas": {
+    "en": "SaaS",
+    "vn": "SaaS"
+  },
+  "sales": {
+    "en": "Sales",
+    "vn": "Kinh doanh"
+  },
+  "security": {
+    "en": "Security",
+    "vn": "Bảo mật"
+  },
+  "site_reliability": {
+    "en": "Site Reliability",
+    "vn": "SRE"
+  },
+  "social": {
+    "en": "Social",
+    "vn": "Mạng xã hội"
+  },
+  "software": {
+    "en": "Software",
+    "vn": "Phần mềm"
+  },
+  "solution": {
+    "en": "Solution",
+    "vn": "Giải pháp"
+  },
+  "space": {
+    "en": "Space",
+    "vn": "Không gian"
+  },
+  "sports": {
+    "en": "Sports",
+    "vn": "Thể thao"
+  },
+  "strategy": {
+    "en": "Strategy",
+    "vn": "Chiến lược"
+  },
+  "telecom": {
+    "en": "Telecom",
+    "vn": "Viễn thông"
+  },
+  "travel": {
+    "en": "Travel",
+    "vn": "Du lịch"
+  },
+  "ux": {
+    "en": "UX",
+    "vn": "UX"
+  },
+  "venture": {
+    "en": "Venture",
+    "vn": "Đầu tư mạo hiểm"
+  },
+  "web3": {
+    "en": "Web3",
+    "vn": "Web3"
+  }
+}

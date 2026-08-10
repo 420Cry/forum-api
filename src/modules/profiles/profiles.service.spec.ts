@@ -8,6 +8,9 @@ import { getRepositoryToken } from '@nestjs/typeorm'
 import { In } from 'typeorm'
 import { TagsService } from '../tags/tags.service'
 import { UsersService } from '../users/users.service'
+import { LocationsService } from '../locations/locations.service'
+import { OccupationsService } from '../occupations/occupations.service'
+import { Follows } from '../follows/entities/follows.entity'
 import { InvestorProfiles } from './entities/investor-profiles.entity'
 import { StartupProfiles } from './entities/startup-profiles.entity'
 import { ProfilesService } from './profiles.service'
@@ -38,8 +41,14 @@ describe('ProfilesService', () => {
   let tagsService: {
     labelMap: jest.Mock
   }
+  let followsRepo: {
+    count: jest.Mock
+  }
 
   beforeEach(async () => {
+    followsRepo = {
+      count: jest.fn().mockResolvedValue(0),
+    }
     startupRepo = {
       findOne: jest.fn(),
       find: jest.fn(),
@@ -96,8 +105,17 @@ describe('ProfilesService', () => {
           provide: getRepositoryToken(InvestorProfiles),
           useValue: investorRepo,
         },
+        { provide: getRepositoryToken(Follows), useValue: followsRepo },
         { provide: UsersService, useValue: usersService },
         { provide: TagsService, useValue: tagsService },
+        {
+          provide: LocationsService,
+          useValue: { nameForKey: jest.fn(() => undefined) },
+        },
+        {
+          provide: OccupationsService,
+          useValue: { nameForKey: jest.fn(() => undefined) },
+        },
       ],
     }).compile()
 
@@ -316,7 +334,7 @@ describe('ProfilesService', () => {
       expect(findArg?.where.industry).toEqual(In(['climate', 'fintech']))
     })
 
-    it('resolves public user by urlKey or uuid and returns display goal labels', async () => {
+    it('resolves public user by urlKey or uuid and returns goal keys', async () => {
       const user = {
         supabaseUid: UID,
         onboarded_at: new Date(),
@@ -332,17 +350,29 @@ describe('ProfilesService', () => {
       }
       usersService.findOnboardedByUrlKeyOrId.mockResolvedValue(user)
 
+      followsRepo.count.mockResolvedValueOnce(3).mockResolvedValueOnce(5)
+
       await expect(service.getPublicUser('alex-morgan')).resolves.toEqual(
         expect.objectContaining({
           id: UID,
           urlKey: 'alex-morgan',
           profilePath: '/u/alex-morgan',
-          goals: ['Raise capital'],
+          goals: ['raise_capital'],
+          occupationKey: null,
+          locationKey: null,
+          followersCount: 3,
+          followingCount: 5,
         }),
       )
       expect(usersService.findOnboardedByUrlKeyOrId).toHaveBeenCalledWith(
         'alex-morgan',
       )
+      expect(followsRepo.count).toHaveBeenCalledWith({
+        where: { target_type: 'user', target_id: UID },
+      })
+      expect(followsRepo.count).toHaveBeenCalledWith({
+        where: { follower_user_id: UID },
+      })
     })
 
     it('returns suggestions without a query', async () => {

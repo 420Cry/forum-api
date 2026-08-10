@@ -33,6 +33,7 @@ export type StartupProfileResponse = {
   foundedAt: string
   views: number
   connections: number
+  followersCount: number
   href: string
 }
 
@@ -50,6 +51,7 @@ export type InvestorProfileResponse = {
   maxInvestmentUsd: number | null
   views: number
   connections: number
+  followersCount: number
   href: string
 }
 
@@ -61,11 +63,19 @@ export type PublicUserProfileResponse = {
   profilePath: string
   name: string | null
   role: User['role']
+  /** Display label (catalog / tag name). */
   occupation: string | null
+  /** Stable tag key for i18n / filters. */
+  occupationKey: string | null
+  /** Display label (city name or fixed seed). */
   location: string | null
+  /** Stable tag key for i18n / filters. */
+  locationKey: string | null
   avatarUrl: string | null
-  /** Display labels from tag.name — ready to render. */
+  /** Goal tag keys — clients translate via onboard.heading.goal_*. */
   goals: string[]
+  followersCount: number
+  followingCount: number
 }
 
 export function toStartupResponse(
@@ -90,6 +100,7 @@ export function toStartupResponse(
     foundedAt: founded,
     views: profile.views,
     connections: profile.connections,
+    followersCount: profile.connections,
     href: `/startup/${profile.id}`,
   }
 }
@@ -117,6 +128,7 @@ export function toInvestorResponse(
         : Number(profile.max_investment_usd),
     views: profile.views,
     connections: profile.connections,
+    followersCount: profile.connections,
     href: `/investor/${profile.id}`,
   }
 }
@@ -133,9 +145,13 @@ export function toPublicUserProfile(user: User): PublicUserProfileResponse {
     name: user.name ?? null,
     role: user.role,
     occupation: user.occupation ?? null,
+    occupationKey: user.occupation ?? null,
     location: user.location ?? null,
+    locationKey: user.location ?? null,
     avatarUrl: user.avatar_url ?? null,
-    goals: user.tags?.map((tag) => tag.name) ?? [],
+    goals: user.tags?.map((tag) => tag.key) ?? [],
+    followersCount: 0,
+    followingCount: 0,
   }
 }
 

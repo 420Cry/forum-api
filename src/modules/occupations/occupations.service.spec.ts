@@ -55,4 +55,17 @@ describe('OccupationsService', () => {
     expect(service.nameForKey('founder')).toBe('Founder')
     expect(service.nameForKey('software_engineer')).toBe('Software Engineer')
   })
+
+  it('returns Vietnamese labels when locale=vn', () => {
+    const service = new OccupationsService()
+    expect(service.nameForKey('ai_director', 'vn')).toBe('Giám đốc AI')
+    expect(service.nameForKey('accountant', 'vn')).toBe('Kế toán')
+    const page = service.search('kỹ sư', 0, 20, 'vn')
+    expect(page.items.length).toBeGreaterThan(0)
+    expect(
+      page.items.some(
+        (r) => /kỹ sư/i.test(r.name) || r.key.includes('engineer'),
+      ),
+    ).toBe(true)
+  })
 })

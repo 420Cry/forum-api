@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -36,9 +37,33 @@ export class FollowsController {
 
   @Get('follows/me')
   @RequiresOnboarded()
-  listFollowing(@Req() req: RequestWithUser) {
+  listMyFollowing(@Req() req: RequestWithUser) {
     const { id } = req.user as AuthUser
     return this.followsService.listFollowing(id)
+  }
+
+  @Get('follows/followers')
+  @RequiresOnboarded()
+  listFollowers(
+    @Query('targetType') targetType: (typeof followTargetTypes)[number],
+    @Query('targetId') targetId: string,
+  ) {
+    if (!followTargetTypes.includes(targetType)) {
+      throw new BadRequestException('Invalid targetType')
+    }
+    if (!targetId?.trim()) {
+      throw new BadRequestException('targetId is required')
+    }
+    return this.followsService.listFollowers(targetType, targetId)
+  }
+
+  @Get('follows/following')
+  @RequiresOnboarded()
+  listFollowing(@Query('userId') userId: string) {
+    if (!userId?.trim()) {
+      throw new BadRequestException('userId is required')
+    }
+    return this.followsService.listFollowingForUser(userId)
   }
 
   @Get('follows/status')
