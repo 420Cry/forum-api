@@ -1,9 +1,19 @@
 -- Mirror of TypeORM AddUserUrlKey1786120000000.
 -- Prefer TypeORM migrations in app deploys; this keeps Supabase schema docs in sync.
 
-alter table public.users
-  add column if not exists url_key character varying(64);
+-- On a cold `supabase start` (fresh CI database) public.users does not exist yet:
+-- TypeORM creates it later. Skip instead of failing; TypeORM adds the column itself.
+do $$
+begin
+  if to_regclass('public.users') is null then
+    return;
+  end if;
 
--- Backfill is handled by the TypeORM migration (JS url-key allocator).
+  alter table public.users
+    add column if not exists url_key character varying(64);
 
-create unique index if not exists "UQ_users_url_key" on public.users (url_key);
+  -- Backfill is handled by the TypeORM migration (JS url-key allocator).
+
+  create unique index if not exists "UQ_users_url_key" on public.users (url_key);
+end
+$$;
