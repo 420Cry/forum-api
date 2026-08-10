@@ -106,12 +106,11 @@ With forum-server: `forum db:migrate`, `forum db:seed`.
 
 | Secret | Purpose |
 |---|---|
-| `DB_HOST` | **Session pooler** host (IPv4). From Supabase → Database → Connect → Session pooler. Direct `db.*.supabase.co` fails on GitHub Actions (IPv6-only). |
-| `DB_PASSWORD` or `SUPABASE_DB_PASSWORD` | Same database password (keep both in sync with Heroku `DB_PASSWORD` if the app still uses it at runtime) |
-| `DB_USERNAME` (optional) | Defaults to `postgres.<SUPABASE_PROJECT_ID>` for the pooler |
-| `DB_PORT` / `DB_NAME` (optional) | Default `5432` / `postgres` |
 | `SUPABASE_ACCESS_TOKEN` | [Account → Access Tokens](https://supabase.com/dashboard/account/tokens) |
 | `SUPABASE_PROJECT_ID` | Project ref from the dashboard URL |
+| `SUPABASE_DB_PASSWORD` (or `DB_PASSWORD`) | Database password — keep in sync with Heroku `DB_PASSWORD` |
+
+No `DB_HOST` secret: the workflow runs `supabase link` and reads the IPv4 Session pooler from `supabase/.temp/pooler-url`.
 
 Manual run: **Actions → Deploy database → Run workflow**.
 

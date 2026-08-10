@@ -104,7 +104,7 @@ npx supabase stop   # when done
 
 TypeORM is configured in `src/database/dataSource.config.ts` (also used by the running app via `EnvService.getDBConfig`). `synchronize` is off — all schema changes go through migrations in `src/database/migrations`, which are registered explicitly in the data source's `migrations` array.
 
-Heroku only runs the web process (`Procfile`). TypeORM migrate + seed and `supabase/migrations/` are applied by [`.github/workflows/database.yml`](.github/workflows/database.yml) on merge to `main` (path-filtered) or via **Actions → Deploy database → Run workflow**. Required secrets: `DB_HOST` (Session pooler), `DB_PASSWORD` or `SUPABASE_DB_PASSWORD`, `SUPABASE_PROJECT_ID`, `SUPABASE_ACCESS_TOKEN` — see `AGENTS.md`. Keep Heroku’s runtime `DB_*` in sync with the same database password so the app can connect after deploy.
+Heroku only runs the web process (`Procfile`). TypeORM migrate + seed and `supabase/migrations/` are applied by [`.github/workflows/database.yml`](.github/workflows/database.yml) on merge to `main` (path-filtered) or via **Actions → Deploy database → Run workflow**. Required secrets: `SUPABASE_ACCESS_TOKEN`, `SUPABASE_PROJECT_ID`, `SUPABASE_DB_PASSWORD` (or `DB_PASSWORD`) — see `AGENTS.md`. Pooler host is resolved automatically via `supabase link` (no `DB_HOST` secret). Keep Heroku’s runtime `DB_*` in sync with the same database password so the app can connect after deploy.
 
 ```bash
 # Apply all pending migrations (runs the full chain on a fresh DB)
