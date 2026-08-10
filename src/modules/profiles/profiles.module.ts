@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
+import { LocationsModule } from '../locations/locations.module'
+import { OccupationsModule } from '../occupations/occupations.module'
 import { TagsModule } from '../tags/tags.module'
 import { UsersModule } from '../users/users.module'
 import { OnboardingStateGuard } from '../users/guards/onboarding-state.guard'
@@ -13,6 +15,8 @@ import { ProfilesService } from './profiles.service'
     TypeOrmModule.forFeature([StartupProfiles, InvestorProfiles]),
     UsersModule,
     TagsModule,
+    LocationsModule,
+    OccupationsModule,
   ],
   providers: [ProfilesService, OnboardingStateGuard],
   controllers: [ProfilesController],

@@ -8,6 +8,8 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { ILike, In, Not, Repository } from 'typeorm'
 import { TagsService } from '../tags/tags.service'
 import { UsersService } from '../users/users.service'
+import { LocationsService } from '../locations/locations.service'
+import { OccupationsService } from '../occupations/occupations.service'
 import {
   CreateInvestorProfileDto,
   UpdateInvestorProfileDto,
@@ -56,6 +58,8 @@ export class ProfilesService {
     private readonly investorRepo: Repository<InvestorProfiles>,
     private readonly usersService: UsersService,
     private readonly tagsService: TagsService,
+    private readonly locationsService: LocationsService,
+    private readonly occupationsService: OccupationsService,
   ) {}
 
   async listAccounts(userId: string): Promise<AccountSummary[]> {
@@ -83,7 +87,10 @@ export class ProfilesService {
       if (account.accountType === 'user' && readyUser.location) {
         return {
           ...account,
-          location: labels.get(readyUser.location) ?? account.location,
+          location:
+            labels.get(readyUser.location) ??
+            this.locationsService.nameForKey(readyUser.location) ??
+            account.location,
         }
       }
       if (account.accountType === 'startup' && startup) {
@@ -450,14 +457,24 @@ export class ProfilesService {
       user.occupation,
     ])
     const profile = toPublicUserProfile(user)
+    const locationKey = user.location ?? null
+    const occupationKey = user.occupation ?? null
+    const location = locationKey
+      ? (labels.get(locationKey) ??
+        this.locationsService.nameForKey(locationKey) ??
+        locationKey)
+      : null
+    const occupation = occupationKey
+      ? (labels.get(occupationKey) ??
+        this.occupationsService.nameForKey(occupationKey) ??
+        occupationKey)
+      : null
     return {
       ...profile,
-      location: user.location
-        ? (labels.get(user.location) ?? user.location)
-        : null,
-      occupation: user.occupation
-        ? (labels.get(user.occupation) ?? user.occupation)
-        : null,
+      location,
+      locationKey,
+      occupation,
+      occupationKey,
     }
   }
 

@@ -18,13 +18,12 @@ describe('cityToKey', () => {
 })
 
 describe('LocationsService', () => {
-  it('shows sample cities when query is empty (no remote/other)', () => {
+  it('shows Remote/Other then sample cities when query is empty', () => {
     const service = new LocationsService()
     const page = service.search('')
     const keys = page.items.map((r) => r.key)
+    expect(keys.slice(0, 2)).toEqual(['remote', 'location_other'])
     expect(keys.filter((k) => k.startsWith('city_')).length).toBeGreaterThan(5)
-    expect(keys).not.toContain('remote')
-    expect(keys).not.toContain('location_other')
     expect(page.items.some((r) => /london/i.test(r.name))).toBe(true)
     expect(page.items.some((r) => /hanoi/i.test(r.name))).toBe(true)
   })
@@ -35,14 +34,31 @@ describe('LocationsService', () => {
     expect(page.items.some((r) => /^h/i.test(r.name.split(',')[0] ?? ''))).toBe(
       true,
     )
-    expect(page.items.every((r) => r.key.startsWith('city_'))).toBe(true)
+    expect(
+      page.items
+        .filter((r) => r.placeId)
+        .every((r) => r.key.startsWith('city_')),
+    ).toBe(true)
   })
 
   it('returns city matches without an API key', () => {
     const service = new LocationsService()
     const page = service.search('Hanoi')
     expect(page.items.some((r) => /hanoi/i.test(r.name))).toBe(true)
-    expect(page.items.every((r) => r.key.startsWith('city_'))).toBe(true)
+    expect(
+      page.items
+        .filter((r) => r.placeId)
+        .every((r) => r.key.startsWith('city_')),
+    ).toBe(true)
+  })
+
+  it('matches fixed Remote and country names', () => {
+    const service = new LocationsService()
+    expect(service.search('Rem').items.some((r) => r.key === 'remote')).toBe(
+      true,
+    )
+    const vietnam = service.search('Vietnam', 0, 50)
+    expect(vietnam.items.some((r) => /vietnam/i.test(r.name))).toBe(true)
   })
 
   it('paginates empty-state browse', () => {
@@ -73,5 +89,11 @@ describe('LocationsService', () => {
       'VN:HN:Hanoi',
     )
     expect(service.cachedName('city_vn_hn_hanoi')).toBe('Hanoi, Vietnam')
+  })
+
+  it('resolves fixed and city names by key', () => {
+    const service = new LocationsService()
+    expect(service.nameForKey('remote')).toBe('Remote')
+    expect(service.nameForKey('location_other')).toBe('Other')
   })
 })

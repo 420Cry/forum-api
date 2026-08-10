@@ -1,6 +1,6 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common'
 import { City, Country } from 'country-state-city'
-import { cityToKey } from './place-key'
+import { cityToKey, FIXED_LOCATION_OPTIONS } from './place-key'
 
 export type LocationSuggestion = {
   key: string
@@ -60,6 +60,8 @@ export class LocationsService implements OnModuleInit {
   private sortedCityRows: CityIndexRow[] = []
   /** First 1–2 chars of city name → rows (prefix search only). */
   private prefixBuckets = new Map<string, CityIndexRow[]>()
+  /** Lowercased country name → cities in that country. */
+  private countryBuckets = new Map<string, CityIndexRow[]>()
   /** Curated empty-state suggestions resolved from the city index. */
   private exampleSuggestions: LocationSuggestion[] = []
   private indexReady: Promise<void> | null = null
@@ -77,6 +79,14 @@ export class LocationsService implements OnModuleInit {
       return undefined
     }
     return entry.name
+  }
+
+  /** Resolve display name from fixed options or the city index. */
+  nameForKey(key: string): string | undefined {
+    const fixed = FIXED_LOCATION_OPTIONS.find((row) => row.key === key)
+    if (fixed) return fixed.name
+    this.ensureCityIndex()
+    return this.sortedCityRows.find((row) => row.key === key)?.name
   }
 
   rememberSuggestion(key: string, name: string, placeId: string): void {
@@ -99,6 +109,7 @@ export class LocationsService implements OnModuleInit {
     const rows: CityIndexRow[] = []
     const seen = new Set<string>()
     this.prefixBuckets = new Map()
+    this.countryBuckets = new Map()
 
     for (const city of City.getAllCities()) {
       const countryName = countryNames.get(city.countryCode) ?? city.countryCode
@@ -125,12 +136,24 @@ export class LocationsService implements OnModuleInit {
       if (citySearch.length >= PREFIX_BUCKET_LEN) {
         this.addToBucket(citySearch.slice(0, PREFIX_BUCKET_LEN), row)
       }
+
+      const countryKey = countryName.toLowerCase()
+      const countryList = this.countryBuckets.get(countryKey)
+      if (countryList) countryList.push(row)
+      else this.countryBuckets.set(countryKey, [row])
     }
 
     this.cityIndex = rows
     this.sortedCityRows = [...rows].sort((a, b) => a.name.localeCompare(b.name))
 
     for (const list of this.prefixBuckets.values()) {
+      list.sort(
+        (a, b) =>
+          a.citySearch.length - b.citySearch.length ||
+          a.citySearch.localeCompare(b.citySearch),
+      )
+    }
+    for (const list of this.countryBuckets.values()) {
       list.sort(
         (a, b) =>
           a.citySearch.length - b.citySearch.length ||
@@ -210,24 +233,38 @@ export class LocationsService implements OnModuleInit {
     return Math.min(MAX_LIMIT, Math.max(1, n))
   }
 
+  private fixedMatches(needle: string): LocationSuggestion[] {
+    const q = needle.trim().toLowerCase()
+    return FIXED_LOCATION_OPTIONS.filter((row) => {
+      if (!q) return true
+      return (
+        row.key.includes(q) ||
+        row.name.toLowerCase().startsWith(q) ||
+        row.name.toLowerCase().includes(q)
+      )
+    }).map((row) => ({ key: row.key, name: row.name, placeId: null }))
+  }
+
   private emptyStatePage(
     offset: number,
     limit: number,
   ): CatalogSearchPage<LocationSuggestion> {
     this.ensureCityIndex()
+    const fixed = this.fixedMatches('')
     const examples = this.exampleSuggestions
     const exampleKeys = new Set(examples.map((row) => row.key))
     const browseRows = this.sortedCityRows.filter(
       (row) => !exampleKeys.has(row.key),
     )
-    const total = examples.length + browseRows.length
+    const head = [...fixed, ...examples]
+    const total = head.length + browseRows.length
     const items: LocationSuggestion[] = []
 
     for (let i = offset; i < offset + limit && i < total; i++) {
-      if (i < examples.length) {
-        items.push(examples[i])
+      if (i < head.length) {
+        items.push(head[i])
       } else {
-        const row = browseRows[i - examples.length]
+        const row = browseRows[i - head.length]
         items.push(this.rowToSuggestion(row))
       }
     }
@@ -241,8 +278,8 @@ export class LocationsService implements OnModuleInit {
   }
 
   /**
-   * Prefix match on city name only (letter-based typeahead).
-   * Uses 1–2 char buckets so we never scan ~150k rows per keystroke.
+   * Prefix match on city name, plus country-name matches and fixed Remote/Other.
+   * City lookup uses 1–2 char buckets so we never scan ~150k rows per keystroke.
    */
   private collectCityMatches(query: string): LocationSuggestion[] {
     const needle = query.toLowerCase()
@@ -254,13 +291,34 @@ export class LocationsService implements OnModuleInit {
         : needle.slice(0, 1)
     const bucket = this.prefixBuckets.get(bucketKey) ?? []
 
-    const out: LocationSuggestion[] = []
+    const out: LocationSuggestion[] = [...this.fixedMatches(needle)]
+    const seen = new Set(out.map((row) => row.key))
+
     for (const row of bucket) {
-      if (!row.citySearch.startsWith(needle)) continue
+      if (!row.citySearch.startsWith(needle) || seen.has(row.key)) continue
+      seen.add(row.key)
       out.push(this.rowToSuggestion(row))
     }
 
-    out.sort((a, b) => a.name.localeCompare(b.name))
+    // Country-name typeahead (e.g. "Viet" → Vietnamese cities).
+    if (needle.length >= 2) {
+      for (const [country, rows] of this.countryBuckets) {
+        if (!country.startsWith(needle) && !country.includes(needle)) continue
+        for (const row of rows) {
+          if (seen.has(row.key)) continue
+          seen.add(row.key)
+          out.push(this.rowToSuggestion(row))
+          if (out.length >= MAX_LIMIT * 20) break
+        }
+        if (out.length >= MAX_LIMIT * 20) break
+      }
+    }
+
+    out.sort((a, b) => {
+      const aFixed = a.placeId == null ? 0 : 1
+      const bFixed = b.placeId == null ? 0 : 1
+      return aFixed - bFixed || a.name.localeCompare(b.name)
+    })
     return out
   }
 

@@ -61,10 +61,16 @@ export type PublicUserProfileResponse = {
   profilePath: string
   name: string | null
   role: User['role']
+  /** Display label (catalog / tag name). */
   occupation: string | null
+  /** Stable tag key for i18n / filters. */
+  occupationKey: string | null
+  /** Display label (city name or fixed seed). */
   location: string | null
+  /** Stable tag key for i18n / filters. */
+  locationKey: string | null
   avatarUrl: string | null
-  /** Display labels from tag.name — ready to render. */
+  /** Goal tag keys — clients translate via onboard.heading.goal_*. */
   goals: string[]
 }
 
@@ -133,9 +139,11 @@ export function toPublicUserProfile(user: User): PublicUserProfileResponse {
     name: user.name ?? null,
     role: user.role,
     occupation: user.occupation ?? null,
+    occupationKey: user.occupation ?? null,
     location: user.location ?? null,
+    locationKey: user.location ?? null,
     avatarUrl: user.avatar_url ?? null,
-    goals: user.tags?.map((tag) => tag.name) ?? [],
+    goals: user.tags?.map((tag) => tag.key) ?? [],
   }
 }
 

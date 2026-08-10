@@ -8,6 +8,8 @@ import { getRepositoryToken } from '@nestjs/typeorm'
 import { In } from 'typeorm'
 import { TagsService } from '../tags/tags.service'
 import { UsersService } from '../users/users.service'
+import { LocationsService } from '../locations/locations.service'
+import { OccupationsService } from '../occupations/occupations.service'
 import { InvestorProfiles } from './entities/investor-profiles.entity'
 import { StartupProfiles } from './entities/startup-profiles.entity'
 import { ProfilesService } from './profiles.service'
@@ -98,6 +100,14 @@ describe('ProfilesService', () => {
         },
         { provide: UsersService, useValue: usersService },
         { provide: TagsService, useValue: tagsService },
+        {
+          provide: LocationsService,
+          useValue: { nameForKey: jest.fn(() => undefined) },
+        },
+        {
+          provide: OccupationsService,
+          useValue: { nameForKey: jest.fn(() => undefined) },
+        },
       ],
     }).compile()
 
@@ -316,7 +326,7 @@ describe('ProfilesService', () => {
       expect(findArg?.where.industry).toEqual(In(['climate', 'fintech']))
     })
 
-    it('resolves public user by urlKey or uuid and returns display goal labels', async () => {
+    it('resolves public user by urlKey or uuid and returns goal keys', async () => {
       const user = {
         supabaseUid: UID,
         onboarded_at: new Date(),
@@ -337,7 +347,9 @@ describe('ProfilesService', () => {
           id: UID,
           urlKey: 'alex-morgan',
           profilePath: '/u/alex-morgan',
-          goals: ['Raise capital'],
+          goals: ['raise_capital'],
+          occupationKey: null,
+          locationKey: null,
         }),
       )
       expect(usersService.findOnboardedByUrlKeyOrId).toHaveBeenCalledWith(
