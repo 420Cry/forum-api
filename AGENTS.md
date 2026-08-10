@@ -112,6 +112,8 @@ With forum-server: `forum db:migrate`, `forum db:seed`.
 
 No `DB_HOST` secret: the workflow runs `supabase link` and reads the IPv4 Session pooler from `supabase/.temp/pooler-url`.
 
+Heroku runtime still needs `DB_*` plus TLS: set `PGSSLMODE=no-verify` (not `require` — node-pg then verifies the CA and the dyno crashes). After deploy, `resolveDbSsl` also enables TLS for `*.supabase.co` / pooler hosts.
+
 Manual run: **Actions → Deploy database → Run workflow**.
 
 ## Module layout

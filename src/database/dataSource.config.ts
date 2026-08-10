@@ -8,6 +8,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 import { DataSource } from 'typeorm'
+import { resolveDbSsl } from '../config/db-ssl'
 import { User } from '../modules/users/entities'
 import { Tag } from 'src/modules/tags/entities/tags.entities'
 import { StartupProfiles } from 'src/modules/profiles/entities/startup-profiles.entity'
@@ -33,13 +34,21 @@ import { AddUserUrlKey1786120000000 } from './migrations/1786120000000-AddUserUr
 import { TagKindsAndCatalog1786130000000 } from './migrations/1786130000000-TagKindsAndCatalog'
 import { AddUserDateOfBirth1786140000000 } from './migrations/1786140000000-AddUserDateOfBirth'
 
+const dbHost = process.env.DB_HOST || '127.0.0.1'
+const dbSsl = resolveDbSsl({
+  host: dbHost,
+  sslMode: process.env.PGSSLMODE,
+})
+
 export default new DataSource({
   type: 'postgres',
-  host: process.env.DB_HOST || '127.0.0.1',
+  host: dbHost,
   port: parseInt(process.env.DB_PORT || '54322', 10),
   username: process.env.DB_USERNAME || 'postgres',
   password: process.env.DB_PASSWORD || 'postgres',
   database: process.env.DB_NAME || 'postgres',
+  ssl: dbSsl,
+  extra: { ssl: dbSsl },
   synchronize: false,
   entities: [
     User,

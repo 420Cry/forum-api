@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
+import { resolveDbSsl } from './db-ssl'
 
 @Injectable()
 export class EnvService {
@@ -36,13 +37,23 @@ export class EnvService {
   }
 
   getDBConfig() {
+    const host = this.getValue('DB_HOST')
+    const port = parseInt(this.getValue('DB_PORT'), 10)
+    const ssl = resolveDbSsl({
+      host,
+      sslMode: this.getValue('PGSSLMODE', false),
+    })
+    // Visible in Heroku logs — no secrets.
+    console.info('[db] connecting', { host, port, ssl: Boolean(ssl) })
     return {
       type: 'postgres' as const,
-      host: this.getValue('DB_HOST'),
-      port: parseInt(this.getValue('DB_PORT'), 10),
+      host,
+      port,
       username: this.getValue('DB_USERNAME'),
       password: this.getValue('DB_PASSWORD'),
       database: this.getValue('DB_NAME'),
+      ssl,
+      extra: { ssl },
       autoLoadEntities: true,
       synchronize: false,
     }
