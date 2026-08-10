@@ -6,6 +6,8 @@ import {
 } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { ILike, In, Not, Repository } from 'typeorm'
+import { Follows } from '../follows/entities/follows.entity'
+import type { FollowTargetType } from '../follows/follows.type'
 import { TagsService } from '../tags/tags.service'
 import { UsersService } from '../users/users.service'
 import { LocationsService } from '../locations/locations.service'
@@ -56,11 +58,28 @@ export class ProfilesService {
     private readonly startupRepo: Repository<StartupProfiles>,
     @InjectRepository(InvestorProfiles)
     private readonly investorRepo: Repository<InvestorProfiles>,
+    @InjectRepository(Follows)
+    private readonly followsRepo: Repository<Follows>,
     private readonly usersService: UsersService,
     private readonly tagsService: TagsService,
     private readonly locationsService: LocationsService,
     private readonly occupationsService: OccupationsService,
   ) {}
+
+  async countFollowers(
+    targetType: FollowTargetType,
+    targetId: string,
+  ): Promise<number> {
+    return this.followsRepo.count({
+      where: { target_type: targetType, target_id: targetId },
+    })
+  }
+
+  async countFollowing(userId: string): Promise<number> {
+    return this.followsRepo.count({
+      where: { follower_user_id: userId },
+    })
+  }
 
   async listAccounts(userId: string): Promise<AccountSummary[]> {
     const user = await this.usersService.findBySupabaseUidWithTags(userId)
@@ -175,7 +194,8 @@ export class ProfilesService {
     profile.views += 1
     await this.startupRepo.save(profile)
     const [labeled] = await this.toLabeledStartupResponses([profile])
-    return labeled
+    const followersCount = await this.countFollowers('startup', id)
+    return { ...labeled, followersCount }
   }
 
   async createInvestor(
@@ -246,7 +266,8 @@ export class ProfilesService {
     profile.views += 1
     await this.investorRepo.save(profile)
     const [labeled] = await this.toLabeledInvestorResponses([profile])
-    return labeled
+    const followersCount = await this.countFollowers('investor', id)
+    return { ...labeled, followersCount }
   }
 
   async getPublicUser(urlKeyOrId: string): Promise<PublicUserProfileResponse> {
@@ -254,7 +275,12 @@ export class ProfilesService {
     if (!user) {
       throw new NotFoundException('User profile not found')
     }
-    return this.toLabeledPublicUser(user)
+    const [labeled, followersCount, followingCount] = await Promise.all([
+      this.toLabeledPublicUser(user),
+      this.countFollowers('user', user.supabaseUid),
+      this.countFollowing(user.supabaseUid),
+    ])
+    return { ...labeled, followersCount, followingCount }
   }
 
   async search(

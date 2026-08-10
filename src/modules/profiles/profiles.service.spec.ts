@@ -10,6 +10,7 @@ import { TagsService } from '../tags/tags.service'
 import { UsersService } from '../users/users.service'
 import { LocationsService } from '../locations/locations.service'
 import { OccupationsService } from '../occupations/occupations.service'
+import { Follows } from '../follows/entities/follows.entity'
 import { InvestorProfiles } from './entities/investor-profiles.entity'
 import { StartupProfiles } from './entities/startup-profiles.entity'
 import { ProfilesService } from './profiles.service'
@@ -40,8 +41,14 @@ describe('ProfilesService', () => {
   let tagsService: {
     labelMap: jest.Mock
   }
+  let followsRepo: {
+    count: jest.Mock
+  }
 
   beforeEach(async () => {
+    followsRepo = {
+      count: jest.fn().mockResolvedValue(0),
+    }
     startupRepo = {
       findOne: jest.fn(),
       find: jest.fn(),
@@ -98,6 +105,7 @@ describe('ProfilesService', () => {
           provide: getRepositoryToken(InvestorProfiles),
           useValue: investorRepo,
         },
+        { provide: getRepositoryToken(Follows), useValue: followsRepo },
         { provide: UsersService, useValue: usersService },
         { provide: TagsService, useValue: tagsService },
         {
@@ -342,6 +350,8 @@ describe('ProfilesService', () => {
       }
       usersService.findOnboardedByUrlKeyOrId.mockResolvedValue(user)
 
+      followsRepo.count.mockResolvedValueOnce(3).mockResolvedValueOnce(5)
+
       await expect(service.getPublicUser('alex-morgan')).resolves.toEqual(
         expect.objectContaining({
           id: UID,
@@ -350,11 +360,19 @@ describe('ProfilesService', () => {
           goals: ['raise_capital'],
           occupationKey: null,
           locationKey: null,
+          followersCount: 3,
+          followingCount: 5,
         }),
       )
       expect(usersService.findOnboardedByUrlKeyOrId).toHaveBeenCalledWith(
         'alex-morgan',
       )
+      expect(followsRepo.count).toHaveBeenCalledWith({
+        where: { target_type: 'user', target_id: UID },
+      })
+      expect(followsRepo.count).toHaveBeenCalledWith({
+        where: { follower_user_id: UID },
+      })
     })
 
     it('returns suggestions without a query', async () => {

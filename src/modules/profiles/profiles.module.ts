@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
+import { Follows } from '../follows/entities/follows.entity'
 import { LocationsModule } from '../locations/locations.module'
 import { OccupationsModule } from '../occupations/occupations.module'
 import { TagsModule } from '../tags/tags.module'
@@ -12,7 +13,7 @@ import { ProfilesService } from './profiles.service'
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([StartupProfiles, InvestorProfiles]),
+    TypeOrmModule.forFeature([StartupProfiles, InvestorProfiles, Follows]),
     UsersModule,
     TagsModule,
     LocationsModule,

@@ -33,6 +33,7 @@ export type StartupProfileResponse = {
   foundedAt: string
   views: number
   connections: number
+  followersCount: number
   href: string
 }
 
@@ -50,6 +51,7 @@ export type InvestorProfileResponse = {
   maxInvestmentUsd: number | null
   views: number
   connections: number
+  followersCount: number
   href: string
 }
 
@@ -72,6 +74,8 @@ export type PublicUserProfileResponse = {
   avatarUrl: string | null
   /** Goal tag keys — clients translate via onboard.heading.goal_*. */
   goals: string[]
+  followersCount: number
+  followingCount: number
 }
 
 export function toStartupResponse(
@@ -96,6 +100,7 @@ export function toStartupResponse(
     foundedAt: founded,
     views: profile.views,
     connections: profile.connections,
+    followersCount: profile.connections,
     href: `/startup/${profile.id}`,
   }
 }
@@ -123,6 +128,7 @@ export function toInvestorResponse(
         : Number(profile.max_investment_usd),
     views: profile.views,
     connections: profile.connections,
+    followersCount: profile.connections,
     href: `/investor/${profile.id}`,
   }
 }
@@ -144,6 +150,8 @@ export function toPublicUserProfile(user: User): PublicUserProfileResponse {
     locationKey: user.location ?? null,
     avatarUrl: user.avatar_url ?? null,
     goals: user.tags?.map((tag) => tag.key) ?? [],
+    followersCount: 0,
+    followingCount: 0,
   }
 }
 

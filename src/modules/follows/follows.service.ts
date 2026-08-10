@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common'
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { LocationsService } from '../locations/locations.service'
@@ -15,11 +19,14 @@ import { TagsService } from '../tags/tags.service'
 import { UsersService } from '../users/users.service'
 import { FollowDto } from './dto/follow.dto'
 import { Follows } from './entities/follows.entity'
+import type { FollowTargetType } from './follows.type'
 
 type PendingSummary =
   | { kind: 'user'; summary: AccountSummary }
   | { kind: 'startup'; summary: AccountSummary; startup: StartupProfiles }
   | { kind: 'investor'; summary: AccountSummary; investor: InvestorProfiles }
+
+const LIST_CAP = 200
 
 @Injectable()
 export class FollowsService {
@@ -35,6 +42,21 @@ export class FollowsService {
     private readonly locationsService: LocationsService,
     private readonly tagsService: TagsService,
   ) {}
+
+  async countFollowers(
+    targetType: FollowTargetType,
+    targetId: string,
+  ): Promise<number> {
+    return this.followsRepo.count({
+      where: { target_type: targetType, target_id: targetId },
+    })
+  }
+
+  async countFollowing(userId: string): Promise<number> {
+    return this.followsRepo.count({
+      where: { follower_user_id: userId },
+    })
+  }
 
   async follow(userId: string, dto: FollowDto) {
     if (dto.targetType === 'user' && dto.targetId === userId) {
@@ -133,12 +155,46 @@ export class FollowsService {
     const rows = await this.followsRepo.find({
       where: { follower_user_id: userId },
       order: { createdAt: 'DESC' },
+      take: LIST_CAP,
     })
 
     const pending: PendingSummary[] = []
     for (const row of rows) {
       const item = await this.resolveFollowTarget(row)
       if (item) pending.push(item)
+    }
+
+    return this.labelSummaries(pending)
+  }
+
+  async listFollowingForUser(userId: string): Promise<AccountSummary[]> {
+    const user = await this.usersService.findBySupabaseUid(userId)
+    if (!user?.onboarded_at) {
+      throw new NotFoundException('User profile not found')
+    }
+    return this.listFollowing(userId)
+  }
+
+  async listFollowers(
+    targetType: FollowTargetType,
+    targetId: string,
+  ): Promise<AccountSummary[]> {
+    await this.profilesService.assertTargetExists(targetType, targetId)
+
+    const rows = await this.followsRepo.find({
+      where: { target_type: targetType, target_id: targetId },
+      order: { createdAt: 'DESC' },
+      take: LIST_CAP,
+    })
+
+    const pending: PendingSummary[] = []
+    for (const row of rows) {
+      const user = await this.usersService.findBySupabaseUidWithTags(
+        row.follower_user_id,
+      )
+      if (!user?.onboarded_at) continue
+      const ready = await this.usersService.ensureUrlKey(user)
+      pending.push({ kind: 'user', summary: personalAccountSummary(ready) })
     }
 
     return this.labelSummaries(pending)
