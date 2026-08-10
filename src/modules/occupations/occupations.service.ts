@@ -1,6 +1,12 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common'
-import { isOtherOccupationKey, type OccupationTitle } from './occupation-key'
-import { OCCUPATION_TITLES } from './occupation-titles.data'
+import { foldSearchText } from '../../common/fold-search-text'
+import { isOtherOccupationKey } from './occupation-key'
+import {
+  type CatalogLocale,
+  normalizeCatalogLocale,
+  occupationCorpus,
+  occupationLabel,
+} from './occupation-i18n'
 
 export type OccupationSuggestion = {
   key: string
@@ -16,14 +22,24 @@ export type CatalogSearchPage<T> = {
 type TitleIndexRow = {
   key: string
   name: string
+  /** Folded localized name + English name + key for typeahead. */
   search: string
   words: string[]
+}
+
+type LocaleIndex = {
+  titleIndex: TitleIndexRow[]
+  sortedTitleRows: TitleIndexRow[]
+  byKey: Map<string, TitleIndexRow>
+  prefixBuckets: Map<string, TitleIndexRow[]>
+  exampleSuggestions: OccupationSuggestion[]
 }
 
 const CACHE_TTL_MS = 30 * 60 * 1000
 const MIN_QUERY_LEN = 1
 const DEFAULT_LIMIT = 20
-const MAX_LIMIT = 50
+/** Corpus is ~1.3k titles — allow a full pull for client caches. */
+const MAX_LIMIT = 2000
 const PREFIX_BUCKET_LEN = 2
 
 /** Empty-state examples so users see they can type a title. */
@@ -45,15 +61,11 @@ export class OccupationsService implements OnModuleInit {
   private readonly logger = new Logger(OccupationsService.name)
   private readonly recent = new Map<string, { name: string; at: number }>()
 
-  private titleIndex: TitleIndexRow[] | null = null
-  private sortedTitleRows: TitleIndexRow[] = []
-  private byKey = new Map<string, TitleIndexRow>()
-  private prefixBuckets = new Map<string, TitleIndexRow[]>()
-  private exampleSuggestions: OccupationSuggestion[] = []
+  private readonly indexes = new Map<CatalogLocale, LocaleIndex>()
   private indexReady: Promise<void> | null = null
 
   onModuleInit() {
-    void this.ensureTitleIndexAsync()
+    void this.ensureIndexesAsync()
   }
 
   cachedName(key: string): string | undefined {
@@ -70,83 +82,97 @@ export class OccupationsService implements OnModuleInit {
     this.recent.set(key, { name, at: Date.now() })
   }
 
-  /** Resolve display name from the in-memory corpus (if present). */
-  nameForKey(key: string): string | undefined {
-    this.ensureTitleIndex()
-    return this.byKey.get(key)?.name
+  /** Resolve display name from the bilingual corpus (default English). */
+  nameForKey(key: string, locale = 'en'): string | undefined {
+    const loc = normalizeCatalogLocale(locale)
+    const index = this.ensureIndex(loc)
+    return index.byKey.get(key)?.name
   }
 
   private words(value: string): string[] {
-    return value
-      .toLowerCase()
+    return foldSearchText(value)
       .split(/[^a-z0-9]+/)
       .filter(Boolean)
   }
 
-  private addToBucket(prefix: string, row: TitleIndexRow) {
+  private addToBucket(
+    buckets: Map<string, TitleIndexRow[]>,
+    prefix: string,
+    row: TitleIndexRow,
+  ) {
     if (!prefix) return
-    const list = this.prefixBuckets.get(prefix)
+    const list = buckets.get(prefix)
     if (list) list.push(row)
-    else this.prefixBuckets.set(prefix, [row])
+    else buckets.set(prefix, [row])
   }
 
-  private buildIndex(): TitleIndexRow[] {
+  private buildIndex(locale: CatalogLocale): LocaleIndex {
     const started = Date.now()
     const rows: TitleIndexRow[] = []
-    this.prefixBuckets = new Map()
-    this.byKey = new Map()
+    const prefixBuckets = new Map<string, TitleIndexRow[]>()
+    const byKey = new Map<string, TitleIndexRow>()
 
     const seen = new Set<string>()
-    const corpus: OccupationTitle[] = [...OCCUPATION_TITLES]
-
-    for (const title of corpus) {
+    for (const title of occupationCorpus()) {
       if (seen.has(title.key) || isOtherOccupationKey(title.key)) continue
       seen.add(title.key)
-      const search = title.name.toLowerCase()
+      const name = occupationLabel(title.key, locale, title.name)
+      const search = foldSearchText(`${name} ${title.name} ${title.key}`)
       const row: TitleIndexRow = {
         key: title.key,
-        name: title.name,
+        name,
         search,
-        words: this.words(title.name),
+        words: this.words(search),
       }
       rows.push(row)
-      this.byKey.set(row.key, row)
+      byKey.set(row.key, row)
 
-      const keySearch = title.key.toLowerCase()
-      for (const hay of [search, keySearch]) {
-        this.addToBucket(hay.slice(0, 1), row)
+      for (const hay of [
+        foldSearchText(name),
+        foldSearchText(title.name),
+        foldSearchText(title.key),
+      ]) {
+        this.addToBucket(prefixBuckets, hay.slice(0, 1), row)
         if (hay.length >= PREFIX_BUCKET_LEN) {
-          this.addToBucket(hay.slice(0, PREFIX_BUCKET_LEN), row)
+          this.addToBucket(prefixBuckets, hay.slice(0, PREFIX_BUCKET_LEN), row)
         }
       }
     }
 
-    for (const [prefix, list] of this.prefixBuckets) {
+    for (const [prefix, list] of prefixBuckets) {
       const uniq = [...new Map(list.map((row) => [row.key, row])).values()]
       uniq.sort(
         (a, b) =>
           a.search.length - b.search.length || a.search.localeCompare(b.search),
       )
-      this.prefixBuckets.set(prefix, uniq)
+      prefixBuckets.set(prefix, uniq)
     }
 
-    this.titleIndex = rows
-    this.sortedTitleRows = [...rows].sort((a, b) =>
-      a.name.localeCompare(b.name),
+    const sortedTitleRows = [...rows].sort((a, b) =>
+      a.name.localeCompare(b.name, locale === 'vn' ? 'vi' : 'en'),
     )
-    this.exampleSuggestions = this.resolveExamples()
+    const exampleSuggestions = this.resolveExamples(byKey)
 
     this.logger.log(
-      `Loaded ${rows.length} occupations for search in ${Date.now() - started}ms`,
+      `Loaded ${rows.length} occupations (${locale}) in ${Date.now() - started}ms`,
     )
-    return rows
+
+    return {
+      titleIndex: rows,
+      sortedTitleRows,
+      byKey,
+      prefixBuckets,
+      exampleSuggestions,
+    }
   }
 
-  private resolveExamples(): OccupationSuggestion[] {
+  private resolveExamples(
+    byKey: Map<string, TitleIndexRow>,
+  ): OccupationSuggestion[] {
     const out: OccupationSuggestion[] = []
     const seen = new Set<string>()
     for (const key of EXAMPLE_OCCUPATION_KEYS) {
-      const row = this.byKey.get(key)
+      const row = byKey.get(key)
       if (!row || seen.has(row.key)) continue
       seen.add(row.key)
       out.push({ key: row.key, name: row.name })
@@ -154,17 +180,23 @@ export class OccupationsService implements OnModuleInit {
     return out
   }
 
-  private ensureTitleIndex(): TitleIndexRow[] {
-    if (this.titleIndex) return this.titleIndex
-    return this.buildIndex()
+  private ensureIndex(locale: CatalogLocale): LocaleIndex {
+    const existing = this.indexes.get(locale)
+    if (existing) return existing
+    const built = this.buildIndex(locale)
+    this.indexes.set(locale, built)
+    return built
   }
 
-  private ensureTitleIndexAsync(): Promise<void> {
-    if (this.titleIndex) return Promise.resolve()
+  private ensureIndexesAsync(): Promise<void> {
+    if (this.indexes.has('en') && this.indexes.has('vn')) {
+      return Promise.resolve()
+    }
     if (!this.indexReady) {
       this.indexReady = Promise.resolve()
         .then(() => {
-          this.ensureTitleIndex()
+          this.ensureIndex('en')
+          this.ensureIndex('vn')
         })
         .catch((err: unknown) => {
           this.indexReady = null
@@ -186,11 +218,12 @@ export class OccupationsService implements OnModuleInit {
   private emptyStatePage(
     offset: number,
     limit: number,
+    locale: CatalogLocale,
   ): CatalogSearchPage<OccupationSuggestion> {
-    this.ensureTitleIndex()
-    const examples = this.exampleSuggestions
+    const index = this.ensureIndex(locale)
+    const examples = index.exampleSuggestions
     const exampleKeys = new Set(examples.map((row) => row.key))
-    const browseRows = this.sortedTitleRows.filter(
+    const browseRows = index.sortedTitleRows.filter(
       (row) => !exampleKeys.has(row.key),
     )
     const total = examples.length + browseRows.length
@@ -241,23 +274,40 @@ export class OccupationsService implements OnModuleInit {
     return rank
   }
 
-  private collectTitleMatches(query: string): OccupationSuggestion[] {
-    const needle = query.toLowerCase()
+  private collectTitleMatches(
+    query: string,
+    locale: CatalogLocale,
+  ): OccupationSuggestion[] {
+    const needle = foldSearchText(query)
     const tokens = this.words(needle)
-    this.ensureTitleIndex()
+    const index = this.ensureIndex(locale)
 
     const bucketKey =
       needle.length >= PREFIX_BUCKET_LEN
         ? needle.slice(0, PREFIX_BUCKET_LEN)
         : needle.slice(0, 1)
-    const bucket = this.prefixBuckets.get(bucketKey) ?? []
+    const bucket = index.prefixBuckets.get(bucketKey) ?? []
+
+    // Diacritic-heavy VN queries may miss prefix buckets — fall back to full scan.
+    const candidates =
+      bucket.length > 0 || needle.length < 1 ? bucket : index.titleIndex
 
     const ranked: Array<{ row: TitleIndexRow; rank: number }> = []
-    for (const row of bucket) {
+    for (const row of candidates.length ? candidates : index.titleIndex) {
       if (isOtherOccupationKey(row.key)) continue
       const rank = this.rankRow(row, needle, tokens)
       if (!Number.isFinite(rank)) continue
       ranked.push({ row, rank })
+    }
+
+    // If prefix bucket missed (e.g. folded VN first chars), scan all.
+    if (ranked.length === 0 && needle.length >= 1) {
+      for (const row of index.titleIndex) {
+        if (isOtherOccupationKey(row.key)) continue
+        const rank = this.rankRow(row, needle, tokens)
+        if (!Number.isFinite(rank)) continue
+        ranked.push({ row, rank })
+      }
     }
 
     ranked.sort(
@@ -282,18 +332,21 @@ export class OccupationsService implements OnModuleInit {
     q: string,
     offset = 0,
     limit = DEFAULT_LIMIT,
+    locale: string = 'en',
   ): CatalogSearchPage<OccupationSuggestion> {
+    const loc = normalizeCatalogLocale(locale)
     const query = q.trim()
     const safeOffset = Math.max(0, offset)
     const safeLimit = this.clampLimit(limit)
 
     if (query.length < MIN_QUERY_LEN) {
-      return this.emptyStatePage(safeOffset, safeLimit)
+      return this.emptyStatePage(safeOffset, safeLimit, loc)
     }
 
-    const matches = this.collectTitleMatches(query)
+    const matches = this.collectTitleMatches(query, loc)
     const items = matches.slice(safeOffset, safeOffset + safeLimit)
     this.rememberPage(items)
+
     return {
       items,
       total: matches.length,

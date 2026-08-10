@@ -1,9 +1,11 @@
 import { BadRequestException } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
+import { LocationsService } from '../locations/locations.service'
 import { InvestorProfiles } from '../profiles/entities/investor-profiles.entity'
 import { StartupProfiles } from '../profiles/entities/startup-profiles.entity'
 import { ProfilesService } from '../profiles/profiles.service'
+import { TagsService } from '../tags/tags.service'
 import { UsersService } from '../users/users.service'
 import { Follows } from './entities/follows.entity'
 import { FollowsService } from './follows.service'
@@ -31,6 +33,8 @@ describe('FollowsService', () => {
     findBySupabaseUidWithTags: jest.Mock
     ensureUrlKey: jest.Mock
   }
+  let locationsService: { nameForKey: jest.Mock }
+  let tagsService: { labelMap: jest.Mock }
 
   beforeEach(async () => {
     followsRepo = {
@@ -56,6 +60,14 @@ describe('FollowsService', () => {
         Promise.resolve(user),
       ),
     }
+    locationsService = {
+      nameForKey: jest.fn((key: string) =>
+        key === 'city_nl_nh_amsterdam' ? 'Amsterdam, Netherlands' : undefined,
+      ),
+    }
+    tagsService = {
+      labelMap: jest.fn(() => Promise.resolve(new Map())),
+    }
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -68,6 +80,8 @@ describe('FollowsService', () => {
         },
         { provide: ProfilesService, useValue: profilesService },
         { provide: UsersService, useValue: usersService },
+        { provide: LocationsService, useValue: locationsService },
+        { provide: TagsService, useValue: tagsService },
       ],
     }).compile()
 
@@ -128,5 +142,47 @@ describe('FollowsService', () => {
       TARGET,
       -1,
     )
+  })
+
+  it('resolves city location keys when listing following', async () => {
+    followsRepo.find.mockResolvedValue([
+      { target_type: 'user', target_id: OTHER, createdAt: new Date() },
+    ])
+    usersService.findBySupabaseUidWithTags.mockResolvedValue({
+      supabaseUid: OTHER,
+      onboarded_at: new Date(),
+      location: 'city_nl_nh_amsterdam',
+      name: 'Ada Lovelace',
+      email: 'ada@example.com',
+      url_key: 'ada',
+      role: 'Founder',
+      avatar_url: null,
+    })
+
+    const list = await service.listFollowing(UID)
+    expect(list).toHaveLength(1)
+    expect(list[0]?.location).toBe('Amsterdam, Netherlands')
+    expect(locationsService.nameForKey).toHaveBeenCalledWith(
+      'city_nl_nh_amsterdam',
+    )
+  })
+
+  it('labels startup industry headlines when listing following', async () => {
+    followsRepo.find.mockResolvedValue([
+      { target_type: 'startup', target_id: TARGET, createdAt: new Date() },
+    ])
+    startupRepo.findOne.mockResolvedValue({
+      id: TARGET,
+      user_id: OTHER,
+      company_name: 'Acme',
+      industry: 'fintech',
+      stage: 'seed',
+      url_key: 'acme',
+    })
+    tagsService.labelMap.mockResolvedValue(new Map([['fintech', 'Fintech']]))
+
+    const list = await service.listFollowing(UID)
+    expect(list).toHaveLength(1)
+    expect(list[0]?.headline).toBe('Fintech / seed')
   })
 })

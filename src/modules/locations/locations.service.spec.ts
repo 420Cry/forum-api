@@ -52,6 +52,19 @@ describe('LocationsService', () => {
     ).toBe(true)
   })
 
+  it('matches diacritic / alias queries for major VN cities', () => {
+    const service = new LocationsService()
+    expect(
+      service.search('Hà Nội').items.some((r) => /hanoi/i.test(r.name)),
+    ).toBe(true)
+    expect(
+      service.search('Đà Nẵng').items.some((r) => /da nang/i.test(r.name)),
+    ).toBe(true)
+    expect(
+      service.search('Sài Gòn').items.some((r) => /ho chi minh/i.test(r.name)),
+    ).toBe(true)
+  })
+
   it('matches fixed Remote and country names', () => {
     const service = new LocationsService()
     expect(service.search('Rem').items.some((r) => r.key === 'remote')).toBe(
