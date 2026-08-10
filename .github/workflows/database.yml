@@ -1,0 +1,111 @@
+# Apply database changes on merge to main (replaces Heroku release migrations).
+# 1) TypeORM — app tables (users, follows, …)
+# 2) Supabase CLI — Storage buckets / Storage RLS under supabase/migrations/
+name: Deploy database
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - 'src/database/**'
+      - 'supabase/migrations/**'
+      - '.github/workflows/database.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: database-prod
+  cancel-in-progress: false
+
+jobs:
+  typeorm:
+    name: TypeORM migrate + seed
+    runs-on: ubuntu-latest
+    env:
+      NODE_ENV: production
+      # Prefer dedicated DB_* secrets; fall back to Supabase password/project.
+      DB_HOST: ${{ secrets.DB_HOST }}
+      DB_PORT: ${{ secrets.DB_PORT || '5432' }}
+      DB_NAME: ${{ secrets.DB_NAME || 'postgres' }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD || secrets.SUPABASE_DB_PASSWORD }}
+      # Pooler (IPv4, required on GitHub runners) needs postgres.<project-ref>.
+      DB_USERNAME: ${{ secrets.DB_USERNAME }}
+      SUPABASE_PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Require DB secrets
+        run: |
+          missing=0
+          if [ -z "$DB_HOST" ]; then
+            echo "::error::DB_HOST is not set. Use the Session pooler host from Supabase → Database → Connection string (IPv4). Direct db.*.supabase.co is IPv6-only and fails on GitHub Actions."
+            missing=1
+          fi
+          if [ -z "$DB_PASSWORD" ]; then
+            echo "::error::Set DB_PASSWORD or SUPABASE_DB_PASSWORD (same value as the Supabase database password)."
+            missing=1
+          fi
+          if [ -z "$DB_USERNAME" ] && [ -z "$SUPABASE_PROJECT_ID" ]; then
+            echo "::error::Set DB_USERNAME (e.g. postgres.<project-ref>) or SUPABASE_PROJECT_ID to derive it."
+            missing=1
+          fi
+          exit "$missing"
+
+      - name: Resolve DB username
+        run: |
+          if [ -z "$DB_USERNAME" ]; then
+            echo "DB_USERNAME=postgres.${SUPABASE_PROJECT_ID}" >> "$GITHUB_ENV"
+            echo "Using pooler username postgres.${SUPABASE_PROJECT_ID}"
+          fi
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.2.22
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Run TypeORM migrations
+        run: bun run migration:run
+
+      - name: Seed catalog tags
+        run: bun run seed
+
+  supabase:
+    name: Supabase CLI migrations
+    runs-on: ubuntu-latest
+    needs: typeorm
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD || secrets.DB_PASSWORD }}
+      SUPABASE_PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Require Supabase secrets
+        run: |
+          missing=0
+          for name in SUPABASE_ACCESS_TOKEN SUPABASE_DB_PASSWORD SUPABASE_PROJECT_ID; do
+            if [ -z "${!name}" ]; then
+              echo "::error::$name is not set. Add it under Settings → Secrets and variables → Actions."
+              missing=1
+            fi
+          done
+          exit "$missing"
+
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      # Default link uses the IPv4 pooler (do not --skip-pooler on GHA).
+      - name: Link project
+        run: >
+          supabase link
+          --project-ref "$SUPABASE_PROJECT_ID"
+          --password "$SUPABASE_DB_PASSWORD"
+          --yes
+
+      - name: Push Supabase migrations
+        run: >
+          supabase db push
+          --password "$SUPABASE_DB_PASSWORD"
+          --yes
