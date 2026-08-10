@@ -39,14 +39,13 @@ jobs:
         with:
           version: latest
 
-      # Pass -p explicitly (env alone can still prompt/hang). Prefer direct
-      # connection — pooler has been flaky with password auth in CI.
+      # Do NOT pass --skip-pooler: direct db.*.supabase.co is IPv6-only and
+      # GitHub-hosted runners are IPv4-only. Default link uses the IPv4 pooler.
       - name: Link project
         run: >
           supabase link
           --project-ref "$SUPABASE_PROJECT_ID"
           --password "$SUPABASE_DB_PASSWORD"
-          --skip-pooler
           --yes
 
       - name: Push migrations
