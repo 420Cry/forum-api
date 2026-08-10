@@ -16,7 +16,10 @@ export class AuthController {
       return { id: null, email: null, profile: null }
     }
 
-    const user = await this.usersService.findBySupabaseUidWithTags(authUser.id)
+    let user = await this.usersService.findBySupabaseUidWithTags(authUser.id)
+    if (user?.onboarded_at) {
+      user = await this.usersService.ensureUrlKey(user)
+    }
 
     return {
       id: authUser.id,

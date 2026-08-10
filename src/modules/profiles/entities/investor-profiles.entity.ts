@@ -8,11 +8,9 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm'
-import { startupProfilesStage } from '../startup_profiles.type'
-import type { StageType } from '../startup_profiles.type'
 
-@Entity('startup-profiles')
-export class StartupProfiles {
+@Entity('investor-profiles')
+export class InvestorProfiles {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
@@ -24,22 +22,13 @@ export class StartupProfiles {
   user: User
 
   @Column()
-  company_name: string
+  firm_name: string
 
-  @Column('text', { nullable: true })
+  @Column({ type: 'text', nullable: true })
   description?: string
-
-  @Column({
-    type: 'enum',
-    enum: startupProfilesStage,
-  })
-  stage: StageType
 
   @Column()
   industry: string
-
-  @Column({ nullable: true })
-  website_url?: string
 
   @Column()
   contact_email: string
@@ -50,8 +39,14 @@ export class StartupProfiles {
   @Column({ nullable: true })
   logo_url?: string
 
-  @Column('date')
-  founded_at: Date
+  @Column({ nullable: true })
+  website_url?: string
+
+  @Column({ type: 'decimal', nullable: true })
+  min_investment_usd?: number
+
+  @Column({ type: 'decimal', nullable: true })
+  max_investment_usd?: number
 
   @Column('integer', { default: 0 })
   views: number

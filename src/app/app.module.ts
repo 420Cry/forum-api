@@ -7,7 +7,13 @@ import { EnvModule } from '../config/config.module'
 import { DatabaseModule } from '../database/database.module'
 import { UsersModule } from 'src/modules/users/users.module'
 import { TagsModule } from 'src/modules/tags/tags.module'
+import { LocationsModule } from 'src/modules/locations/locations.module'
+import { OccupationsModule } from 'src/modules/occupations/occupations.module'
 import { FiltersModule } from 'src/filters/filters.module'
+import { ProfilesModule } from 'src/modules/profiles/profiles.module'
+import { PostsModule } from 'src/modules/posts/posts.module'
+import { ReactionsModule } from 'src/modules/reactions/reactions.module'
+import { FollowsModule } from 'src/modules/follows/follows.module'
 
 @Module({
   imports: [
@@ -26,6 +32,12 @@ import { FiltersModule } from 'src/filters/filters.module'
     HealthModule,
     UsersModule,
     TagsModule,
+    LocationsModule,
+    OccupationsModule,
+    ProfilesModule,
+    PostsModule,
+    ReactionsModule,
+    FollowsModule,
   ],
 })
 export class AppModule {}

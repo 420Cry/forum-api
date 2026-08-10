@@ -144,7 +144,20 @@ See [AGENTS.md](./AGENTS.md) and [../ARCHITECTURE.md](../ARCHITECTURE.md) for th
 | GET    | /auth/me          | Yes  | JWT (email verification skipped) | Current user + profile |
 | POST   | /user/onboarding  | Yes  | JWT + verified + not onboarded | Complete onboarding (atomic submit) |
 | PATCH  | /user/onboarding/draft | Yes | JWT + verified + not onboarded | Save in-progress draft |
-| PATCH  | /user/profile     | Yes  | JWT + verified + onboarded | Update profile (partial) |
+| PATCH  | /user/profile     | Yes  | JWT + verified + onboarded | Update profile (partial; includes `avatarUrl`) |
+| GET    | /me/accounts      | Yes  | JWT + verified + onboarded | Personal + startup/investor account summaries |
+| POST   | /profiles/startup | Yes  | JWT + verified + onboarded | Create startup profile |
+| PATCH  | /profiles/startup | Yes  | JWT + verified + onboarded | Update own startup profile |
+| GET    | /profiles/startup/:id | No | `@Public()` | Public startup profile |
+| POST   | /profiles/investor | Yes | JWT + verified + onboarded | Create investor profile |
+| PATCH  | /profiles/investor | Yes | JWT + verified + onboarded | Update own investor profile |
+| GET    | /profiles/investor/:id | No | `@Public()` | Public investor profile |
+| GET    | /profiles/user/:id | No | `@Public()` | Public user profile |
+| GET    | /find             | Yes  | JWT + verified + onboarded | Directory search (`q`, `type`, filters) |
+| POST   | /follows          | Yes  | JWT + verified + onboarded | Follow a user/startup/investor |
+| DELETE | /follows          | Yes  | JWT + verified + onboarded | Unfollow |
+| GET    | /follows/me       | Yes  | JWT + verified + onboarded | List accounts the current user follows |
+| GET    | /follows/status   | Yes  | JWT + verified + onboarded | Follow status for a target |
 
 Removed (replaced by the routes above):
 
