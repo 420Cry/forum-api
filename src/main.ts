@@ -26,4 +26,13 @@ async function bootstrap() {
   })
   await app.listen(env.getPort(), '0.0.0.0')
 }
-void bootstrap()
+
+void bootstrap().catch((err: unknown) => {
+  const error = err as { name?: string; message?: string; code?: string }
+  console.error('[boot] failed', {
+    name: error?.name,
+    message: error?.message,
+    code: error?.code,
+  })
+  process.exit(1)
+})
