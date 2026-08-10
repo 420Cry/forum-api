@@ -20,6 +20,8 @@ async function bootstrap() {
       'X-Requested-With',
       'apikey',
       'x-client-info',
+      // Playwright / tooling probes (harmless if unused by the API)
+      'X-Forum-E2E',
     ],
   })
   await app.listen(env.getPort(), '0.0.0.0')
