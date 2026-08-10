@@ -115,9 +115,9 @@ With forum-server: `forum db:migrate`, `forum db:seed`.
 | `SUPABASE_PROJECT_ID` | Project ref from the dashboard URL |
 | `SUPABASE_DB_PASSWORD` (or `DB_PASSWORD`) | Database password — keep in sync with Heroku `DB_PASSWORD` |
 
-No `DB_HOST` secret: the workflow runs `supabase link` and reads the IPv4 Session pooler from `supabase/.temp/pooler-url`.
+No `DB_HOST` secret: the workflow runs `supabase link` and reads the IPv4 Session pooler host/port from `supabase/.temp/pooler-url`. `DB_USERNAME` is set at job level to `postgres.<SUPABASE_PROJECT_ID>` (bare `postgres` causes `28P01` on the pooler).
 
-Heroku runtime still needs `DB_*` plus TLS: set `PGSSLMODE=no-verify` (not `require` — node-pg then verifies the CA and the dyno crashes). After deploy, `resolveDbSsl` also enables TLS for `*.supabase.co` / pooler hosts.
+Heroku runtime still needs `DB_*` plus TLS: set `PGSSLMODE=no-verify` (not `require` — node-pg then verifies the CA and the dyno crashes). After deploy, `resolveDbSsl` also enables TLS for `*.supabase.co` / pooler hosts. Heroku `DB_USERNAME` must also be `postgres.<project-ref>`.
 
 Manual run: **Actions → Deploy database → Run workflow**.
 

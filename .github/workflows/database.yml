@@ -40,7 +40,11 @@ jobs:
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD || secrets.DB_PASSWORD }}
       SUPABASE_PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
-      DB_PASSWORD: ${{ secrets.DB_PASSWORD || secrets.SUPABASE_DB_PASSWORD }}
+      # Session pooler requires postgres.<project-ref> — never bare "postgres".
+      # Set at job level so TypeORM cannot fall back to dataSource default.
+      DB_USERNAME: postgres.${{ secrets.SUPABASE_PROJECT_ID }}
+      DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD || secrets.DB_PASSWORD }}
+      DB_NAME: postgres
     steps:
       - uses: actions/checkout@v4
 
@@ -53,8 +57,12 @@ jobs:
               missing=1
             fi
           done
-          if [ -z "${SUPABASE_DB_PASSWORD:-}" ] && [ -z "${DB_PASSWORD:-}" ]; then
+          if [ -z "${DB_PASSWORD:-}" ]; then
             echo "::error::Set SUPABASE_DB_PASSWORD or DB_PASSWORD."
+            missing=1
+          fi
+          if [ "$DB_USERNAME" = "postgres." ] || [ "$DB_USERNAME" = "postgres" ]; then
+            echo "::error::DB_USERNAME must be postgres.<project-ref>, got '$DB_USERNAME'"
             missing=1
           fi
           exit "$missing"
@@ -75,10 +83,10 @@ jobs:
         run: >
           supabase link
           --project-ref "$SUPABASE_PROJECT_ID"
-          --password "${SUPABASE_DB_PASSWORD:-$DB_PASSWORD}"
+          --password "$DB_PASSWORD"
           --yes
 
-      - name: Resolve DB_* from pooler URL
+      - name: Resolve DB_HOST / DB_PORT from pooler URL
         run: |
           if [ ! -f supabase/.temp/pooler-url ]; then
             echo "::error::supabase link did not write supabase/.temp/pooler-url"
@@ -90,8 +98,7 @@ jobs:
           import os
 
           raw = Path("supabase/.temp/pooler-url").read_text().strip()
-          # Password in the URL may contain '@' etc.; prefer repo secrets for auth.
-          # Strip userinfo before parse so host/port stay reliable.
+          # Strip userinfo so passwords with '@' cannot break host parsing.
           scheme, _, rest = raw.partition("://")
           if "@" in rest:
               rest = rest.rsplit("@", 1)[-1]
@@ -103,39 +110,23 @@ jobs:
           if not u.hostname:
               raise SystemExit(f"Could not parse pooler URL host: {raw!r}")
 
-          project_ref = os.environ.get("SUPABASE_PROJECT_ID", "").strip()
           host = u.hostname
-          # Session pooler requires postgres.<project-ref>, not bare postgres.
-          # supabase/.temp/pooler-url often has user=postgres only.
-          if "pooler.supabase" in host:
-              if not project_ref:
-                  raise SystemExit("SUPABASE_PROJECT_ID required for pooler username")
-              username = f"postgres.{project_ref}"
-          else:
-              username = "postgres"
-
-          db_name = (u.path or "/postgres").lstrip("/") or "postgres"
           port = u.port or 5432
+          if "pooler.supabase" not in host:
+              raise SystemExit(
+                  f"Expected Session pooler host (*pooler.supabase*), got {host!r}"
+              )
 
           with open(os.environ["GITHUB_ENV"], "a", encoding="utf-8") as f:
               f.write(f"DB_HOST={host}\n")
               f.write(f"DB_PORT={port}\n")
-              f.write(f"DB_USERNAME={username}\n")
-              f.write(f"DB_NAME={db_name}\n")
 
           print("Resolved Session pooler:")
           print(f"  DB_HOST={host}")
           print(f"  DB_PORT={port}")
-          print(f"  DB_USERNAME={username}")
-          print(f"  DB_NAME={db_name}")
+          print(f"  DB_USERNAME={os.environ.get('DB_USERNAME')}")
+          print(f"  DB_NAME={os.environ.get('DB_NAME')}")
           PY
-          # Prefer the secret over any password embedded in pooler-url.
-          if [ -n "${SUPABASE_DB_PASSWORD:-}" ]; then
-            echo "DB_PASSWORD=${SUPABASE_DB_PASSWORD}" >> "$GITHUB_ENV"
-          elif [ -z "${DB_PASSWORD:-}" ]; then
-            echo "::error::DB_PASSWORD is empty"
-            exit 1
-          fi
 
       - name: Sanity-check DB_* (no secrets)
         run: |
@@ -145,14 +136,30 @@ jobs:
           echo "DB_NAME=$DB_NAME"
           echo "PGSSLMODE=${PGSSLMODE:-}"
           echo "APPLY=${APPLY:-}"
-          if [[ "$DB_HOST" == *pooler.supabase* ]] && [[ "$DB_USERNAME" != postgres.* ]]; then
-            echo "::error::Pooler host requires DB_USERNAME=postgres.<project-ref>, got '$DB_USERNAME'"
+          case "$DB_USERNAME" in
+            postgres.*) ;;
+            *)
+              echo "::error::DB_USERNAME must be postgres.<project-ref>, got '$DB_USERNAME'"
+              exit 1
+              ;;
+          esac
+          if [ -z "${DB_HOST:-}" ] || [ -z "${DB_PASSWORD:-}" ]; then
+            echo "::error::DB_HOST or DB_PASSWORD is empty"
             exit 1
           fi
-          if [ -z "${DB_PASSWORD:-}" ]; then
-            echo "::error::DB_PASSWORD is empty"
-            exit 1
-          fi
+
+      - name: Probe env seen by Bun/TypeORM
+        run: |
+          bun -e '
+            const u = process.env.DB_USERNAME
+            const h = process.env.DB_HOST
+            const p = process.env.DB_PORT
+            console.log("[probe]", { host: h, port: p, username: u, hasPassword: Boolean(process.env.DB_PASSWORD) })
+            if (!u || u === "postgres" || !u.startsWith("postgres.")) {
+              console.error("DB_USERNAME must be postgres.<project-ref>")
+              process.exit(1)
+            }
+          '
 
       # Connects to the DB — catches 28P01 / SSL / wrong host before apply.
       - name: Show TypeORM migrations (connection check)

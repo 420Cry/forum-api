@@ -35,16 +35,28 @@ import { TagKindsAndCatalog1786130000000 } from './migrations/1786130000000-TagK
 import { AddUserDateOfBirth1786140000000 } from './migrations/1786140000000-AddUserDateOfBirth'
 
 const dbHost = process.env.DB_HOST || '127.0.0.1'
+const dbUsername = process.env.DB_USERNAME || 'postgres'
 const dbSsl = resolveDbSsl({
   host: dbHost,
   sslMode: process.env.PGSSLMODE,
 })
 
+if (process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true') {
+  // No secrets — helps debug pooler 28P01 (bare "postgres" vs postgres.<ref>).
+  console.info('[db] TypeORM data source', {
+    host: dbHost,
+    port: process.env.DB_PORT || '54322',
+    username: dbUsername,
+    database: process.env.DB_NAME || 'postgres',
+    ssl: Boolean(dbSsl),
+  })
+}
+
 export default new DataSource({
   type: 'postgres',
   host: dbHost,
   port: parseInt(process.env.DB_PORT || '54322', 10),
-  username: process.env.DB_USERNAME || 'postgres',
+  username: dbUsername,
   password: process.env.DB_PASSWORD || 'postgres',
   database: process.env.DB_NAME || 'postgres',
   ssl: dbSsl,
