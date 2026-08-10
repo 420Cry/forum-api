@@ -34,6 +34,22 @@ export class FollowsService {
 
     await this.profilesService.assertTargetExists(dto.targetType, dto.targetId)
 
+    if (dto.targetType === 'startup') {
+      const startup = await this.startupRepo.findOne({
+        where: { id: dto.targetId },
+      })
+      if (startup?.user_id === userId) {
+        throw new BadRequestException('Cannot follow your own startup')
+      }
+    } else if (dto.targetType === 'investor') {
+      const investor = await this.investorRepo.findOne({
+        where: { id: dto.targetId },
+      })
+      if (investor?.user_id === userId) {
+        throw new BadRequestException('Cannot follow your own investor page')
+      }
+    }
+
     const existing = await this.followsRepo.findOne({
       where: {
         follower_user_id: userId,

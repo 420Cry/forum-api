@@ -103,7 +103,9 @@ export class ProfilesController {
     @Query('industry') industry?: string,
     @Query('stage') stage?: string,
     @Query('location') location?: string,
+    @Query('occupation') occupation?: string,
     @Query('role') role?: string,
+    @Query('sort') sort?: 'newest' | 'name',
     @Query('limit') limit?: string,
   ) {
     const { id } = req.user as AuthUser
@@ -113,7 +115,9 @@ export class ProfilesController {
       industry,
       stage,
       location,
+      occupation,
       role,
+      sort,
       limit: limit ? Number(limit) : undefined,
     })
   }

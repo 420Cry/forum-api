@@ -12,6 +12,7 @@ function makeUser(overrides: Partial<User> = {}): User {
     name: undefined as unknown as string,
     occupation: undefined as unknown as string,
     age: undefined as unknown as number,
+    date_of_birth: null,
     location: undefined as unknown as string,
     avatar_url: null,
     url_key: null,
@@ -42,6 +43,7 @@ describe('toAuthProfile', () => {
       name: null,
       occupation: null,
       age: null,
+      dateOfBirth: null,
       location: null,
       avatarUrl: null,
       urlKey: null,
@@ -64,8 +66,8 @@ describe('toAuthProfile', () => {
 
   it('maps onboarded user fields and goal tag keys', () => {
     const tags: Tag[] = [
-      { id: 1, key: 'raise_capital', name: 'Raise capital' },
-      { id: 2, key: 'find_cofounders', name: 'Find co-founders' },
+      { id: 1, key: 'raise_capital', name: 'Raise capital', kind: 'goal' },
+      { id: 2, key: 'find_cofounders', name: 'Find co-founders', kind: 'goal' },
     ]
 
     const profile = toAuthProfile(
@@ -75,25 +77,27 @@ describe('toAuthProfile', () => {
         name: 'Alex Morgan',
         occupation: 'Founder',
         age: 28,
+        date_of_birth: '1998-01-01',
         location: 'Austin',
         url_key: 'alex-morgan',
         tags,
       }),
     )
 
-    expect(profile).toEqual({
+    expect(profile).toMatchObject({
       onboarded: true,
       onboardingStep: null,
       role: 'Founder',
       name: 'Alex Morgan',
       occupation: 'Founder',
-      age: 28,
+      dateOfBirth: '1998-01-01',
       location: 'Austin',
       avatarUrl: null,
       urlKey: 'alex-morgan',
       profilePath: '/u/alex-morgan',
       goals: ['raise_capital', 'find_cofounders'],
     })
+    expect(profile?.age).toBeGreaterThanOrEqual(17)
   })
 
   it('maps avatarUrl when present', () => {

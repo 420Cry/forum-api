@@ -5,7 +5,8 @@ import {
   NotFoundException,
 } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { ILike, Not, Repository } from 'typeorm'
+import { ILike, In, Not, Repository } from 'typeorm'
+import { TagsService } from '../tags/tags.service'
 import { UsersService } from '../users/users.service'
 import {
   CreateInvestorProfileDto,
@@ -30,6 +31,22 @@ import {
   type StartupProfileResponse,
 } from './profiles.mapper'
 
+type FindSort = 'newest' | 'name'
+
+/** Comma-separated query values → unique non-empty tokens. */
+function parseMulti(value?: string): string[] {
+  if (!value?.trim()) return []
+  const seen = new Set<string>()
+  const out: string[] = []
+  for (const part of value.split(',')) {
+    const token = part.trim()
+    if (!token || seen.has(token)) continue
+    seen.add(token)
+    out.push(token)
+  }
+  return out
+}
+
 @Injectable()
 export class ProfilesService {
   constructor(
@@ -38,6 +55,7 @@ export class ProfilesService {
     @InjectRepository(InvestorProfiles)
     private readonly investorRepo: Repository<InvestorProfiles>,
     private readonly usersService: UsersService,
+    private readonly tagsService: TagsService,
   ) {}
 
   async listAccounts(userId: string): Promise<AccountSummary[]> {
@@ -55,7 +73,33 @@ export class ProfilesService {
     const accounts: AccountSummary[] = [personalAccountSummary(readyUser)]
     if (startup) accounts.push(startupAccountSummary(startup))
     if (investor) accounts.push(investorAccountSummary(investor))
-    return accounts
+
+    const labels = await this.tagsService.labelMap([
+      readyUser.location,
+      startup?.industry,
+      investor?.industry,
+    ])
+    return accounts.map((account) => {
+      if (account.accountType === 'user' && readyUser.location) {
+        return {
+          ...account,
+          location: labels.get(readyUser.location) ?? account.location,
+        }
+      }
+      if (account.accountType === 'startup' && startup) {
+        return {
+          ...account,
+          headline: `${labels.get(startup.industry) ?? startup.industry} / ${startup.stage}`,
+        }
+      }
+      if (account.accountType === 'investor' && investor) {
+        return {
+          ...account,
+          headline: labels.get(investor.industry) ?? investor.industry,
+        }
+      }
+      return account
+    })
   }
 
   async createStartup(
@@ -123,7 +167,8 @@ export class ProfilesService {
     if (!profile) throw new NotFoundException('Startup profile not found')
     profile.views += 1
     await this.startupRepo.save(profile)
-    return toStartupResponse(profile)
+    const [labeled] = await this.toLabeledStartupResponses([profile])
+    return labeled
   }
 
   async createInvestor(
@@ -193,7 +238,8 @@ export class ProfilesService {
     if (!profile) throw new NotFoundException('Investor profile not found')
     profile.views += 1
     await this.investorRepo.save(profile)
-    return toInvestorResponse(profile)
+    const [labeled] = await this.toLabeledInvestorResponses([profile])
+    return labeled
   }
 
   async getPublicUser(urlKeyOrId: string): Promise<PublicUserProfileResponse> {
@@ -201,7 +247,7 @@ export class ProfilesService {
     if (!user) {
       throw new NotFoundException('User profile not found')
     }
-    return toPublicUserProfile(user)
+    return this.toLabeledPublicUser(user)
   }
 
   async search(
@@ -212,21 +258,29 @@ export class ProfilesService {
       industry?: string
       stage?: string
       location?: string
+      occupation?: string
       role?: string
+      sort?: FindSort
       limit?: number
     },
   ) {
     const type = params.type ?? 'all'
     const limit = Math.min(Math.max(params.limit ?? 20, 1), 50)
     const q = params.q?.trim()
+    const sort: FindSort = params.sort === 'name' ? 'name' : 'newest'
 
     const [users, startups, investors] = await Promise.all([
       type === 'all' || type === 'user'
         ? this.searchUsers({
             viewerId,
             q,
-            location: params.location,
-            role: params.role,
+            locations: parseMulti(params.location),
+            occupations: parseMulti(params.occupation),
+            roles: parseMulti(params.role).filter(
+              (r): r is 'Founder' | 'Investor' =>
+                r === 'Founder' || r === 'Investor',
+            ),
+            sort,
             limit,
           })
         : Promise.resolve([]),
@@ -234,8 +288,9 @@ export class ProfilesService {
         ? this.searchStartups({
             viewerId,
             q,
-            industry: params.industry,
-            stage: params.stage,
+            industries: parseMulti(params.industry),
+            stages: parseMulti(params.stage),
+            sort,
             limit,
           })
         : Promise.resolve([]),
@@ -243,7 +298,8 @@ export class ProfilesService {
         ? this.searchInvestors({
             viewerId,
             q,
-            industry: params.industry,
+            industries: parseMulti(params.industry),
+            sort,
             limit,
           })
         : Promise.resolve([]),
@@ -304,72 +360,130 @@ export class ProfilesService {
   private async searchUsers(params: {
     viewerId: string
     q?: string
-    location?: string
-    role?: string
+    locations: string[]
+    occupations: string[]
+    roles: Array<'Founder' | 'Investor'>
+    sort: FindSort
     limit: number
   }) {
-    const qb = this.usersService.createOnboardedQuery()
+    const qb = this.usersService.createOnboardedQuery(params.sort)
     qb.andWhere('user.supabaseUid != :viewerId', {
       viewerId: params.viewerId,
     })
     if (params.q) {
       qb.andWhere('user.name ILIKE :q', { q: `%${params.q}%` })
     }
-    if (params.location) {
-      qb.andWhere('user.location ILIKE :location', {
-        location: `%${params.location}%`,
+    if (params.locations.length) {
+      qb.andWhere('user.location IN (:...locations)', {
+        locations: params.locations,
       })
     }
-    if (params.role === 'Founder' || params.role === 'Investor') {
-      qb.andWhere('user.role = :role', { role: params.role })
+    if (params.occupations.length) {
+      qb.andWhere('user.occupation IN (:...occupations)', {
+        occupations: params.occupations,
+      })
+    }
+    if (params.roles.length) {
+      qb.andWhere('user.role IN (:...roles)', { roles: params.roles })
     }
     qb.take(params.limit)
     const users = await qb.getMany()
     const withKeys = await Promise.all(
       users.map((user) => this.usersService.ensureUrlKey(user)),
     )
-    return withKeys.map(toPublicUserProfile)
+    return Promise.all(withKeys.map((user) => this.toLabeledPublicUser(user)))
   }
 
   private async searchStartups(params: {
     viewerId: string
     q?: string
-    industry?: string
-    stage?: string
+    industries: string[]
+    stages: string[]
+    sort: FindSort
     limit: number
   }) {
     const where: Record<string, unknown> = {
       user_id: Not(params.viewerId),
     }
     if (params.q) where.company_name = ILike(`%${params.q}%`)
-    if (params.industry) where.industry = ILike(`%${params.industry}%`)
-    if (params.stage) where.stage = params.stage
+    if (params.industries.length) where.industry = In(params.industries)
+    if (params.stages.length) where.stage = In(params.stages)
 
     const rows = await this.startupRepo.find({
       where,
       take: params.limit,
-      order: { createdAt: 'DESC' },
+      order:
+        params.sort === 'name'
+          ? { company_name: 'ASC' }
+          : { createdAt: 'DESC' },
     })
-    return rows.map(toStartupResponse)
+    return this.toLabeledStartupResponses(rows)
   }
 
   private async searchInvestors(params: {
     viewerId: string
     q?: string
-    industry?: string
+    industries: string[]
+    sort: FindSort
     limit: number
   }) {
     const base: Record<string, unknown> = {
       user_id: Not(params.viewerId),
     }
     if (params.q) base.firm_name = ILike(`%${params.q}%`)
-    if (params.industry) base.industry = ILike(`%${params.industry}%`)
+    if (params.industries.length) base.industry = In(params.industries)
 
     const rows = await this.investorRepo.find({
       where: base,
       take: params.limit,
-      order: { createdAt: 'DESC' },
+      order:
+        params.sort === 'name' ? { firm_name: 'ASC' } : { createdAt: 'DESC' },
     })
-    return rows.map(toInvestorResponse)
+    return this.toLabeledInvestorResponses(rows)
+  }
+
+  private async toLabeledPublicUser(
+    user: Parameters<typeof toPublicUserProfile>[0],
+  ): Promise<PublicUserProfileResponse> {
+    const labels = await this.tagsService.labelMap([
+      user.location,
+      user.occupation,
+    ])
+    const profile = toPublicUserProfile(user)
+    return {
+      ...profile,
+      location: user.location
+        ? (labels.get(user.location) ?? user.location)
+        : null,
+      occupation: user.occupation
+        ? (labels.get(user.occupation) ?? user.occupation)
+        : null,
+    }
+  }
+
+  private async toLabeledStartupResponses(
+    rows: StartupProfiles[],
+  ): Promise<StartupProfileResponse[]> {
+    const labels = await this.tagsService.labelMap(rows.map((r) => r.industry))
+    return rows.map((row) => {
+      const res = toStartupResponse(row)
+      return {
+        ...res,
+        industry: labels.get(row.industry) ?? row.industry,
+      }
+    })
+  }
+
+  private async toLabeledInvestorResponses(
+    rows: InvestorProfiles[],
+  ): Promise<InvestorProfileResponse[]> {
+    const labels = await this.tagsService.labelMap(rows.map((r) => r.industry))
+    return rows.map((row) => {
+      const res = toInvestorResponse(row)
+      return {
+        ...res,
+        industry: labels.get(row.industry) ?? row.industry,
+      }
+    })
   }
 }

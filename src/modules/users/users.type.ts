@@ -10,7 +10,8 @@ export type UpdateUserType = {
   role?: RolesSelectionType | null
   name?: string
   occupation?: string
-  age?: number
+  age?: number | null
+  date_of_birth?: string | null
   location?: string
   avatar_url?: string | null
   url_key?: string | null

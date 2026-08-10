@@ -9,6 +9,7 @@ import { Follows } from './entities/follows.entity'
 import { FollowsService } from './follows.service'
 
 const UID = '11111111-1111-1111-1111-111111111111'
+const OTHER = '33333333-3333-3333-3333-333333333333'
 const TARGET = '22222222-2222-2222-2222-222222222222'
 
 describe('FollowsService', () => {
@@ -20,6 +21,8 @@ describe('FollowsService', () => {
     save: jest.Mock
     remove: jest.Mock
   }
+  let startupRepo: { findOne: jest.Mock }
+  let investorRepo: { findOne: jest.Mock }
   let profilesService: {
     assertTargetExists: jest.Mock
     adjustConnections: jest.Mock
@@ -37,6 +40,12 @@ describe('FollowsService', () => {
       save: jest.fn((row: Record<string, unknown>) => Promise.resolve(row)),
       remove: jest.fn(),
     }
+    startupRepo = {
+      findOne: jest.fn().mockResolvedValue({ id: TARGET, user_id: OTHER }),
+    }
+    investorRepo = {
+      findOne: jest.fn().mockResolvedValue({ id: TARGET, user_id: OTHER }),
+    }
     profilesService = {
       assertTargetExists: jest.fn(),
       adjustConnections: jest.fn(),
@@ -52,8 +61,11 @@ describe('FollowsService', () => {
       providers: [
         FollowsService,
         { provide: getRepositoryToken(Follows), useValue: followsRepo },
-        { provide: getRepositoryToken(StartupProfiles), useValue: {} },
-        { provide: getRepositoryToken(InvestorProfiles), useValue: {} },
+        { provide: getRepositoryToken(StartupProfiles), useValue: startupRepo },
+        {
+          provide: getRepositoryToken(InvestorProfiles),
+          useValue: investorRepo,
+        },
         { provide: ProfilesService, useValue: profilesService },
         { provide: UsersService, useValue: usersService },
       ],
@@ -65,6 +77,13 @@ describe('FollowsService', () => {
   it('rejects following yourself', async () => {
     await expect(
       service.follow(UID, { targetType: 'user', targetId: UID }),
+    ).rejects.toThrow(BadRequestException)
+  })
+
+  it('rejects following your own startup', async () => {
+    startupRepo.findOne.mockResolvedValue({ id: TARGET, user_id: UID })
+    await expect(
+      service.follow(UID, { targetType: 'startup', targetId: TARGET }),
     ).rejects.toThrow(BadRequestException)
   })
 

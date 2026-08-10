@@ -41,6 +41,10 @@ export class User {
   @Column({ nullable: true })
   age: number
 
+  /** Calendar date of birth (`YYYY-MM-DD`). Source of truth; `age` is derived. */
+  @Column({ type: 'date', nullable: true })
+  date_of_birth: string | null
+
   @Column({ nullable: true })
   location: string
 

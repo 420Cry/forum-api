@@ -107,12 +107,19 @@ export class UsersService {
   }
 
   /** Query builder for onboarded users (for directory search). */
-  createOnboardedQuery(): SelectQueryBuilder<User> {
-    return this.userRepo
+  createOnboardedQuery(
+    sort: 'newest' | 'name' = 'newest',
+  ): SelectQueryBuilder<User> {
+    const qb = this.userRepo
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.tags', 'tags')
       .where('user.onboarded_at IS NOT NULL')
-      .orderBy('user.createdAt', 'DESC')
+    if (sort === 'name') {
+      qb.orderBy('user.name', 'ASC')
+    } else {
+      qb.orderBy('user.createdAt', 'DESC')
+    }
+    return qb
   }
 
   async save(user: User): Promise<User> {

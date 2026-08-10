@@ -12,7 +12,9 @@ import {
   MinLength,
   ValidateIf,
 } from 'class-validator'
+import { TAG_KEY_RE } from '../../tags/tag-key'
 import { rolesSelection } from '../users.type'
+import { DATE_OF_BIRTH_RE } from '../utils/date-of-birth'
 
 const noSpecialChars = /^[a-zA-Z0-9\s]+$/
 
@@ -58,28 +60,40 @@ export class SaveOnboardingDraftDto {
   lastName?: string
 
   @IsOptional()
-  @Type(() => Number)
-  @IsInt({ message: 'Age invalid format' })
-  @Min(17, { message: 'Age must be greater than 16' })
-  age?: number
+  @ValidateIf((o: SaveOnboardingDraftDto) => !!o.dateOfBirth)
+  @IsString()
+  @Matches(DATE_OF_BIRTH_RE, {
+    message: 'Date of birth must be YYYY-MM-DD',
+  })
+  dateOfBirth?: string
 
   @IsOptional()
   @ValidateIf((o: SaveOnboardingDraftDto) => !!o.location)
   @IsString()
-  @MinLength(2, { message: 'Location must have at least 2 characters' })
-  @Matches(noSpecialChars, {
-    message: 'Location must not contain special characters',
+  @Matches(TAG_KEY_RE, {
+    message: 'Location must be a valid catalog key',
   })
   location?: string
 
   @IsOptional()
+  @ValidateIf((o: SaveOnboardingDraftDto) => !!o.locationName)
+  @IsString()
+  @MinLength(1, { message: 'Location name cannot be empty' })
+  locationName?: string
+
+  @IsOptional()
   @ValidateIf((o: SaveOnboardingDraftDto) => !!o.occupation)
   @IsString()
-  @MinLength(2, { message: 'Occupation must have at least 2 characters' })
-  @Matches(noSpecialChars, {
-    message: 'Occupation must not contain special characters',
+  @Matches(TAG_KEY_RE, {
+    message: 'Occupation must be a valid catalog key',
   })
   occupation?: string
+
+  @IsOptional()
+  @ValidateIf((o: SaveOnboardingDraftDto) => !!o.occupationName)
+  @IsString()
+  @MinLength(1, { message: 'Occupation name cannot be empty' })
+  occupationName?: string
 
   /** Public avatar URL after client upload to storage. Empty string clears it. */
   @IsOptional()

@@ -5,6 +5,8 @@ import {
 } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
+import { In } from 'typeorm'
+import { TagsService } from '../tags/tags.service'
 import { UsersService } from '../users/users.service'
 import { InvestorProfiles } from './entities/investor-profiles.entity'
 import { StartupProfiles } from './entities/startup-profiles.entity'
@@ -32,6 +34,9 @@ describe('ProfilesService', () => {
     findOnboardedByUrlKeyOrId: jest.Mock
     ensureUrlKey: jest.Mock
     createOnboardedQuery: jest.Mock
+  }
+  let tagsService: {
+    labelMap: jest.Mock
   }
 
   beforeEach(async () => {
@@ -73,6 +78,15 @@ describe('ProfilesService', () => {
       ),
       createOnboardedQuery: jest.fn(),
     }
+    tagsService = {
+      labelMap: jest.fn((keys: Array<string | null | undefined>) => {
+        const map = new Map<string, string>()
+        for (const key of keys) {
+          if (key) map.set(key, key === 'climate' ? 'Climate' : key)
+        }
+        return Promise.resolve(map)
+      }),
+    }
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -83,6 +97,7 @@ describe('ProfilesService', () => {
           useValue: investorRepo,
         },
         { provide: UsersService, useValue: usersService },
+        { provide: TagsService, useValue: tagsService },
       ],
     }).compile()
 
@@ -273,6 +288,34 @@ describe('ProfilesService', () => {
       expect(result.users[0]?.goals).toEqual([])
     })
 
+    it('applies multi-value location and industry filters', async () => {
+      const andWhere = jest.fn().mockReturnThis()
+      usersService.createOnboardedQuery.mockReturnValue({
+        andWhere,
+        take: jest.fn().mockReturnThis(),
+        getMany: jest.fn().mockResolvedValue([]),
+      })
+      startupRepo.find.mockResolvedValue([])
+      investorRepo.find.mockResolvedValue([])
+
+      await service.search(UID, {
+        type: 'all',
+        location: 'austin-us,berlin-de',
+        industry: 'climate,fintech',
+      })
+
+      expect(andWhere).toHaveBeenCalledWith(
+        'user.location IN (:...locations)',
+        { locations: ['austin-us', 'berlin-de'] },
+      )
+      expect(startupRepo.find).toHaveBeenCalledTimes(1)
+      const findCalls = startupRepo.find.mock.calls as Array<
+        [{ where: { industry: unknown } }]
+      >
+      const findArg = findCalls[0]?.[0]
+      expect(findArg?.where.industry).toEqual(In(['climate', 'fintech']))
+    })
+
     it('resolves public user by urlKey or uuid and returns display goal labels', async () => {
       const user = {
         supabaseUid: UID,
@@ -283,7 +326,9 @@ describe('ProfilesService', () => {
         location: null,
         avatar_url: null,
         url_key: 'alex-morgan',
-        tags: [{ id: 1, key: 'raise_capital', name: 'Raise capital' }],
+        tags: [
+          { id: 1, key: 'raise_capital', name: 'Raise capital', kind: 'goal' },
+        ],
       }
       usersService.findOnboardedByUrlKeyOrId.mockResolvedValue(user)
 
