@@ -87,13 +87,28 @@ When `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` are unset and `NODE_ENV !== 'p
 
 ## Database
 
+Two migration tracks (do not mix them up):
+
+| Track | Path | Applied by |
+|---|---|---|
+| TypeORM (app tables) | `src/database/migrations/` | Heroku `release` (`bun run migration:run`) |
+| Supabase CLI (Storage buckets, Storage RLS, auth/config SQL) | `supabase/migrations/` | GitHub Action [`.github/workflows/supabase-migrations.yml`](.github/workflows/supabase-migrations.yml) on merge to `main` (path-filtered) or `workflow_dispatch` |
+
 ```bash
-bun run migration:run     # apply migrations
-bun run migration:revert    # revert last
+bun run migration:run     # TypeORM — apply migrations
+bun run migration:revert    # TypeORM — revert last
 bun run seed                # goal tags (required for onboarding)
 ```
 
 With forum-server: `forum db:migrate`, `forum db:seed`.
+
+**Prod Supabase CLI migrations** need repo (or `production` environment) secrets:
+
+- `SUPABASE_ACCESS_TOKEN` — [Account → Access Tokens](https://supabase.com/dashboard/account/tokens)
+- `SUPABASE_PROJECT_ID` — project ref from the dashboard URL
+- `SUPABASE_DB_PASSWORD` — database password for that project
+
+Until those secrets exist, create Storage resources manually (e.g. the public `avatars` bucket) or run `npx supabase link && npx supabase db push` locally against prod.
 
 ## Module layout
 
