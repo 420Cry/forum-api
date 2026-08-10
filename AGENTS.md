@@ -87,12 +87,17 @@ When `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` are unset and `NODE_ENV !== 'p
 
 ## Database
 
-Two migration tracks (do not mix them up) — both run from GitHub Actions on merge to `main` (see [`.github/workflows/database.yml`](.github/workflows/database.yml)). Heroku only starts the web process (`Procfile`); it does **not** migrate.
+Two migration tracks (do not mix them up) — both run from GitHub Actions (see [`.github/workflows/database.yml`](.github/workflows/database.yml)). Heroku only starts the web process (`Procfile`); it does **not** migrate.
+
+| Event | What runs |
+|---|---|
+| **pull_request** (path-filtered) | TypeORM `migration:show` (auth/connect check) + `supabase db push --dry-run` — **no schema apply** |
+| **push to `main`** / **workflow_dispatch** | TypeORM `migration:run` + `seed` + `supabase db push` |
 
 | Track | Path | Applied by |
 |---|---|---|
-| TypeORM (app tables) | `src/database/migrations/` | Job **TypeORM migrate + seed** |
-| Supabase CLI (Storage buckets, Storage RLS) | `supabase/migrations/` | Job **Supabase CLI migrations** |
+| TypeORM (app tables) | `src/database/migrations/` | Job **TypeORM migrate + seed** (main only) |
+| Supabase CLI (Storage buckets, Storage RLS) | `supabase/migrations/` | Job **Supabase CLI migrations** (main only) |
 
 ```bash
 bun run migration:run     # TypeORM — apply migrations
