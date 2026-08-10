@@ -1,5 +1,5 @@
 # Apply database changes on merge to main (replaces Heroku release migrations).
-# 1) TypeORM — app tables (users, follows, …)
+# 1) TypeORM — app tables via Session pooler (IPv4; auto-resolved by supabase link)
 # 2) Supabase CLI — Storage buckets / Storage RLS under supabase/migrations/
 name: Deploy database
 
@@ -22,40 +22,27 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NODE_ENV: production
-      # Prefer dedicated DB_* secrets; fall back to Supabase password/project.
-      DB_HOST: ${{ secrets.DB_HOST }}
-      DB_PORT: ${{ secrets.DB_PORT || '5432' }}
-      DB_NAME: ${{ secrets.DB_NAME || 'postgres' }}
-      DB_PASSWORD: ${{ secrets.DB_PASSWORD || secrets.SUPABASE_DB_PASSWORD }}
-      # Pooler (IPv4, required on GitHub runners) needs postgres.<project-ref>.
-      DB_USERNAME: ${{ secrets.DB_USERNAME }}
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD || secrets.DB_PASSWORD }}
       SUPABASE_PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD || secrets.SUPABASE_DB_PASSWORD }}
     steps:
       - uses: actions/checkout@v4
 
-      - name: Require DB secrets
+      - name: Require secrets
         run: |
           missing=0
-          if [ -z "$DB_HOST" ]; then
-            echo "::error::DB_HOST is not set. Use the Session pooler host from Supabase → Database → Connection string (IPv4). Direct db.*.supabase.co is IPv6-only and fails on GitHub Actions."
-            missing=1
-          fi
-          if [ -z "$DB_PASSWORD" ]; then
-            echo "::error::Set DB_PASSWORD or SUPABASE_DB_PASSWORD (same value as the Supabase database password)."
-            missing=1
-          fi
-          if [ -z "$DB_USERNAME" ] && [ -z "$SUPABASE_PROJECT_ID" ]; then
-            echo "::error::Set DB_USERNAME (e.g. postgres.<project-ref>) or SUPABASE_PROJECT_ID to derive it."
+          for name in SUPABASE_ACCESS_TOKEN SUPABASE_PROJECT_ID; do
+            if [ -z "${!name}" ]; then
+              echo "::error::$name is not set."
+              missing=1
+            fi
+          done
+          if [ -z "${SUPABASE_DB_PASSWORD:-}" ] && [ -z "${DB_PASSWORD:-}" ]; then
+            echo "::error::Set SUPABASE_DB_PASSWORD or DB_PASSWORD."
             missing=1
           fi
           exit "$missing"
-
-      - name: Resolve DB username
-        run: |
-          if [ -z "$DB_USERNAME" ]; then
-            echo "DB_USERNAME=postgres.${SUPABASE_PROJECT_ID}" >> "$GITHUB_ENV"
-            echo "Using pooler username postgres.${SUPABASE_PROJECT_ID}"
-          fi
 
       - uses: oven-sh/setup-bun@v2
         with:
@@ -63,6 +50,51 @@ jobs:
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
+
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      # Writes supabase/.temp/pooler-url (IPv4 Session pooler). Do not --skip-pooler.
+      - name: Link Supabase project
+        run: >
+          supabase link
+          --project-ref "$SUPABASE_PROJECT_ID"
+          --password "${SUPABASE_DB_PASSWORD:-$DB_PASSWORD}"
+          --yes
+
+      - name: Resolve DB_* from pooler URL
+        run: |
+          if [ ! -f supabase/.temp/pooler-url ]; then
+            echo "::error::supabase link did not write supabase/.temp/pooler-url"
+            exit 1
+          fi
+          python3 <<'PY'
+          from pathlib import Path
+          from urllib.parse import urlparse
+          import os
+
+          raw = Path("supabase/.temp/pooler-url").read_text().strip()
+          u = urlparse(raw)
+          if not u.hostname or not u.username:
+              raise SystemExit(f"Could not parse pooler URL: {raw!r}")
+
+          db_name = (u.path or "/postgres").lstrip("/") or "postgres"
+          with open(os.environ["GITHUB_ENV"], "a", encoding="utf-8") as f:
+              f.write(f"DB_HOST={u.hostname}\n")
+              f.write(f"DB_PORT={u.port or 5432}\n")
+              f.write(f"DB_USERNAME={u.username}\n")
+              f.write(f"DB_NAME={db_name}\n")
+
+          print("Resolved Session pooler:")
+          print(f"  DB_HOST={u.hostname}")
+          print(f"  DB_PORT={u.port or 5432}")
+          print(f"  DB_USERNAME={u.username}")
+          print(f"  DB_NAME={db_name}")
+          PY
+          if [ -z "${DB_PASSWORD:-}" ]; then
+            echo "DB_PASSWORD=${SUPABASE_DB_PASSWORD}" >> "$GITHUB_ENV"
+          fi
 
       - name: Run TypeORM migrations
         run: bun run migration:run
@@ -86,7 +118,7 @@ jobs:
           missing=0
           for name in SUPABASE_ACCESS_TOKEN SUPABASE_DB_PASSWORD SUPABASE_PROJECT_ID; do
             if [ -z "${!name}" ]; then
-              echo "::error::$name is not set. Add it under Settings → Secrets and variables → Actions."
+              echo "::error::$name is not set."
               missing=1
             fi
           done
@@ -96,7 +128,6 @@ jobs:
         with:
           version: latest
 
-      # Default link uses the IPv4 pooler (do not --skip-pooler on GHA).
       - name: Link project
         run: >
           supabase link
