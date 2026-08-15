@@ -19,7 +19,16 @@ import { TagsService } from '../tags/tags.service'
 import { UsersService } from '../users/users.service'
 import { FollowDto } from './dto/follow.dto'
 import { Follows } from './entities/follows.entity'
+import {
+  classifyUserFollowRelations,
+  followRelationRank,
+  type FollowRelation,
+} from './follow-relation'
 import type { FollowTargetType } from './follows.type'
+
+export type UserConnection = AccountSummary & {
+  relation: FollowRelation
+}
 
 type PendingSummary =
   | { kind: 'user'; summary: AccountSummary }
@@ -149,6 +158,50 @@ export class FollowsService {
       },
     })
     return { following: !!existing }
+  }
+
+  /**
+   * Person-to-person network for chat search: mutual connectors plus
+   * one-sided following / follower rows (tagged via `relation`).
+   */
+  async listUserConnections(userId: string): Promise<UserConnection[]> {
+    const [outgoing, incoming] = await Promise.all([
+      this.followsRepo.find({
+        where: { follower_user_id: userId, target_type: 'user' },
+        take: LIST_CAP,
+      }),
+      this.followsRepo.find({
+        where: { target_type: 'user', target_id: userId },
+        take: LIST_CAP,
+      }),
+    ])
+
+    const relations = classifyUserFollowRelations(
+      outgoing.map((row) => row.target_id),
+      incoming.map((row) => row.follower_user_id),
+    )
+    const ids = [...relations.keys()]
+    if (!ids.length) return []
+
+    const users = await this.usersService.findOnboardedBySupabaseUids(ids)
+    const pending: PendingSummary[] = []
+    for (const user of users) {
+      const ready = await this.usersService.ensureUrlKey(user)
+      pending.push({ kind: 'user', summary: personalAccountSummary(ready) })
+    }
+
+    const summaries = await this.labelSummaries(pending)
+    return summaries
+      .map((summary) => ({
+        ...summary,
+        relation: relations.get(summary.id) ?? 'following',
+      }))
+      .sort((a, b) => {
+        const byRelation =
+          followRelationRank(a.relation) - followRelationRank(b.relation)
+        if (byRelation !== 0) return byRelation
+        return a.name.localeCompare(b.name)
+      })
   }
 
   async listFollowing(userId: string): Promise<AccountSummary[]> {

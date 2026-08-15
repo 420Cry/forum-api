@@ -4,7 +4,7 @@ import {
   Injectable,
 } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Not, Repository, SelectQueryBuilder } from 'typeorm'
+import { Not, Repository, SelectQueryBuilder, In } from 'typeorm'
 import { User } from './entities'
 import { UpdateUserType } from './users.type'
 import {
@@ -41,6 +41,15 @@ export class UsersService {
       where: { supabaseUid },
       relations: { tags: true },
     })
+  }
+
+  async findOnboardedBySupabaseUids(uids: string[]): Promise<User[]> {
+    if (!uids.length) return []
+    const users = await this.userRepo.find({
+      where: { supabaseUid: In(uids) },
+      relations: { tags: true },
+    })
+    return users.filter((user) => !!user.onboarded_at)
   }
 
   async findByUrlKeyWithTags(urlKey: string): Promise<User | null> {

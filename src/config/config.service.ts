@@ -32,6 +32,14 @@ export class EnvService {
     }
   }
 
+  /** Platform API credentials. Null when chat is not configured in this env. */
+  getSendbirdConfig(): { appId: string; apiToken: string } | null {
+    const appId = this.getValue('SENDBIRD_APP_ID', false)?.trim()
+    const apiToken = this.getValue('SENDBIRD_API_TOKEN', false)?.trim()
+    if (!appId || !apiToken) return null
+    return { appId, apiToken }
+  }
+
   isProduction(): boolean {
     return this.getValue('NODE_ENV', false) !== 'development'
   }

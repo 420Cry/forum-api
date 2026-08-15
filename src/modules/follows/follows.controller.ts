@@ -42,6 +42,13 @@ export class FollowsController {
     return this.followsService.listFollowing(id)
   }
 
+  @Get('follows/connections')
+  @RequiresOnboarded()
+  listConnections(@Req() req: RequestWithUser) {
+    const { id } = req.user as AuthUser
+    return this.followsService.listUserConnections(id)
+  }
+
   @Get('follows/followers')
   @RequiresOnboarded()
   listFollowers(

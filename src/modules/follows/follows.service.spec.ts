@@ -33,6 +33,7 @@ describe('FollowsService', () => {
   let usersService: {
     findBySupabaseUid: jest.Mock
     findBySupabaseUidWithTags: jest.Mock
+    findOnboardedBySupabaseUids: jest.Mock
     ensureUrlKey: jest.Mock
   }
   let locationsService: { nameForKey: jest.Mock }
@@ -60,6 +61,7 @@ describe('FollowsService', () => {
     usersService = {
       findBySupabaseUid: jest.fn(),
       findBySupabaseUidWithTags: jest.fn(),
+      findOnboardedBySupabaseUids: jest.fn().mockResolvedValue([]),
       ensureUrlKey: jest.fn((user: Record<string, unknown>) =>
         Promise.resolve(user),
       ),
@@ -239,5 +241,61 @@ describe('FollowsService', () => {
         where: { follower_user_id: OTHER },
       }),
     )
+  })
+
+  it('lists user connections with mutual and one-sided relations', async () => {
+    const mutual = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'
+    const onlyFollowing = 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb'
+    const onlyFollower = 'cccccccc-cccc-cccc-cccc-cccccccccccc'
+
+    followsRepo.find
+      .mockResolvedValueOnce([
+        { target_id: mutual },
+        { target_id: onlyFollowing },
+      ])
+      .mockResolvedValueOnce([
+        { follower_user_id: mutual },
+        { follower_user_id: onlyFollower },
+      ])
+
+    usersService.findOnboardedBySupabaseUids.mockResolvedValue([
+      {
+        supabaseUid: mutual,
+        url_key: 'mutual-user',
+        name: 'Mutual User',
+        email: 'mutual@example.com',
+        role: 'Founder',
+        location: null,
+        avatar_url: null,
+        onboarded_at: new Date(),
+      },
+      {
+        supabaseUid: onlyFollowing,
+        url_key: 'following-user',
+        name: 'Following User',
+        email: 'following@example.com',
+        role: 'Investor',
+        location: null,
+        avatar_url: null,
+        onboarded_at: new Date(),
+      },
+      {
+        supabaseUid: onlyFollower,
+        url_key: 'follower-user',
+        name: 'Follower User',
+        email: 'follower@example.com',
+        role: 'Founder',
+        location: null,
+        avatar_url: null,
+        onboarded_at: new Date(),
+      },
+    ])
+
+    const list = await service.listUserConnections(UID)
+    expect(list.map((row) => [row.id, row.relation])).toEqual([
+      [mutual, 'mutual'],
+      [onlyFollowing, 'following'],
+      [onlyFollower, 'follower'],
+    ])
   })
 })
