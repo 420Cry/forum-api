@@ -66,6 +66,10 @@ Required variables:
 | `DB_USERNAME`               | Postgres username                                       |
 | `DB_PASSWORD`               | Postgres password                                       |
 | `PGSSLMODE`                 | Optional. Heroku + Supabase: `no-verify` (not `require`) |
+| `SENDBIRD_APP_ID`           | Optional. Sendbird application ID                        |
+| `SENDBIRD_API_TOKEN`        | Optional. Master API token (server-only; not a user access token) |
+
+**Sendbird auth:** set **Access token permission = Deny login** in the Sendbird dashboard. Users are created with `issue_access_token: false`. The app never logs in with a permanent Sendbird access token — `GET /chat/session` upserts the user and returns a short-lived **session token** from `POST /v3/users/{user_id}/token`, which the client passes to `SendbirdChat.connect(userId, token)`.
 
 ### Supabase local dev
 
@@ -159,8 +163,12 @@ See [AGENTS.md](./AGENTS.md) and [../ARCHITECTURE.md](../ARCHITECTURE.md) for th
 | GET    | /find             | Yes  | JWT + verified + onboarded | Directory search (`q`, `type`, filters) |
 | POST   | /follows          | Yes  | JWT + verified + onboarded | Follow a user/startup/investor |
 | DELETE | /follows          | Yes  | JWT + verified + onboarded | Unfollow |
-| GET    | /follows/me       | Yes  | JWT + verified + onboarded | List accounts the current user follows |
+| GET    | /follows/me          | Yes  | JWT + verified + onboarded | List accounts the current user follows |
+| GET    | /follows/connections | Yes  | JWT + verified + onboarded | Person-to-person network for chat (`mutual` / `following` / `follower`) |
 | GET    | /follows/status   | Yes  | JWT + verified + onboarded | Follow status for a target |
+| GET    | /chat/session     | Yes  | JWT + verified + onboarded | Upsert Sendbird user + session token |
+| POST   | /chat/channels    | Yes  | JWT + verified + onboarded | Open or reuse a 1:1 DM (`{ userId }`) |
+| GET    | /chat/unread      | Yes  | JWT + verified + onboarded | Unread message count (0 if chat unset) |
 
 Removed (replaced by the routes above):
 
@@ -273,6 +281,7 @@ Key unit tests:
 - `auth-profile.mapper.spec.ts` — `/auth/me` profile mapping
 - `users-onboarding.service.spec.ts` — atomic onboarding + profile updates
 - `supabase-auth.guard.spec.ts` — bearer token guard
+- `sendbird.client.spec.ts` / `chat.service.spec.ts` — Sendbird session + channels
 
 ## Lint
 
