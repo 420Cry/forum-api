@@ -1,6 +1,10 @@
 services:
   api:
     container_name: forum-api
+    # Distinct from docker-compose.yml (forum-api:prod) so `forum up` cannot
+    # overwrite this image with USER nestjs — that caused EACCES on bun install.
+    image: forum-api:dev
+    user: "0:0"
     env_file:
       - .env
       - .env.local
@@ -13,15 +17,17 @@ services:
       - "${PORT:-3001}:${PORT:-3001}"
     volumes:
       - .:/app
-      - /app/node_modules
+      - api_node_modules:/app/node_modules
     environment:
       NODE_ENV: development
       CHOKIDAR_USEPOLLING: "true"
-    # Anonymous /app/node_modules volume goes stale when package.json gains deps;
-    # reinstall on start so Nest can compile without requiring --build every time.
+    # Named volume can go stale when package.json gains deps; reinstall on start.
     command: sh -c "bun install && bun run start:dev"
     networks:
       - forum.test
+
+volumes:
+  api_node_modules:
 
 networks:
   forum.test:

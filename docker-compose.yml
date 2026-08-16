@@ -1,6 +1,7 @@
 services:
   api:
     container_name: forum-api
+    image: forum-api:prod
     build:
       context: .
       dockerfile: Dockerfile
