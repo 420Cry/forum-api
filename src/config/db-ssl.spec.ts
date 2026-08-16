@@ -7,18 +7,18 @@ describe('resolveDbSsl', () => {
     expect(resolveDbSsl({ host: 'host.docker.internal' })).toBe(false)
   })
 
-  it('enables TLS without CA verify for Supabase hosts', () => {
+  it('enables TLS with CA verify for Supabase hosts', () => {
     expect(
       resolveDbSsl({ host: 'aws-0-eu-central-1.pooler.supabase.com' }),
-    ).toEqual({ rejectUnauthorized: false })
+    ).toEqual({ rejectUnauthorized: true })
     expect(
       resolveDbSsl({ host: 'db.qiinsfqoljenkhtasvrk.supabase.co' }),
-    ).toEqual({ rejectUnauthorized: false })
+    ).toEqual({ rejectUnauthorized: true })
   })
 
   it('honours PGSSLMODE', () => {
     expect(resolveDbSsl({ host: '127.0.0.1', sslMode: 'require' })).toEqual({
-      rejectUnauthorized: false,
+      rejectUnauthorized: true,
     })
     expect(
       resolveDbSsl({
@@ -29,5 +29,11 @@ describe('resolveDbSsl', () => {
     expect(resolveDbSsl({ host: '127.0.0.1', sslMode: 'no-verify' })).toEqual({
       rejectUnauthorized: false,
     })
+    expect(
+      resolveDbSsl({
+        host: 'aws-0-eu-central-1.pooler.supabase.com',
+        sslMode: 'verify-full',
+      }),
+    ).toEqual({ rejectUnauthorized: true })
   })
 })

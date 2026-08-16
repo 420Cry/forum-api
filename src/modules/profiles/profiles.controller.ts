@@ -64,6 +64,13 @@ export class ProfilesController {
     return this.profilesService.getStartup(id)
   }
 
+  @Post('profiles/startup/:id/view')
+  @RequiresOnboarded()
+  @Throttle({ default: { limit: 20, ttl: 60_000 } })
+  recordStartupView(@Param('id', ParseUUIDPipe) id: string) {
+    return this.profilesService.recordStartupView(id)
+  }
+
   @Post('profiles/investor')
   @RequiresOnboarded()
   createInvestor(
@@ -89,6 +96,13 @@ export class ProfilesController {
   @Throttle({ default: { limit: 60, ttl: 60_000 } })
   getInvestor(@Param('id', ParseUUIDPipe) id: string) {
     return this.profilesService.getInvestor(id)
+  }
+
+  @Post('profiles/investor/:id/view')
+  @RequiresOnboarded()
+  @Throttle({ default: { limit: 20, ttl: 60_000 } })
+  recordInvestorView(@Param('id', ParseUUIDPipe) id: string) {
+    return this.profilesService.recordInvestorView(id)
   }
 
   @Public()
