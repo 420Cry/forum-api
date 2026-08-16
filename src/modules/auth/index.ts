@@ -1,4 +1,5 @@
 export * from './auth.module'
+export * from './auth-bypass'
 export * from './supabase.service'
 export * from './supabase-auth.guard'
 export * from './email-verified.guard'

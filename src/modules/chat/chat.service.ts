@@ -54,17 +54,17 @@ export class ChatService {
       throw new BadRequestException('Cannot message yourself')
     }
 
+    const [me, peer] = await Promise.all([
+      this.requireOnboardedUser(userId),
+      this.requireOnboardedUser(peerUserId),
+    ])
+
     const allowed = await this.followsService.canMessagePeer(userId, peerUserId)
     if (!allowed) {
       throw new ForbiddenException(
         'You can only message people you follow or who follow you',
       )
     }
-
-    const [me, peer] = await Promise.all([
-      this.requireOnboardedUser(userId),
-      this.requireOnboardedUser(peerUserId),
-    ])
 
     await Promise.all([
       this.upsertForumUser(me.supabaseUid, me.name, me.avatar_url),

@@ -166,11 +166,21 @@ export class FollowsService {
    */
   async canMessagePeer(userId: string, peerUserId: string): Promise<boolean> {
     if (userId === peerUserId) return false
-    const [outgoing, incoming] = await Promise.all([
-      this.isFollowing(userId, 'user', peerUserId),
-      this.isFollowing(peerUserId, 'user', userId),
-    ])
-    return outgoing.following || incoming.following
+    const row = await this.followsRepo.findOne({
+      where: [
+        {
+          follower_user_id: userId,
+          target_type: 'user',
+          target_id: peerUserId,
+        },
+        {
+          follower_user_id: peerUserId,
+          target_type: 'user',
+          target_id: userId,
+        },
+      ],
+    })
+    return !!row
   }
 
   /**

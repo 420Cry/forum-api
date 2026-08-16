@@ -103,6 +103,11 @@ describe('ChatService', () => {
   })
 
   it('rejects messaging a peer with no follow relationship', async () => {
+    usersService.findBySupabaseUid.mockImplementation((id: string) => {
+      if (id === ME) return Promise.resolve(onboarded(ME, 'Alex'))
+      if (id === PEER) return Promise.resolve(onboarded(PEER, 'Jordan'))
+      return Promise.resolve(null)
+    })
     followsService.canMessagePeer.mockResolvedValue(false)
 
     await expect(service.openChannel(ME, PEER)).rejects.toBeInstanceOf(

@@ -1,9 +1,7 @@
 import { ExecutionContext, UnauthorizedException } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
-import {
-  isInsecureAuthBypassAllowed,
-  SupabaseAuthGuard,
-} from './supabase-auth.guard'
+import { isInsecureAuthBypassAllowed } from './auth-bypass'
+import { SupabaseAuthGuard } from './supabase-auth.guard'
 import { SupabaseService } from './supabase.service'
 import { IS_PUBLIC_KEY } from './auth.constants'
 

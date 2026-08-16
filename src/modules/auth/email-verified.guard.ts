@@ -6,9 +6,9 @@ import {
   UnauthorizedException,
 } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
+import { isInsecureAuthBypassAllowed } from './auth-bypass'
 import { IS_PUBLIC_KEY, SKIP_EMAIL_VERIFICATION_KEY } from './auth.constants'
 import type { RequestWithUser } from './auth.types'
-import { isInsecureAuthBypassAllowed } from './supabase-auth.guard'
 
 @Injectable()
 export class EmailVerifiedGuard implements CanActivate {

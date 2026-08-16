@@ -301,14 +301,10 @@ describe('FollowsService', () => {
 
   describe('canMessagePeer', () => {
     it('is true when either side follows the other', async () => {
-      followsRepo.findOne
-        .mockResolvedValueOnce({ id: 'row' })
-        .mockResolvedValueOnce(null)
+      followsRepo.findOne.mockResolvedValueOnce({ id: 'row' })
       await expect(service.canMessagePeer(UID, OTHER)).resolves.toBe(true)
 
-      followsRepo.findOne
-        .mockResolvedValueOnce(null)
-        .mockResolvedValueOnce({ id: 'row' })
+      followsRepo.findOne.mockResolvedValueOnce({ id: 'row' })
       await expect(service.canMessagePeer(UID, OTHER)).resolves.toBe(true)
     })
 
@@ -316,6 +312,7 @@ describe('FollowsService', () => {
       followsRepo.findOne.mockResolvedValue(null)
       await expect(service.canMessagePeer(UID, OTHER)).resolves.toBe(false)
       await expect(service.canMessagePeer(UID, UID)).resolves.toBe(false)
+      expect(followsRepo.findOne).toHaveBeenCalledTimes(1)
     })
   })
 })
