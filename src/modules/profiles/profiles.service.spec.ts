@@ -215,7 +215,7 @@ describe('ProfilesService', () => {
   })
 
   describe('getStartup', () => {
-    it('increments views', async () => {
+    it('returns the profile without writing views', async () => {
       startupRepo.findOne.mockResolvedValue({
         id: '22222222-2222-2222-2222-222222222222',
         user_id: UID,
@@ -231,14 +231,12 @@ describe('ProfilesService', () => {
         views: 3,
         connections: 0,
       })
-      startupRepo.save.mockImplementation((row: Record<string, unknown>) =>
-        Promise.resolve(row),
-      )
 
       const result = await service.getStartup(
         '22222222-2222-2222-2222-222222222222',
       )
-      expect(result.views).toBe(4)
+      expect(result.views).toBe(3)
+      expect(startupRepo.save).not.toHaveBeenCalled()
       expect(result).not.toHaveProperty('contactEmail')
     })
 
@@ -247,6 +245,23 @@ describe('ProfilesService', () => {
       await expect(
         service.getStartup('22222222-2222-2222-2222-222222222222'),
       ).rejects.toThrow(NotFoundException)
+    })
+  })
+
+  describe('recordStartupView', () => {
+    it('increments views for an authenticated ping', async () => {
+      startupRepo.findOne.mockResolvedValue({
+        id: '22222222-2222-2222-2222-222222222222',
+        views: 3,
+      })
+      startupRepo.save.mockImplementation((row: Record<string, unknown>) =>
+        Promise.resolve(row),
+      )
+
+      const result = await service.recordStartupView(
+        '22222222-2222-2222-2222-222222222222',
+      )
+      expect(result.views).toBe(4)
     })
   })
 
