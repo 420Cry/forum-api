@@ -1,9 +1,11 @@
 import {
   BadRequestException,
+  ForbiddenException,
   NotFoundException,
   ServiceUnavailableException,
 } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
+import { FollowsService } from '../follows/follows.service'
 import { UsersService } from '../users/users.service'
 import { ChatService } from './chat.service'
 import { SendbirdClient } from './sendbird.client'
@@ -31,6 +33,7 @@ describe('ChatService', () => {
     getUnreadMessageCount: jest.Mock
   }
   let usersService: { findBySupabaseUid: jest.Mock }
+  let followsService: { canMessagePeer: jest.Mock }
 
   beforeEach(async () => {
     sendbird = {
@@ -49,12 +52,16 @@ describe('ChatService', () => {
     usersService = {
       findBySupabaseUid: jest.fn(),
     }
+    followsService = {
+      canMessagePeer: jest.fn().mockResolvedValue(true),
+    }
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ChatService,
         { provide: SendbirdClient, useValue: sendbird },
         { provide: UsersService, useValue: usersService },
+        { provide: FollowsService, useValue: followsService },
       ],
     }).compile()
 
@@ -81,7 +88,7 @@ describe('ChatService', () => {
     })
   })
 
-  it('opens a distinct channel between two onboarded users', async () => {
+  it('opens a distinct channel between connected onboarded users', async () => {
     usersService.findBySupabaseUid.mockImplementation((id: string) => {
       if (id === ME) return Promise.resolve(onboarded(ME, 'Alex'))
       if (id === PEER) return Promise.resolve(onboarded(PEER, 'Jordan'))
@@ -90,8 +97,18 @@ describe('ChatService', () => {
 
     const result = await service.openChannel(ME, PEER)
 
+    expect(followsService.canMessagePeer).toHaveBeenCalledWith(ME, PEER)
     expect(sendbird.createDistinctDmChannel).toHaveBeenCalledWith(ME, PEER)
     expect(result).toEqual({ channelUrl: 'sendbird_group_abc' })
+  })
+
+  it('rejects messaging a peer with no follow relationship', async () => {
+    followsService.canMessagePeer.mockResolvedValue(false)
+
+    await expect(service.openChannel(ME, PEER)).rejects.toBeInstanceOf(
+      ForbiddenException,
+    )
+    expect(sendbird.createDistinctDmChannel).not.toHaveBeenCalled()
   })
 
   it('rejects messaging yourself', async () => {

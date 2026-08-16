@@ -10,6 +10,7 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common'
+import { Throttle } from '@nestjs/throttler'
 import { Public } from '../auth/public.decorator'
 import type { AuthUser, RequestWithUser } from '../auth/auth.types'
 import { RequiresOnboarded } from '../users/decorators/requires-onboarded.decorator'
@@ -58,6 +59,7 @@ export class ProfilesController {
 
   @Public()
   @Get('profiles/startup/:id')
+  @Throttle({ default: { limit: 60, ttl: 60_000 } })
   getStartup(@Param('id', ParseUUIDPipe) id: string) {
     return this.profilesService.getStartup(id)
   }
@@ -84,6 +86,7 @@ export class ProfilesController {
 
   @Public()
   @Get('profiles/investor/:id')
+  @Throttle({ default: { limit: 60, ttl: 60_000 } })
   getInvestor(@Param('id', ParseUUIDPipe) id: string) {
     return this.profilesService.getInvestor(id)
   }

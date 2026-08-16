@@ -9,6 +9,18 @@ import { IS_PUBLIC_KEY } from './auth.constants'
 import type { RequestWithUser } from './auth.types'
 import { SupabaseService } from './supabase.service'
 
+/**
+ * Local-only escape hatch when Supabase env is unset.
+ * Requires BOTH `ALLOW_INSECURE_AUTH_BYPASS=true` and a non-production NODE_ENV.
+ * Never enable this in staging/preview/production.
+ */
+export function isInsecureAuthBypassAllowed(
+  env: NodeJS.ProcessEnv = process.env,
+): boolean {
+  if (env.ALLOW_INSECURE_AUTH_BYPASS !== 'true') return false
+  return env.NODE_ENV === 'development' || !env.NODE_ENV
+}
+
 @Injectable()
 export class SupabaseAuthGuard implements CanActivate {
   constructor(
@@ -24,13 +36,13 @@ export class SupabaseAuthGuard implements CanActivate {
     if (isPublic) return true
 
     if (!this.supabase.isEnabled) {
-      if (process.env.NODE_ENV === 'production') {
-        throw new UnauthorizedException('Auth not configured')
+      if (isInsecureAuthBypassAllowed()) {
+        console.warn(
+          '[SupabaseAuthGuard] Supabase not initialized - allowing request without auth (ALLOW_INSECURE_AUTH_BYPASS)',
+        )
+        return true
       }
-      console.warn(
-        '[SupabaseAuthGuard] Supabase not initialized - allowing request without auth',
-      )
-      return true
+      throw new UnauthorizedException('Auth not configured')
     }
 
     const request = context.switchToHttp().getRequest<RequestWithUser>()

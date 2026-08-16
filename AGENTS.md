@@ -85,7 +85,13 @@ Service layer (`UserOnboardingService`) enforces the same onboarding rules as a 
 
 ## Dev auth bypass
 
-When `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` are unset and `NODE_ENV !== 'production'`, `SupabaseAuthGuard` allows requests without a token. `GET /auth/me` returns `{ id: null, profile: null }`. Do not rely on this in tests that assert guard behaviour — mock `SupabaseService` instead.
+Auth is **fail-closed** when `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` are unset.
+To run the API without Supabase locally, set **both**:
+
+- `ALLOW_INSECURE_AUTH_BYPASS=true`
+- `NODE_ENV=development` (or unset)
+
+Staging / production / preview must never set the bypass flag. `GET /auth/me` then returns `{ id: null, profile: null }` only under that local escape hatch. Do not rely on this in tests that assert guard behaviour — mock `SupabaseService` instead.
 
 ## Database
 

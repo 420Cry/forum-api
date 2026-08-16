@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
+import { APP_GUARD } from '@nestjs/core'
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler'
 import { AuthModule } from '../modules/auth'
 import { HealthModule } from '../modules/health'
 import { RootModule } from '../modules/root'
@@ -25,6 +27,13 @@ import { ChatModule } from 'src/modules/chat/chat.module'
           ? '.env.production'
           : ['.env', '.env.local'],
     }),
+    ThrottlerModule.forRoot([
+      {
+        name: 'default',
+        ttl: 60_000,
+        limit: 120,
+      },
+    ]),
     EnvModule,
     FiltersModule,
     DatabaseModule,
@@ -40,6 +49,12 @@ import { ChatModule } from 'src/modules/chat/chat.module'
     ReactionsModule,
     FollowsModule,
     ChatModule,
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
   ],
 })
 export class AppModule {}

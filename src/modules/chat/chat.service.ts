@@ -1,9 +1,11 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
   ServiceUnavailableException,
 } from '@nestjs/common'
+import { FollowsService } from '../follows/follows.service'
 import { UsersService } from '../users/users.service'
 import {
   SENDBIRD_TOKEN_TTL_SECONDS,
@@ -18,6 +20,7 @@ export class ChatService {
   constructor(
     private readonly sendbird: SendbirdClient,
     private readonly usersService: UsersService,
+    private readonly followsService: FollowsService,
   ) {}
 
   async getSession(userId: string): Promise<SendbirdSessionResponse> {
@@ -49,6 +52,13 @@ export class ChatService {
     this.assertConfigured()
     if (userId === peerUserId) {
       throw new BadRequestException('Cannot message yourself')
+    }
+
+    const allowed = await this.followsService.canMessagePeer(userId, peerUserId)
+    if (!allowed) {
+      throw new ForbiddenException(
+        'You can only message people you follow or who follow you',
+      )
     }
 
     const [me, peer] = await Promise.all([

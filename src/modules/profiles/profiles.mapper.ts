@@ -27,7 +27,8 @@ export type StartupProfileResponse = {
   stage: StartupProfiles['stage']
   industry: string
   websiteUrl: string | null
-  contactEmail: string
+  /** Present on owner create/update; omitted from public GETs. */
+  contactEmail?: string
   avatarUrl: string | null
   logoUrl: string | null
   foundedAt: string
@@ -43,7 +44,8 @@ export type InvestorProfileResponse = {
   firmName: string
   description: string | null
   industry: string
-  contactEmail: string
+  /** Present on owner create/update; omitted from public GETs. */
+  contactEmail?: string
   avatarUrl: string | null
   logoUrl: string | null
   websiteUrl: string | null
@@ -80,12 +82,14 @@ export type PublicUserProfileResponse = {
 
 export function toStartupResponse(
   profile: StartupProfiles,
+  options: { includeContactEmail?: boolean } = {},
 ): StartupProfileResponse {
   const founded =
     profile.founded_at instanceof Date
       ? profile.founded_at.toISOString().slice(0, 10)
       : String(profile.founded_at).slice(0, 10)
 
+  const includeContactEmail = options.includeContactEmail ?? true
   return {
     id: profile.id,
     userId: profile.user_id,
@@ -94,7 +98,7 @@ export function toStartupResponse(
     stage: profile.stage,
     industry: profile.industry,
     websiteUrl: profile.website_url ?? null,
-    contactEmail: profile.contact_email,
+    ...(includeContactEmail ? { contactEmail: profile.contact_email } : {}),
     avatarUrl: profile.avatar_url ?? null,
     logoUrl: profile.logo_url ?? null,
     foundedAt: founded,
@@ -107,14 +111,16 @@ export function toStartupResponse(
 
 export function toInvestorResponse(
   profile: InvestorProfiles,
+  options: { includeContactEmail?: boolean } = {},
 ): InvestorProfileResponse {
+  const includeContactEmail = options.includeContactEmail ?? true
   return {
     id: profile.id,
     userId: profile.user_id,
     firmName: profile.firm_name,
     description: profile.description ?? null,
     industry: profile.industry,
-    contactEmail: profile.contact_email,
+    ...(includeContactEmail ? { contactEmail: profile.contact_email } : {}),
     avatarUrl: profile.avatar_url ?? null,
     logoUrl: profile.logo_url ?? null,
     websiteUrl: profile.website_url ?? null,
@@ -165,7 +171,7 @@ export function personalAccountSummary(user: User): AccountSummary {
     id: user.supabaseUid,
     urlKey: user.url_key,
     href: userProfilePath(user.url_key),
-    name: user.name || user.email,
+    name: user.name?.trim() || 'Member',
     headline: roleLabel,
     location: user.location ?? null,
     avatarUrl: user.avatar_url ?? null,
