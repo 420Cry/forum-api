@@ -83,9 +83,11 @@ Per-controller guard:
 
 Service layer (`UserOnboardingService`) enforces the same onboarding rules as a second line of defence.
 
-## Dev auth bypass
+## Auth locally
 
-When `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` are unset and `NODE_ENV !== 'production'`, `SupabaseAuthGuard` allows requests without a token. `GET /auth/me` returns `{ id: null, profile: null }`. Do not rely on this in tests that assert guard behaviour — mock `SupabaseService` instead.
+`SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are required everywhere, including local.
+Unset Supabase env → protected routes return `401 Auth not configured`.
+In tests that assert guard behaviour, mock `SupabaseService` instead of disabling auth.
 
 ## Database
 

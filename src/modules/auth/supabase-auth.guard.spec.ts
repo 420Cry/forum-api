@@ -88,4 +88,12 @@ describe('SupabaseAuthGuard', () => {
       emailVerified: true,
     })
   })
+
+  it('rejects when Supabase is disabled', async () => {
+    ;(supabase as { isEnabled: boolean }).isEnabled = false
+
+    await expect(guard.canActivate(createContext())).rejects.toThrow(
+      new UnauthorizedException('Auth not configured'),
+    )
+  })
 })

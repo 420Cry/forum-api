@@ -9,6 +9,7 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common'
+import { Throttle } from '@nestjs/throttler'
 import type { AuthUser, RequestWithUser } from '../auth/auth.types'
 import { RequiresOnboarded } from '../users/decorators/requires-onboarded.decorator'
 import { OnboardingStateGuard } from '../users/guards/onboarding-state.guard'
@@ -23,6 +24,7 @@ export class FollowsController {
 
   @Post('follows')
   @RequiresOnboarded()
+  @Throttle({ default: { limit: 60, ttl: 60_000 } })
   follow(@Body() dto: FollowDto, @Req() req: RequestWithUser) {
     const { id } = req.user as AuthUser
     return this.followsService.follow(id, dto)

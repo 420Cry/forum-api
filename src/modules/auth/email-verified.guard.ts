@@ -3,6 +3,7 @@ import {
   ExecutionContext,
   ForbiddenException,
   Injectable,
+  UnauthorizedException,
 } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import { IS_PUBLIC_KEY, SKIP_EMAIL_VERIFICATION_KEY } from './auth.constants'
@@ -28,8 +29,9 @@ export class EmailVerifiedGuard implements CanActivate {
     const request = context.switchToHttp().getRequest<RequestWithUser>()
     const user = request.user
 
-    // Dev bypass: SupabaseAuthGuard may allow requests without attaching a user.
-    if (!user) return true
+    if (!user) {
+      throw new UnauthorizedException('Missing or invalid token')
+    }
 
     if (!user.emailVerified) {
       throw new ForbiddenException('Email address not verified')

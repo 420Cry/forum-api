@@ -239,6 +239,7 @@ describe('ProfilesService', () => {
         '22222222-2222-2222-2222-222222222222',
       )
       expect(result.views).toBe(4)
+      expect(result).not.toHaveProperty('contactEmail')
     })
 
     it('throws when missing', async () => {

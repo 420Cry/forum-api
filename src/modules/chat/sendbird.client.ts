@@ -36,12 +36,12 @@ export class SendbirdClient {
   async upsertUser(params: {
     userId: string
     nickname: string
-    profileUrl: string
   }): Promise<void> {
     const created = await this.request('POST', '/v3/users', {
       user_id: params.userId,
       nickname: params.nickname,
-      profile_url: params.profileUrl,
+      // Keep Sendbird free of avatar URLs (UI resolves avatars from Forum).
+      profile_url: '',
       // Never issue a permanent access token (deny-login apps reject those).
       issue_access_token: false,
     })
@@ -52,7 +52,7 @@ export class SendbirdClient {
           `/v3/users/${encodeURIComponent(params.userId)}`,
           {
             nickname: params.nickname,
-            profile_url: params.profileUrl,
+            profile_url: '',
           },
         )
         if (!updated.ok) this.throwFrom(updated)

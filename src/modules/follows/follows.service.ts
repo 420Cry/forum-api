@@ -161,6 +161,29 @@ export class FollowsService {
   }
 
   /**
+   * True when either user follows the other (person-to-person).
+   * Used to gate unsolicited DM channel creation.
+   */
+  async canMessagePeer(userId: string, peerUserId: string): Promise<boolean> {
+    if (userId === peerUserId) return false
+    const row = await this.followsRepo.findOne({
+      where: [
+        {
+          follower_user_id: userId,
+          target_type: 'user',
+          target_id: peerUserId,
+        },
+        {
+          follower_user_id: peerUserId,
+          target_type: 'user',
+          target_id: userId,
+        },
+      ],
+    })
+    return !!row
+  }
+
+  /**
    * Person-to-person network for chat search: mutual connectors plus
    * one-sided following / follower rows (tagged via `relation`).
    */

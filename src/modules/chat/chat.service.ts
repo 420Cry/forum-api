@@ -1,9 +1,11 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
   ServiceUnavailableException,
 } from '@nestjs/common'
+import { FollowsService } from '../follows/follows.service'
 import { UsersService } from '../users/users.service'
 import {
   SENDBIRD_TOKEN_TTL_SECONDS,
@@ -18,12 +20,13 @@ export class ChatService {
   constructor(
     private readonly sendbird: SendbirdClient,
     private readonly usersService: UsersService,
+    private readonly followsService: FollowsService,
   ) {}
 
   async getSession(userId: string): Promise<SendbirdSessionResponse> {
     this.assertConfigured()
     const user = await this.requireOnboardedUser(userId)
-    await this.upsertForumUser(user.supabaseUid, user.name, user.avatar_url)
+    await this.upsertForumUser(user.supabaseUid, user.name)
 
     const expiresAtMs = Date.now() + SENDBIRD_TOKEN_TTL_SECONDS * 1000
     try {
@@ -56,9 +59,16 @@ export class ChatService {
       this.requireOnboardedUser(peerUserId),
     ])
 
+    const allowed = await this.followsService.canMessagePeer(userId, peerUserId)
+    if (!allowed) {
+      throw new ForbiddenException(
+        'You can only message people you follow or who follow you',
+      )
+    }
+
     await Promise.all([
-      this.upsertForumUser(me.supabaseUid, me.name, me.avatar_url),
-      this.upsertForumUser(peer.supabaseUid, peer.name, peer.avatar_url),
+      this.upsertForumUser(me.supabaseUid, me.name),
+      this.upsertForumUser(peer.supabaseUid, peer.name),
     ])
 
     try {
@@ -105,16 +115,12 @@ export class ChatService {
     return user
   }
 
-  private async upsertForumUser(
-    userId: string,
-    name: string | null,
-    avatarUrl: string | null,
-  ) {
+  private async upsertForumUser(userId: string, name: string | null) {
     try {
+      // Nickname only — never push avatar URLs into Sendbird.
       await this.sendbird.upsertUser({
         userId,
         nickname: this.nicknameFor(name),
-        profileUrl: avatarUrl?.trim() || '',
       })
     } catch (err) {
       this.rethrow(err)

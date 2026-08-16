@@ -2,12 +2,20 @@ import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app/app.module'
 import { EnvService } from './config/config.service'
 import { ValidationPipe } from '@nestjs/common'
+import helmet from 'helmet'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
   const env = app.get(EnvService)
 
-  app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }))
+  app.use(helmet())
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    }),
+  )
   app.enableCors({
     origin: env.getCorsOrigins(),
     credentials: true,

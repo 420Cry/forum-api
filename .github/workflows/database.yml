@@ -74,7 +74,7 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      - uses: supabase/setup-cli@v1
+      - uses: supabase/setup-cli@v3
         with:
           version: latest
 
@@ -205,7 +205,7 @@ jobs:
           done
           exit "$missing"
 
-      - uses: supabase/setup-cli@v1
+      - uses: supabase/setup-cli@v3
         with:
           version: latest
 

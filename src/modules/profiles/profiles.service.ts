@@ -193,7 +193,9 @@ export class ProfilesService {
     if (!profile) throw new NotFoundException('Startup profile not found')
     profile.views += 1
     await this.startupRepo.save(profile)
-    const [labeled] = await this.toLabeledStartupResponses([profile])
+    const [labeled] = await this.toLabeledStartupResponses([profile], {
+      includeContactEmail: false,
+    })
     const followersCount = await this.countFollowers('startup', id)
     return { ...labeled, followersCount }
   }
@@ -265,7 +267,9 @@ export class ProfilesService {
     if (!profile) throw new NotFoundException('Investor profile not found')
     profile.views += 1
     await this.investorRepo.save(profile)
-    const [labeled] = await this.toLabeledInvestorResponses([profile])
+    const [labeled] = await this.toLabeledInvestorResponses([profile], {
+      includeContactEmail: false,
+    })
     const followersCount = await this.countFollowers('investor', id)
     return { ...labeled, followersCount }
   }
@@ -450,7 +454,7 @@ export class ProfilesService {
           ? { company_name: 'ASC' }
           : { createdAt: 'DESC' },
     })
-    return this.toLabeledStartupResponses(rows)
+    return this.toLabeledStartupResponses(rows, { includeContactEmail: false })
   }
 
   private async searchInvestors(params: {
@@ -472,7 +476,7 @@ export class ProfilesService {
       order:
         params.sort === 'name' ? { firm_name: 'ASC' } : { createdAt: 'DESC' },
     })
-    return this.toLabeledInvestorResponses(rows)
+    return this.toLabeledInvestorResponses(rows, { includeContactEmail: false })
   }
 
   private async toLabeledPublicUser(
@@ -506,10 +510,11 @@ export class ProfilesService {
 
   private async toLabeledStartupResponses(
     rows: StartupProfiles[],
+    options: { includeContactEmail?: boolean } = {},
   ): Promise<StartupProfileResponse[]> {
     const labels = await this.tagsService.labelMap(rows.map((r) => r.industry))
     return rows.map((row) => {
-      const res = toStartupResponse(row)
+      const res = toStartupResponse(row, options)
       return {
         ...res,
         industry: labels.get(row.industry) ?? row.industry,
@@ -519,10 +524,11 @@ export class ProfilesService {
 
   private async toLabeledInvestorResponses(
     rows: InvestorProfiles[],
+    options: { includeContactEmail?: boolean } = {},
   ): Promise<InvestorProfileResponse[]> {
     const labels = await this.tagsService.labelMap(rows.map((r) => r.industry))
     return rows.map((row) => {
-      const res = toInvestorResponse(row)
+      const res = toInvestorResponse(row, options)
       return {
         ...res,
         industry: labels.get(row.industry) ?? row.industry,

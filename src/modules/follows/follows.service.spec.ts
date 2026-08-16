@@ -298,4 +298,21 @@ describe('FollowsService', () => {
       [onlyFollower, 'follower'],
     ])
   })
+
+  describe('canMessagePeer', () => {
+    it('is true when either side follows the other', async () => {
+      followsRepo.findOne.mockResolvedValueOnce({ id: 'row' })
+      await expect(service.canMessagePeer(UID, OTHER)).resolves.toBe(true)
+
+      followsRepo.findOne.mockResolvedValueOnce({ id: 'row' })
+      await expect(service.canMessagePeer(UID, OTHER)).resolves.toBe(true)
+    })
+
+    it('is false with no relationship or self', async () => {
+      followsRepo.findOne.mockResolvedValue(null)
+      await expect(service.canMessagePeer(UID, OTHER)).resolves.toBe(false)
+      await expect(service.canMessagePeer(UID, UID)).resolves.toBe(false)
+      expect(followsRepo.findOne).toHaveBeenCalledTimes(1)
+    })
+  })
 })

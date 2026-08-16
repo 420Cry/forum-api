@@ -1,3 +1,4 @@
+import { Throttle } from '@nestjs/throttler'
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common'
 import type { AuthUser, RequestWithUser } from '../auth/auth.types'
 import { RequiresOnboarded } from '../users/decorators/requires-onboarded.decorator'
@@ -19,6 +20,7 @@ export class ChatController {
 
   @Post('channels')
   @RequiresOnboarded()
+  @Throttle({ default: { limit: 20, ttl: 60_000 } })
   openChannel(@Body() dto: OpenChannelDto, @Req() req: RequestWithUser) {
     const { id } = req.user as AuthUser
     return this.chatService.openChannel(id, dto.userId)

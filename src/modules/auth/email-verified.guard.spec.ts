@@ -1,4 +1,8 @@
-import { ExecutionContext, ForbiddenException } from '@nestjs/common'
+import {
+  ExecutionContext,
+  ForbiddenException,
+  UnauthorizedException,
+} from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import { EmailVerifiedGuard } from './email-verified.guard'
 import { IS_PUBLIC_KEY, SKIP_EMAIL_VERIFICATION_KEY } from './auth.constants'
@@ -56,8 +60,10 @@ describe('EmailVerifiedGuard', () => {
     ).toBe(true)
   })
 
-  it('allows dev bypass when no user is attached', () => {
-    expect(guard.canActivate(createContext())).toBe(true)
+  it('rejects missing user', () => {
+    expect(() => guard.canActivate(createContext())).toThrow(
+      UnauthorizedException,
+    )
   })
 
   it('rejects unverified users', () => {
