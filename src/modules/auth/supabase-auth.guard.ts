@@ -5,7 +5,6 @@ import {
   UnauthorizedException,
 } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
-import { isInsecureAuthBypassAllowed } from './auth-bypass'
 import { IS_PUBLIC_KEY } from './auth.constants'
 import type { RequestWithUser } from './auth.types'
 import { SupabaseService } from './supabase.service'
@@ -25,12 +24,6 @@ export class SupabaseAuthGuard implements CanActivate {
     if (isPublic) return true
 
     if (!this.supabase.isEnabled) {
-      if (isInsecureAuthBypassAllowed()) {
-        console.warn(
-          '[SupabaseAuthGuard] Supabase not initialized - allowing request without auth (ALLOW_INSECURE_AUTH_BYPASS)',
-        )
-        return true
-      }
       throw new UnauthorizedException('Auth not configured')
     }
 

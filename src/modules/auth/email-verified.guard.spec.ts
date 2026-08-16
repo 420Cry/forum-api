@@ -31,21 +31,13 @@ describe('EmailVerifiedGuard', () => {
     }
   }
 
-  const previousEnv = { ...process.env }
-
   beforeEach(() => {
     jest.clearAllMocks()
-    process.env = { ...previousEnv }
-    delete process.env.ALLOW_INSECURE_AUTH_BYPASS
     getAllAndOverride.mockImplementation((key: string) => {
       if (key === IS_PUBLIC_KEY) return false
       if (key === SKIP_EMAIL_VERIFICATION_KEY) return false
       return false
     })
-  })
-
-  afterAll(() => {
-    process.env = previousEnv
   })
 
   it('allows public routes', () => {
@@ -68,16 +60,10 @@ describe('EmailVerifiedGuard', () => {
     ).toBe(true)
   })
 
-  it('rejects missing user without an explicit local bypass', () => {
+  it('rejects missing user', () => {
     expect(() => guard.canActivate(createContext())).toThrow(
       UnauthorizedException,
     )
-  })
-
-  it('allows missing user only with the explicit local bypass', () => {
-    process.env.NODE_ENV = 'development'
-    process.env.ALLOW_INSECURE_AUTH_BYPASS = 'true'
-    expect(guard.canActivate(createContext())).toBe(true)
   })
 
   it('rejects unverified users', () => {

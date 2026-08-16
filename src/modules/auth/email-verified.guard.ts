@@ -6,7 +6,6 @@ import {
   UnauthorizedException,
 } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
-import { isInsecureAuthBypassAllowed } from './auth-bypass'
 import { IS_PUBLIC_KEY, SKIP_EMAIL_VERIFICATION_KEY } from './auth.constants'
 import type { RequestWithUser } from './auth.types'
 
@@ -30,9 +29,7 @@ export class EmailVerifiedGuard implements CanActivate {
     const request = context.switchToHttp().getRequest<RequestWithUser>()
     const user = request.user
 
-    // Explicit local bypass may leave req.user unset.
     if (!user) {
-      if (isInsecureAuthBypassAllowed()) return true
       throw new UnauthorizedException('Missing or invalid token')
     }
 

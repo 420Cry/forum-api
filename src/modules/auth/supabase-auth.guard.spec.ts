@@ -1,44 +1,8 @@
 import { ExecutionContext, UnauthorizedException } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
-import { isInsecureAuthBypassAllowed } from './auth-bypass'
 import { SupabaseAuthGuard } from './supabase-auth.guard'
 import { SupabaseService } from './supabase.service'
 import { IS_PUBLIC_KEY } from './auth.constants'
-
-describe('isInsecureAuthBypassAllowed', () => {
-  it('is false by default even in development', () => {
-    expect(isInsecureAuthBypassAllowed({ NODE_ENV: 'development' })).toBe(false)
-  })
-
-  it('requires the explicit flag and a local NODE_ENV', () => {
-    expect(
-      isInsecureAuthBypassAllowed({
-        ALLOW_INSECURE_AUTH_BYPASS: 'true',
-        NODE_ENV: 'development',
-      }),
-    ).toBe(true)
-    expect(
-      isInsecureAuthBypassAllowed({
-        ALLOW_INSECURE_AUTH_BYPASS: 'true',
-      }),
-    ).toBe(true)
-  })
-
-  it('never allows bypass for staging or production', () => {
-    expect(
-      isInsecureAuthBypassAllowed({
-        ALLOW_INSECURE_AUTH_BYPASS: 'true',
-        NODE_ENV: 'production',
-      }),
-    ).toBe(false)
-    expect(
-      isInsecureAuthBypassAllowed({
-        ALLOW_INSECURE_AUTH_BYPASS: 'true',
-        NODE_ENV: 'staging',
-      }),
-    ).toBe(false)
-  })
-})
 
 describe('SupabaseAuthGuard', () => {
   const getAllAndOverride = jest.fn()
@@ -72,18 +36,10 @@ describe('SupabaseAuthGuard', () => {
     }
   }
 
-  const previousEnv = { ...process.env }
-
   beforeEach(() => {
     jest.clearAllMocks()
     ;(supabase as { isEnabled: boolean }).isEnabled = true
     getAllAndOverride.mockReturnValue(false)
-    process.env = { ...previousEnv }
-    delete process.env.ALLOW_INSECURE_AUTH_BYPASS
-  })
-
-  afterAll(() => {
-    process.env = previousEnv
   })
 
   it('allows public routes without a token', async () => {
@@ -133,32 +89,11 @@ describe('SupabaseAuthGuard', () => {
     })
   })
 
-  it('rejects when Supabase is disabled without an explicit local bypass', async () => {
+  it('rejects when Supabase is disabled', async () => {
     ;(supabase as { isEnabled: boolean }).isEnabled = false
-    process.env.NODE_ENV = 'development'
-    delete process.env.ALLOW_INSECURE_AUTH_BYPASS
 
     await expect(guard.canActivate(createContext())).rejects.toThrow(
       new UnauthorizedException('Auth not configured'),
     )
-  })
-
-  it('rejects when Supabase is disabled in staging even with the bypass flag', async () => {
-    ;(supabase as { isEnabled: boolean }).isEnabled = false
-    process.env.NODE_ENV = 'staging'
-    process.env.ALLOW_INSECURE_AUTH_BYPASS = 'true'
-
-    await expect(guard.canActivate(createContext())).rejects.toThrow(
-      new UnauthorizedException('Auth not configured'),
-    )
-  })
-
-  it('allows the explicit local bypass when Supabase is disabled', async () => {
-    ;(supabase as { isEnabled: boolean }).isEnabled = false
-    process.env.NODE_ENV = 'development'
-    process.env.ALLOW_INSECURE_AUTH_BYPASS = 'true'
-
-    await expect(guard.canActivate(createContext())).resolves.toBe(true)
-    expect(verifyToken).not.toHaveBeenCalled()
   })
 })
