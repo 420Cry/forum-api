@@ -78,7 +78,6 @@ describe('ChatService', () => {
     expect(sendbird.upsertUser).toHaveBeenCalledWith({
       userId: ME,
       nickname: 'Alex Morgan',
-      profileUrl: '',
     })
     expect(session).toEqual({
       appId: 'APP123',

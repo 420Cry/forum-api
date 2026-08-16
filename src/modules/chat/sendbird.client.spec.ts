@@ -71,7 +71,6 @@ describe('SendbirdClient', () => {
     await client.upsertUser({
       userId: 'u1',
       nickname: 'Alex Morgan',
-      profileUrl: 'https://cdn.example/a.png',
     })
 
     expect(fetchMock).toHaveBeenCalledTimes(1)
@@ -81,7 +80,7 @@ describe('SendbirdClient', () => {
     expect(parseBody(init.body)).toEqual({
       user_id: 'u1',
       nickname: 'Alex Morgan',
-      profile_url: 'https://cdn.example/a.png',
+      profile_url: '',
       issue_access_token: false,
     })
     expect(init.headers?.['Api-Token']).toBe('secret-token')
@@ -97,7 +96,6 @@ describe('SendbirdClient', () => {
     await client.upsertUser({
       userId: 'u1',
       nickname: 'Alex Morgan',
-      profileUrl: '',
     })
 
     expect(fetchMock).toHaveBeenCalledTimes(2)
@@ -155,7 +153,7 @@ describe('SendbirdClient', () => {
     const unconfigured = module.get(SendbirdClient)
 
     await expect(
-      unconfigured.upsertUser({ userId: 'u1', nickname: 'A', profileUrl: '' }),
+      unconfigured.upsertUser({ userId: 'u1', nickname: 'A' }),
     ).rejects.toBeInstanceOf(ServiceUnavailableException)
   })
 })

@@ -26,7 +26,7 @@ export class ChatService {
   async getSession(userId: string): Promise<SendbirdSessionResponse> {
     this.assertConfigured()
     const user = await this.requireOnboardedUser(userId)
-    await this.upsertForumUser(user.supabaseUid, user.name, user.avatar_url)
+    await this.upsertForumUser(user.supabaseUid, user.name)
 
     const expiresAtMs = Date.now() + SENDBIRD_TOKEN_TTL_SECONDS * 1000
     try {
@@ -67,8 +67,8 @@ export class ChatService {
     }
 
     await Promise.all([
-      this.upsertForumUser(me.supabaseUid, me.name, me.avatar_url),
-      this.upsertForumUser(peer.supabaseUid, peer.name, peer.avatar_url),
+      this.upsertForumUser(me.supabaseUid, me.name),
+      this.upsertForumUser(peer.supabaseUid, peer.name),
     ])
 
     try {
@@ -115,16 +115,12 @@ export class ChatService {
     return user
   }
 
-  private async upsertForumUser(
-    userId: string,
-    name: string | null,
-    avatarUrl: string | null,
-  ) {
+  private async upsertForumUser(userId: string, name: string | null) {
     try {
+      // Nickname only — never push avatar URLs into Sendbird.
       await this.sendbird.upsertUser({
         userId,
         nickname: this.nicknameFor(name),
-        profileUrl: avatarUrl?.trim() || '',
       })
     } catch (err) {
       this.rethrow(err)
