@@ -3,12 +3,13 @@ import {
   CanActivate,
   ExecutionContext,
   Injectable,
+  UnauthorizedException,
 } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import { IS_PUBLIC_KEY } from 'src/modules/auth/auth.constants'
 import { UsersService } from 'src/modules/users/users.service'
-import { IS_INVESTOR_KEY, IS_STARTUP_KEY } from '../profiles.constant'
 import { RequestWithUser } from 'src/modules/auth/auth.types'
+import { Roles } from '../decorators/roles.decorator'
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -24,17 +25,8 @@ export class RolesGuard implements CanActivate {
     ])
     if (isPublic) return true
 
-    const isStartup = this.reflector.getAllAndOverride<boolean>(
-      IS_STARTUP_KEY,
-      [context.getClass(), context.getHandler()],
-    )
-
-    const isInvestor = this.reflector.getAllAndOverride<boolean>(
-      IS_INVESTOR_KEY,
-      [context.getClass(), context.getHandler()],
-    )
-
-    if (!isStartup && !isInvestor) return true
+    const roles = this.reflector.get(Roles, context.getHandler())
+    if (!roles) return true
 
     const request = context.switchToHttp().getRequest<RequestWithUser>()
     const authUser = request.user
@@ -44,5 +36,16 @@ export class RolesGuard implements CanActivate {
         'User information cannot be found. Please try again',
       )
     }
+
+    const user = await this.usersService.findBySupabaseUid(authUser.id)
+    const userRole = user?.role
+
+    if (userRole !== roles) {
+      throw new UnauthorizedException(
+        `Permission is only available for ${roles} only`,
+      )
+    }
+
+    return true
   }
 }
