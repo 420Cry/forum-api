@@ -45,6 +45,9 @@ From the monorepo dev-server: `forum lint:fix` runs eslint --fix in both forum-a
 | Auth guards | `src/modules/auth/` |
 | `/auth/me` response shape | `src/modules/auth/auth-profile.mapper.ts` |
 | Onboarding logic | `src/modules/users/onboarding/users-onboarding.service.ts` |
+| Profiles / find / accounts | `src/modules/profiles/` |
+| Follows | `src/modules/follows/` |
+| Chat / Sendbird | `src/modules/chat/` |
 | Route guards / decorators | `src/modules/users/guards/`, `src/modules/users/decorators/` |
 | Migrations | `src/database/migrations/`, `src/database/dataSource.config.ts` |
 | Goal tag seed | `src/database/seed.ts` |
@@ -71,29 +74,66 @@ Per-controller guard:
 | `POST /user/onboarding` | no | yes | not onboarded |
 | `PATCH /user/onboarding/draft` | no | yes | not onboarded |
 | `PATCH /user/profile` | no | yes | onboarded |
+| `GET /me/accounts` | no | yes | onboarded |
+| `POST/PATCH /profiles/startup`, `POST/PATCH /profiles/investor` | no | yes | onboarded |
+| `GET /profiles/startup/:id`, `GET /profiles/investor/:id`, `GET /profiles/user/:id` | yes | — | — |
+| `GET /find` | no | yes | onboarded |
+| `POST/DELETE /follows`, `GET /follows/me`, `GET /follows/connections`, `GET /follows/status` | no | yes | onboarded |
+| `GET /chat/session`, `POST /chat/channels`, `GET /chat/unread` | no | yes | onboarded |
 
 Service layer (`UserOnboardingService`) enforces the same onboarding rules as a second line of defence.
 
-## Dev auth bypass
+## Auth locally
 
-When `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` are unset and `NODE_ENV !== 'production'`, `SupabaseAuthGuard` allows requests without a token. `GET /auth/me` returns `{ id: null, profile: null }`. Do not rely on this in tests that assert guard behaviour — mock `SupabaseService` instead.
+`SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are required everywhere, including local.
+Unset Supabase env → protected routes return `401 Auth not configured`.
+In tests that assert guard behaviour, mock `SupabaseService` instead of disabling auth.
 
 ## Database
 
+Two migration tracks (do not mix them up) — both run from GitHub Actions (see [`.github/workflows/database.yml`](.github/workflows/database.yml)). Heroku only starts the web process (`Procfile`); it does **not** migrate.
+
+| Event | What runs |
+|---|---|
+| **pull_request** (path-filtered) | TypeORM `migration:show` (auth/connect check) + `supabase db push --dry-run` — **no schema apply** |
+| **push to `main`** / **workflow_dispatch** | TypeORM `migration:run` + `seed` + `supabase db push` |
+
+| Track | Path | Applied by |
+|---|---|---|
+| TypeORM (app tables) | `src/database/migrations/` | Job **TypeORM migrate + seed** (main only) |
+| Supabase CLI (Storage buckets, Storage RLS) | `supabase/migrations/` | Job **Supabase CLI migrations** (main only) |
+
 ```bash
-bun run migration:run     # apply migrations
-bun run migration:revert    # revert last
+bun run migration:run     # TypeORM — apply migrations
+bun run migration:revert    # TypeORM — revert last
 bun run seed                # goal tags (required for onboarding)
 ```
 
 With forum-server: `forum db:migrate`, `forum db:seed`.
+
+**Repo secrets** for [`.github/workflows/database.yml`](.github/workflows/database.yml):
+
+| Secret | Purpose |
+|---|---|
+| `SUPABASE_ACCESS_TOKEN` | [Account → Access Tokens](https://supabase.com/dashboard/account/tokens) |
+| `SUPABASE_PROJECT_ID` | Project ref from the dashboard URL |
+| `SUPABASE_DB_PASSWORD` (or `DB_PASSWORD`) | Database password — keep in sync with Heroku `DB_PASSWORD` |
+
+No `DB_HOST` secret: the workflow runs `supabase link` and reads the IPv4 Session pooler host/port from `supabase/.temp/pooler-url`. `DB_USERNAME` is set at job level to `postgres.<SUPABASE_PROJECT_ID>` (bare `postgres` causes `28P01` on the pooler).
+
+Heroku runtime still needs `DB_*` plus TLS: set `PGSSLMODE=no-verify` (not `require` — node-pg then verifies the CA and the dyno crashes). After deploy, `resolveDbSsl` also enables TLS for `*.supabase.co` / pooler hosts. Heroku `DB_USERNAME` must also be `postgres.<project-ref>`.
+
+Manual run: **Actions → Deploy database → Run workflow**.
 
 ## Module layout
 
 ```
 src/modules/
 ├── auth/           # guards, Supabase service, GET /auth/me
+├── chat/           # Sendbird session, 1:1 channels, unread
+├── follows/        # follow / unfollow / list / status
 ├── health/         # GET /health (@Public)
+├── profiles/       # accounts, startup/investor CRUD, find, public GETs
 ├── root/           # GET / (@Public)
 ├── tags/           # internal — no HTTP controller
 └── users/          # onboarding + profile endpoints

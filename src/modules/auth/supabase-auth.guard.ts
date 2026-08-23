@@ -24,13 +24,7 @@ export class SupabaseAuthGuard implements CanActivate {
     if (isPublic) return true
 
     if (!this.supabase.isEnabled) {
-      if (process.env.NODE_ENV === 'production') {
-        throw new UnauthorizedException('Auth not configured')
-      }
-      console.warn(
-        '[SupabaseAuthGuard] Supabase not initialized - allowing request without auth',
-      )
-      return true
+      throw new UnauthorizedException('Auth not configured')
     }
 
     const request = context.switchToHttp().getRequest<RequestWithUser>()

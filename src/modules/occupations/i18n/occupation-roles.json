@@ -1,0 +1,62 @@
+{
+  "analyst": {
+    "en": "Analyst",
+    "vn": "Chuyên viên phân tích"
+  },
+  "architect": {
+    "en": "Architect",
+    "vn": "Kiến trúc sư"
+  },
+  "consultant": {
+    "en": "Consultant",
+    "vn": "Tư vấn"
+  },
+  "designer": {
+    "en": "Designer",
+    "vn": "Nhà thiết kế"
+  },
+  "director": {
+    "en": "Director",
+    "vn": "Giám đốc"
+  },
+  "engineer": {
+    "en": "Engineer",
+    "vn": "Kỹ sư"
+  },
+  "lead": {
+    "en": "Lead",
+    "vn": "Trưởng nhóm"
+  },
+  "manager": {
+    "en": "Manager",
+    "vn": "Quản lý"
+  },
+  "marketer": {
+    "en": "Marketer",
+    "vn": "Chuyên viên marketing"
+  },
+  "operator": {
+    "en": "Operator",
+    "vn": "Vận hành"
+  },
+  "product_manager": {
+    "en": "Product Manager",
+    "vn": "Quản lý sản phẩm"
+  },
+  "researcher": {
+    "en": "Researcher",
+    "vn": "Nhà nghiên cứu"
+  },
+  "sales_lead": {
+    "en": "Sales Lead",
+    "vn": "Phụ trách bán hàng"
+  },
+  "scientist": {
+    "en": "Scientist",
+    "vn": "Nhà khoa học"
+  },
+  "specialist": {
+    "en": "Specialist",
+    "vn": "Chuyên viên"
+  }
+}

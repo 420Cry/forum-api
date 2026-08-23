@@ -9,33 +9,23 @@ if (process.env.NODE_ENV !== 'production') {
 
 import AppDataSource from './dataSource.config'
 import { Tag } from 'src/modules/tags/entities/tags.entities'
-
-export const GOAL_TAGS: { key: string; name: string }[] = [
-  { key: 'raise_capital', name: 'Raise capital' },
-  { key: 'find_cofounders', name: 'Find co-founders' },
-  { key: 'gather_feedback', name: 'Gather feedback' },
-  { key: 'build_following', name: 'Build a following' },
-  { key: 'discover_startups', name: 'Discover startups' },
-  { key: 'build_deal_flow', name: 'Build deal flow' },
-  { key: 'network_peers', name: 'Network with peers' },
-  { key: 'market_insights', name: 'Market insights' },
-]
+import { ALL_CATALOG_TAG_SEEDS } from 'src/modules/tags/catalog.seeds'
 
 async function seed() {
   await AppDataSource.initialize()
   const repo = AppDataSource.getRepository(Tag)
 
-  for (const tag of GOAL_TAGS) {
+  for (const tag of ALL_CATALOG_TAG_SEEDS) {
     await repo
       .createQueryBuilder()
       .insert()
       .into(Tag)
       .values(tag)
-      .orUpdate(['name'], ['key'])
+      .orUpdate(['name', 'kind'], ['key'])
       .execute()
   }
 
-  console.log(`Seeded ${GOAL_TAGS.length} goal tags.`)
+  console.log(`Seeded ${ALL_CATALOG_TAG_SEEDS.length} catalog tags.`)
   await AppDataSource.destroy()
 }
 

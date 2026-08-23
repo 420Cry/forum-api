@@ -65,6 +65,11 @@ Required variables:
 | `DB_NAME`                   | Database name                                           |
 | `DB_USERNAME`               | Postgres username                                       |
 | `DB_PASSWORD`               | Postgres password                                       |
+| `PGSSLMODE`                 | Optional. Heroku + Supabase: `no-verify` (not `require`) |
+| `SENDBIRD_APP_ID`           | Optional. Sendbird application ID                        |
+| `SENDBIRD_API_TOKEN`        | Optional. Master API token (server-only; not a user access token) |
+
+**Sendbird auth:** set **Access token permission = Deny login** in the Sendbird dashboard. Users are created with `issue_access_token: false`. The app never logs in with a permanent Sendbird access token — `GET /chat/session` upserts the user and returns a short-lived **session token** from `POST /v3/users/{user_id}/token`, which the client passes to `SendbirdChat.connect(userId, token)`.
 
 ### Supabase local dev
 
@@ -103,6 +108,8 @@ npx supabase stop   # when done
 ## Database & migrations
 
 TypeORM is configured in `src/database/dataSource.config.ts` (also used by the running app via `EnvService.getDBConfig`). `synchronize` is off — all schema changes go through migrations in `src/database/migrations`, which are registered explicitly in the data source's `migrations` array.
+
+Heroku only runs the web process (`Procfile`). TypeORM migrate + seed and `supabase/migrations/` are applied by [`.github/workflows/database.yml`](.github/workflows/database.yml) on merge to `main` (path-filtered) or via **Actions → Deploy database → Run workflow**. PRs that touch the same paths run a **check only**: TypeORM `migration:show` (verifies Session pooler auth) and `supabase db push --dry-run` — nothing is applied until merge. Required secrets: `SUPABASE_ACCESS_TOKEN`, `SUPABASE_PROJECT_ID`, `SUPABASE_DB_PASSWORD` (or `DB_PASSWORD`) — see `AGENTS.md`. Pooler host is resolved automatically via `supabase link` (no `DB_HOST` secret). Keep Heroku’s runtime `DB_*` in sync with the same database password so the app can connect after deploy. Remote Supabase needs TLS: set `PGSSLMODE=no-verify` on Heroku (do not use `require`).
 
 ```bash
 # Apply all pending migrations (runs the full chain on a fresh DB)
@@ -144,7 +151,24 @@ See [AGENTS.md](./AGENTS.md) and [../ARCHITECTURE.md](../ARCHITECTURE.md) for th
 | GET    | /auth/me          | Yes  | JWT (email verification skipped) | Current user + profile |
 | POST   | /user/onboarding  | Yes  | JWT + verified + not onboarded | Complete onboarding (atomic submit) |
 | PATCH  | /user/onboarding/draft | Yes | JWT + verified + not onboarded | Save in-progress draft |
-| PATCH  | /user/profile     | Yes  | JWT + verified + onboarded | Update profile (partial) |
+| PATCH  | /user/profile     | Yes  | JWT + verified + onboarded | Update profile (partial; includes `avatarUrl`) |
+| GET    | /me/accounts      | Yes  | JWT + verified + onboarded | Personal + startup/investor account summaries |
+| POST   | /profiles/startup | Yes  | JWT + verified + onboarded | Create startup profile |
+| PATCH  | /profiles/startup | Yes  | JWT + verified + onboarded | Update own startup profile |
+| GET    | /profiles/startup/:id | No | `@Public()` | Public startup profile |
+| POST   | /profiles/investor | Yes | JWT + verified + onboarded | Create investor profile |
+| PATCH  | /profiles/investor | Yes | JWT + verified + onboarded | Update own investor profile |
+| GET    | /profiles/investor/:id | No | `@Public()` | Public investor profile |
+| GET    | /profiles/user/:id | No | `@Public()` | Public user profile |
+| GET    | /find             | Yes  | JWT + verified + onboarded | Directory search (`q`, `type`, filters) |
+| POST   | /follows          | Yes  | JWT + verified + onboarded | Follow a user/startup/investor |
+| DELETE | /follows          | Yes  | JWT + verified + onboarded | Unfollow |
+| GET    | /follows/me          | Yes  | JWT + verified + onboarded | List accounts the current user follows |
+| GET    | /follows/connections | Yes  | JWT + verified + onboarded | Person-to-person network for chat (`mutual` / `following` / `follower`) |
+| GET    | /follows/status   | Yes  | JWT + verified + onboarded | Follow status for a target |
+| GET    | /chat/session     | Yes  | JWT + verified + onboarded | Upsert Sendbird user + session token |
+| POST   | /chat/channels    | Yes  | JWT + verified + onboarded | Open or reuse a 1:1 DM (`{ userId }`) |
+| GET    | /chat/unread      | Yes  | JWT + verified + onboarded | Unread message count (0 if chat unset) |
 
 Removed (replaced by the routes above):
 
@@ -257,6 +281,7 @@ Key unit tests:
 - `auth-profile.mapper.spec.ts` — `/auth/me` profile mapping
 - `users-onboarding.service.spec.ts` — atomic onboarding + profile updates
 - `supabase-auth.guard.spec.ts` — bearer token guard
+- `sendbird.client.spec.ts` / `chat.service.spec.ts` — Sendbird session + channels
 
 ## Lint
 

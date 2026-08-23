@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
+import { APP_GUARD } from '@nestjs/core'
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler'
 import { AuthModule } from '../modules/auth'
 import { HealthModule } from '../modules/health'
 import { RootModule } from '../modules/root'
@@ -7,10 +9,14 @@ import { EnvModule } from '../config/config.module'
 import { DatabaseModule } from '../database/database.module'
 import { UsersModule } from 'src/modules/users/users.module'
 import { TagsModule } from 'src/modules/tags/tags.module'
+import { LocationsModule } from 'src/modules/locations/locations.module'
+import { OccupationsModule } from 'src/modules/occupations/occupations.module'
 import { FiltersModule } from 'src/filters/filters.module'
 import { ProfilesModule } from 'src/modules/profiles/profiles.module'
 import { PostsModule } from 'src/modules/posts/posts.module'
 import { ReactionsModule } from 'src/modules/reactions/reactions.module'
+import { FollowsModule } from 'src/modules/follows/follows.module'
+import { ChatModule } from 'src/modules/chat/chat.module'
 
 @Module({
   imports: [
@@ -21,6 +27,13 @@ import { ReactionsModule } from 'src/modules/reactions/reactions.module'
           ? '.env.production'
           : ['.env', '.env.local'],
     }),
+    ThrottlerModule.forRoot([
+      {
+        name: 'default',
+        ttl: 60_000,
+        limit: 120,
+      },
+    ]),
     EnvModule,
     FiltersModule,
     DatabaseModule,
@@ -29,9 +42,19 @@ import { ReactionsModule } from 'src/modules/reactions/reactions.module'
     HealthModule,
     UsersModule,
     TagsModule,
+    LocationsModule,
+    OccupationsModule,
     ProfilesModule,
     PostsModule,
     ReactionsModule,
+    FollowsModule,
+    ChatModule,
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
   ],
 })
 export class AppModule {}

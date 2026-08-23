@@ -41,8 +41,19 @@ export class User {
   @Column({ nullable: true })
   age: number
 
+  /** Calendar date of birth (`YYYY-MM-DD`). Source of truth; `age` is derived. */
+  @Column({ type: 'date', nullable: true })
+  date_of_birth: string | null
+
   @Column({ nullable: true })
   location: string
+
+  @Column({ type: 'varchar', nullable: true })
+  avatar_url: string | null
+
+  /** Stable public profile key (`/u/:urlKey`). Assigned at onboarding in BE. */
+  @Column({ type: 'varchar', length: 64, nullable: true, unique: true })
+  url_key: string | null
 
   @ManyToMany(() => Tag)
   @JoinTable({ name: 'user_tag' })
