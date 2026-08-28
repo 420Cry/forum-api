@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common'
@@ -243,7 +244,17 @@ export class FollowsService {
     return this.labelSummaries(pending)
   }
 
-  async listFollowingForUser(userId: string): Promise<AccountSummary[]> {
+  /**
+   * Following lists are owner-only. Peers use follower counts / public
+   * follower sheets; scraping another user's full graph is not allowed.
+   */
+  async listFollowingForUser(
+    viewerId: string,
+    userId: string,
+  ): Promise<AccountSummary[]> {
+    if (viewerId !== userId) {
+      throw new ForbiddenException('Following list is private')
+    }
     const user = await this.usersService.findBySupabaseUid(userId)
     if (!user?.onboarded_at) {
       throw new NotFoundException('User profile not found')

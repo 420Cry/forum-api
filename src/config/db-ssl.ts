@@ -1,12 +1,16 @@
-export type DbSslOption = false | { rejectUnauthorized: false }
+export type DbSslOption =
+  | false
+  | { rejectUnauthorized: true }
+  | { rejectUnauthorized: false }
 
 /**
- * Supabase (and most hosted Postgres) requires TLS. node-pg's
- * `PGSSLMODE=require` maps to `ssl: true`, which verifies the CA and fails
- * on Heroku ("self-signed certificate"). Prefer `rejectUnauthorized: false`
- * unless SSL is explicitly disabled.
+ * Supabase (and most hosted Postgres) requires TLS.
  *
- * Local Docker / 127.0.0.1 stay unencrypted unless PGSSLMODE is set.
+ * - `verify-ca` / `verify-full` / `require` → TLS with CA verification
+ * - `no-verify` → TLS without CA verification (Heroku dynos that lack the
+ *   pooler CA chain; prefer verifying when possible)
+ * - Host hint for `*.supabase.co` / pooler → verify by default
+ * - Local Docker / 127.0.0.1 stay unencrypted unless PGSSLMODE is set
  */
 export function resolveDbSsl(input: {
   host?: string | null
@@ -14,19 +18,21 @@ export function resolveDbSsl(input: {
 }): DbSslOption {
   const mode = (input.sslMode ?? '').trim().toLowerCase()
   if (mode === 'disable') return false
+  if (mode === 'no-verify') {
+    return { rejectUnauthorized: false }
+  }
   if (
     mode === 'require' ||
     mode === 'prefer' ||
     mode === 'verify-ca' ||
-    mode === 'verify-full' ||
-    mode === 'no-verify'
+    mode === 'verify-full'
   ) {
-    return { rejectUnauthorized: false }
+    return { rejectUnauthorized: true }
   }
 
   const host = (input.host ?? '').toLowerCase()
   if (host.includes('supabase.co') || host.includes('pooler.supabase')) {
-    return { rejectUnauthorized: false }
+    return { rejectUnauthorized: true }
   }
 
   return false
