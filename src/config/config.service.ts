@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { resolveDbSsl } from './db-ssl'
+import { loadDbSslCa, resolveDbSsl } from './db-ssl'
 
 @Injectable()
 export class EnvService {
@@ -47,12 +47,24 @@ export class EnvService {
   getDBConfig() {
     const host = this.getValue('DB_HOST')
     const port = parseInt(this.getValue('DB_PORT'), 10)
+    const ca = loadDbSslCa({
+      pem: this.getValue('DB_SSL_CA', false),
+      certPath: this.getValue('PGSSLROOTCERT', false),
+    })
     const ssl = resolveDbSsl({
       host,
       sslMode: this.getValue('PGSSLMODE', false),
+      ca,
     })
     // Visible in Heroku logs — no secrets.
-    console.info('[db] connecting', { host, port, ssl: Boolean(ssl) })
+    const verifying = typeof ssl === 'object' && ssl.rejectUnauthorized === true
+    console.info('[db] connecting', {
+      host,
+      port,
+      ssl: Boolean(ssl),
+      verify: verifying,
+      hasCa: verifying && Boolean(ssl.ca),
+    })
     return {
       type: 'postgres' as const,
       host,

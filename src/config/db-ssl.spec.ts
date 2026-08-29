@@ -1,4 +1,34 @@
-import { resolveDbSsl } from './db-ssl'
+import { loadDbSslCa, resolveDbSsl } from './db-ssl'
+
+describe('loadDbSslCa', () => {
+  it('reads PEM from DB_SSL_CA, including escaped newlines', () => {
+    expect(
+      loadDbSslCa({
+        pem: '  -----BEGIN CERTIFICATE-----\\nABC\\n-----END CERTIFICATE-----  ',
+      }),
+    ).toBe('-----BEGIN CERTIFICATE-----\nABC\n-----END CERTIFICATE-----')
+  })
+
+  it('reads a file from PGSSLROOTCERT', () => {
+    const readFile = (path: string) => {
+      expect(path).toBe('/tmp/prod-ca-2021.crt')
+      return 'FILE-PEM'
+    }
+    expect(loadDbSslCa({ certPath: '/tmp/prod-ca-2021.crt', readFile })).toBe(
+      'FILE-PEM',
+    )
+  })
+
+  it('prefers inline PEM over a file path', () => {
+    expect(
+      loadDbSslCa({
+        pem: 'INLINE',
+        certPath: '/tmp/prod-ca-2021.crt',
+        readFile: () => 'FILE',
+      }),
+    ).toBe('INLINE')
+  })
+})
 
 describe('resolveDbSsl', () => {
   it('keeps local hosts unencrypted', () => {
@@ -14,6 +44,26 @@ describe('resolveDbSsl', () => {
     expect(
       resolveDbSsl({ host: 'db.qiinsfqoljenkhtasvrk.supabase.co' }),
     ).toEqual({ rejectUnauthorized: true })
+  })
+
+  it('attaches the CA when verifying', () => {
+    expect(
+      resolveDbSsl({
+        host: 'aws-0-eu-central-1.pooler.supabase.com',
+        sslMode: 'verify-full',
+        ca: 'PEM',
+      }),
+    ).toEqual({ rejectUnauthorized: true, ca: 'PEM' })
+  })
+
+  it('does not attach the CA when no-verify', () => {
+    expect(
+      resolveDbSsl({
+        host: 'aws-0-eu-central-1.pooler.supabase.com',
+        sslMode: 'no-verify',
+        ca: 'PEM',
+      }),
+    ).toEqual({ rejectUnauthorized: false })
   })
 
   it('honours PGSSLMODE', () => {

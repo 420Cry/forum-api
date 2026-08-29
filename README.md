@@ -65,7 +65,9 @@ Required variables:
 | `DB_NAME`                   | Database name                                           |
 | `DB_USERNAME`               | Postgres username                                       |
 | `DB_PASSWORD`               | Postgres password                                       |
-| `PGSSLMODE`                 | Optional. Prefer unset/`require` (CA verify). Use `no-verify` only if the dyno lacks the pooler CA. |
+| `PGSSLMODE`                 | Optional. `no-verify` = TLS without CA check. `verify-full` = verified TLS (needs `DB_SSL_CA` or `PGSSLROOTCERT`). |
+| `DB_SSL_CA`                 | Optional. PEM of the Supabase DB CA (Heroku). Required for verified TLS. |
+| `PGSSLROOTCERT`             | Optional. Path to that CA file instead of `DB_SSL_CA`. |
 | `SENDBIRD_APP_ID`           | Optional. Sendbird application ID                        |
 | `SENDBIRD_API_TOKEN`        | Optional. Master API token (server-only; not a user access token) |
 
@@ -109,7 +111,7 @@ npx supabase stop   # when done
 
 TypeORM is configured in `src/database/dataSource.config.ts` (also used by the running app via `EnvService.getDBConfig`). `synchronize` is off — all schema changes go through migrations in `src/database/migrations`, which are registered explicitly in the data source's `migrations` array.
 
-Heroku only runs the web process (`Procfile`). TypeORM migrate + seed and `supabase/migrations/` are applied by [`.github/workflows/database.yml`](.github/workflows/database.yml) on merge to `main` (path-filtered) or via **Actions → Deploy database → Run workflow**. PRs that touch the same paths run a **check only**: TypeORM `migration:show` (verifies Session pooler auth) and `supabase db push --dry-run` — nothing is applied until merge. Required secrets: `SUPABASE_ACCESS_TOKEN`, `SUPABASE_PROJECT_ID`, `SUPABASE_DB_PASSWORD` (or `DB_PASSWORD`) — see `AGENTS.md`. Pooler host is resolved automatically via `supabase link` (no `DB_HOST` secret). Keep Heroku’s runtime `DB_*` in sync with the same database password so the app can connect after deploy. Remote Supabase needs TLS: leave `PGSSLMODE` unset (or `require`) so node-pg verifies the CA. Use `PGSSLMODE=no-verify` only if the Heroku dyno cannot validate the pooler certificate.
+Heroku only runs the web process (`Procfile`). TypeORM migrate + seed and `supabase/migrations/` are applied by [`.github/workflows/database.yml`](.github/workflows/database.yml) on merge to `main` (path-filtered) or via **Actions → Deploy database → Run workflow**. PRs that touch the same paths run a **check only**: TypeORM `migration:show` (verifies Session pooler auth) and `supabase db push --dry-run` — nothing is applied until merge. Required secrets: `SUPABASE_ACCESS_TOKEN`, `SUPABASE_PROJECT_ID`, `SUPABASE_DB_PASSWORD` (or `DB_PASSWORD`) — see `AGENTS.md`. Pooler host is resolved automatically via `supabase link` (no `DB_HOST` secret). Keep Heroku’s runtime `DB_*` in sync with the same database password so the app can connect after deploy. Remote Supabase needs TLS. Encrypt-only (`PGSSLMODE=no-verify`) boots on Heroku because the dyno does not trust Supabase's private CA. For **verified** TLS (`verify-full`): download the CA from the project dashboard (**Database → Settings → SSL Configuration**), set `DB_SSL_CA` to that PEM (or `PGSSLROOTCERT` to a file path), then set `PGSSLMODE=verify-full`. `rejectUnauthorized: true` without `ca` uses the public CA store and crashes the web dyno (H10/503).
 
 ```bash
 # Apply all pending migrations (runs the full chain on a fresh DB)
