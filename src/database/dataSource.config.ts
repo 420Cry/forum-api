@@ -8,7 +8,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 import { DataSource } from 'typeorm'
-import { resolveDbSsl } from '../config/db-ssl'
+import { loadDbSslCa, resolveDbSsl } from '../config/db-ssl'
 import { User } from '../modules/users/entities'
 import { Tag } from 'src/modules/tags/entities/tags.entities'
 import { StartupProfiles } from 'src/modules/profiles/entities/startup-profiles.entity'
@@ -39,6 +39,10 @@ const dbUsername = process.env.DB_USERNAME || 'postgres'
 const dbSsl = resolveDbSsl({
   host: dbHost,
   sslMode: process.env.PGSSLMODE,
+  ca: loadDbSslCa({
+    pem: process.env.DB_SSL_CA,
+    certPath: process.env.PGSSLROOTCERT,
+  }),
 })
 
 if (process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true') {
@@ -49,6 +53,11 @@ if (process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true') {
     username: dbUsername,
     database: process.env.DB_NAME || 'postgres',
     ssl: Boolean(dbSsl),
+    verify: typeof dbSsl === 'object' && dbSsl.rejectUnauthorized === true,
+    hasCa:
+      typeof dbSsl === 'object' &&
+      dbSsl.rejectUnauthorized === true &&
+      Boolean(dbSsl.ca),
   })
 }
 
