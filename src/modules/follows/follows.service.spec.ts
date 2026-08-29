@@ -1,4 +1,4 @@
-import { BadRequestException, ForbiddenException } from '@nestjs/common'
+import { BadRequestException } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import { LocationsService } from '../locations/locations.service'
@@ -235,7 +235,7 @@ describe('FollowsService', () => {
       onboarded_at: new Date(),
     })
     followsRepo.find.mockResolvedValue([])
-    await expect(service.listFollowingForUser(UID, UID)).resolves.toEqual([])
+    await expect(service.listFollowingForUser(UID)).resolves.toEqual([])
     expect(followsRepo.find).toHaveBeenCalledWith(
       expect.objectContaining({
         where: { follower_user_id: UID },
@@ -243,11 +243,18 @@ describe('FollowsService', () => {
     )
   })
 
-  it('forbids listing another user following graph', async () => {
-    await expect(service.listFollowingForUser(UID, OTHER)).rejects.toThrow(
-      ForbiddenException,
+  it('lists another user following graph', async () => {
+    usersService.findBySupabaseUid.mockResolvedValue({
+      supabaseUid: OTHER,
+      onboarded_at: new Date(),
+    })
+    followsRepo.find.mockResolvedValue([])
+    await expect(service.listFollowingForUser(OTHER)).resolves.toEqual([])
+    expect(followsRepo.find).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: { follower_user_id: OTHER },
+      }),
     )
-    expect(followsRepo.find).not.toHaveBeenCalled()
   })
 
   it('lists user connections with mutual and one-sided relations', async () => {
