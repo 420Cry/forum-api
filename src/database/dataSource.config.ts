@@ -47,12 +47,9 @@ const dbSsl = resolveDbSsl({
 assertDbSslConfig(dbSsl, process.env.PGSSLMODE)
 
 if (process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true') {
-  // No secrets — helps debug pooler 28P01 (bare "postgres" vs postgres.<ref>).
+  // Keep CI diagnostics non-sensitive.
   console.info('[db] TypeORM data source', {
-    host: dbHost,
     port: process.env.DB_PORT || '54322',
-    username: dbUsername,
-    database: process.env.DB_NAME || 'postgres',
     ssl: Boolean(dbSsl),
     verify: typeof dbSsl === 'object' && dbSsl.rejectUnauthorized === true,
     hasCa:
