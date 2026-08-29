@@ -131,10 +131,6 @@ export class UsersService {
     return qb
   }
 
-  async save(user: User): Promise<User> {
-    return this.userRepo.save(user)
-  }
-
   async update(user: User, userData: UpdateUserType): Promise<User> {
     Object.assign(user, userData)
     return await this.userRepo.save(user)

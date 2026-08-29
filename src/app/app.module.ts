@@ -13,8 +13,6 @@ import { LocationsModule } from '../modules/locations/locations.module'
 import { OccupationsModule } from '../modules/occupations/occupations.module'
 import { FiltersModule } from '../filters/filters.module'
 import { ProfilesModule } from '../modules/profiles/profiles.module'
-import { PostsModule } from '../modules/posts/posts.module'
-import { ReactionsModule } from '../modules/reactions/reactions.module'
 import { FollowsModule } from '../modules/follows/follows.module'
 import { ChatModule } from '../modules/chat/chat.module'
 
@@ -45,8 +43,6 @@ import { ChatModule } from '../modules/chat/chat.module'
     LocationsModule,
     OccupationsModule,
     ProfilesModule,
-    PostsModule,
-    ReactionsModule,
     FollowsModule,
     ChatModule,
   ],

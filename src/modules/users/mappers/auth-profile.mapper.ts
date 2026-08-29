@@ -7,8 +7,6 @@ import {
 } from '../utils/date-of-birth'
 import { userProfilePath } from '../utils/url-key'
 
-export type { AuthProfileResponse }
-
 function resolveDateOfBirth(user: User): string | null {
   if (!user.date_of_birth) return null
   if (typeof user.date_of_birth === 'string') {
