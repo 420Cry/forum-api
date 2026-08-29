@@ -67,12 +67,11 @@ export class FollowsController {
   @Get('follows/following')
   @RequiresOnboarded()
   @Throttle({ default: { limit: 30, ttl: 60_000 } })
-  listFollowing(@Query('userId') userId: string, @Req() req: RequestWithUser) {
+  listFollowing(@Query('userId') userId: string) {
     if (!userId?.trim()) {
       throw new BadRequestException('userId is required')
     }
-    const { id } = req.user as AuthUser
-    return this.followsService.listFollowingForUser(id, userId)
+    return this.followsService.listFollowingForUser(userId)
   }
 
   @Get('follows/status')
