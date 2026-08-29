@@ -69,3 +69,18 @@ export function resolveDbSsl(input: {
 
   return false
 }
+
+/** Fail fast when verify modes are set without a Supabase CA (common Heroku boot crash). */
+export function assertDbSslConfig(
+  ssl: DbSslOption,
+  sslMode?: string | null,
+): void {
+  const mode = (sslMode ?? '').trim().toLowerCase()
+  if (mode !== 'verify-ca' && mode !== 'verify-full') return
+
+  if (typeof ssl === 'object' && ssl.rejectUnauthorized === true && !ssl.ca) {
+    throw new Error(
+      'PGSSLMODE verify-ca/verify-full requires DB_SSL_CA or PGSSLROOTCERT',
+    )
+  }
+}

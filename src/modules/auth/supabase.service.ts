@@ -1,20 +1,22 @@
 import { Injectable, OnModuleInit } from '@nestjs/common'
 import { createClient, SupabaseClient } from '@supabase/supabase-js'
+import { EnvService } from '../../config/config.service'
 
 @Injectable()
 export class SupabaseService implements OnModuleInit {
   private client: SupabaseClient | null = null
 
-  onModuleInit() {
-    const url = process.env.SUPABASE_URL
-    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+  constructor(private readonly env: EnvService) {}
 
-    if (!url || !serviceRoleKey) {
+  onModuleInit() {
+    const { supabase_url, supabase_service_key } = this.env.getAuthConfig()
+
+    if (!supabase_url || !supabase_service_key) {
       console.warn('[Supabase] No credentials configured')
       return
     }
 
-    this.client = createClient(url, serviceRoleKey, {
+    this.client = createClient(supabase_url, supabase_service_key, {
       auth: {
         autoRefreshToken: false,
         persistSession: false,

@@ -5,7 +5,6 @@ import { LocationsModule } from '../locations/locations.module'
 import { OccupationsModule } from '../occupations/occupations.module'
 import { TagsModule } from '../tags/tags.module'
 import { UsersModule } from '../users/users.module'
-import { OnboardingStateGuard } from '../users/guards/onboarding-state.guard'
 import { InvestorProfiles } from './entities/investor-profiles.entity'
 import { StartupProfiles } from './entities/startup-profiles.entity'
 import { ProfilesController } from './profiles.controller'
@@ -19,7 +18,7 @@ import { ProfilesService } from './profiles.service'
     LocationsModule,
     OccupationsModule,
   ],
-  providers: [ProfilesService, OnboardingStateGuard],
+  providers: [ProfilesService],
   controllers: [ProfilesController],
   exports: [ProfilesService],
 })

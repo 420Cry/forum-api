@@ -1,6 +1,6 @@
 import { ServiceUnavailableException } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
-import { EnvService } from 'src/config/config.service'
+import { EnvService } from '../../config/config.service'
 import { SendbirdClient } from './sendbird.client'
 
 type FetchInit = {

@@ -1,4 +1,4 @@
-import { Tag } from 'src/modules/tags/entities/tags.entities'
+import { Tag } from '../tags/entities/tags.entities'
 
 export const rolesSelection = ['Founder', 'Investor'] as const
 export type RolesSelectionType = (typeof rolesSelection)[number]
