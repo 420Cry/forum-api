@@ -1,7 +1,7 @@
 import { Controller, Get, Req } from '@nestjs/common'
 import { UsersService } from '../users/users.service'
+import { toAuthProfile } from '../users/mappers/auth-profile.mapper'
 import type { RequestWithUser } from './auth.types'
-import { toAuthProfile } from './auth-profile.mapper'
 import { SkipEmailVerification } from './skip-email-verification.decorator'
 
 @Controller('auth')

@@ -7,18 +7,15 @@ import {
   Post,
   Query,
   Req,
-  UseGuards,
 } from '@nestjs/common'
 import { Throttle } from '@nestjs/throttler'
 import type { AuthUser, RequestWithUser } from '../auth/auth.types'
 import { RequiresOnboarded } from '../users/decorators/requires-onboarded.decorator'
-import { OnboardingStateGuard } from '../users/guards/onboarding-state.guard'
 import { FollowDto } from './dto/follow.dto'
 import { followTargetTypes } from './follows.type'
 import { FollowsService } from './follows.service'
 
 @Controller()
-@UseGuards(OnboardingStateGuard)
 export class FollowsController {
   constructor(private readonly followsService: FollowsService) {}
 

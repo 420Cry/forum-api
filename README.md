@@ -280,7 +280,7 @@ Key unit tests:
 
 - `email-verified.guard.spec.ts` — email verification guard
 - `onboarding-state.guard.spec.ts` — onboarding state guard
-- `auth-profile.mapper.spec.ts` — `/auth/me` profile mapping
+- `users/mappers/auth-profile.mapper.spec.ts` — `/auth/me` profile mapping
 - `users-onboarding.service.spec.ts` — atomic onboarding + profile updates
 - `supabase-auth.guard.spec.ts` — bearer token guard
 - `sendbird.client.spec.ts` / `chat.service.spec.ts` — Sendbird session + channels

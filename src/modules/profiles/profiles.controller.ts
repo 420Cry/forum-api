@@ -8,13 +8,11 @@ import {
   Post,
   Query,
   Req,
-  UseGuards,
 } from '@nestjs/common'
 import { Throttle } from '@nestjs/throttler'
 import { Public } from '../auth/public.decorator'
 import type { AuthUser, RequestWithUser } from '../auth/auth.types'
 import { RequiresOnboarded } from '../users/decorators/requires-onboarded.decorator'
-import { OnboardingStateGuard } from '../users/guards/onboarding-state.guard'
 import {
   CreateInvestorProfileDto,
   UpdateInvestorProfileDto,
@@ -26,7 +24,6 @@ import {
 import { ProfilesService } from './profiles.service'
 
 @Controller()
-@UseGuards(OnboardingStateGuard)
 export class ProfilesController {
   constructor(private readonly profilesService: ProfilesService) {}
 

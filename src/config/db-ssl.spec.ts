@@ -1,4 +1,4 @@
-import { loadDbSslCa, resolveDbSsl } from './db-ssl'
+import { loadDbSslCa, resolveDbSsl, assertDbSslConfig } from './db-ssl'
 
 describe('loadDbSslCa', () => {
   it('reads PEM from DB_SSL_CA, including escaped newlines', () => {
@@ -85,5 +85,25 @@ describe('resolveDbSsl', () => {
         sslMode: 'verify-full',
       }),
     ).toEqual({ rejectUnauthorized: true })
+  })
+})
+
+describe('assertDbSslConfig', () => {
+  it('throws when verify-full is set without a CA', () => {
+    expect(() =>
+      assertDbSslConfig({ rejectUnauthorized: true }, 'verify-full'),
+    ).toThrow('DB_SSL_CA or PGSSLROOTCERT')
+  })
+
+  it('passes when verify-full has a CA', () => {
+    expect(() =>
+      assertDbSslConfig({ rejectUnauthorized: true, ca: 'PEM' }, 'verify-full'),
+    ).not.toThrow()
+  })
+
+  it('ignores non-verify modes', () => {
+    expect(() =>
+      assertDbSslConfig({ rejectUnauthorized: true }, 'no-verify'),
+    ).not.toThrow()
   })
 })

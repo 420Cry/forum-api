@@ -1,6 +1,6 @@
 import { toAuthProfile } from './auth-profile.mapper'
-import type { User } from '../users/entities'
-import { Tag } from '../tags/entities/tags.entities'
+import type { User } from '../entities'
+import { Tag } from '../../tags/entities/tags.entities'
 
 function makeUser(overrides: Partial<User> = {}): User {
   return {
