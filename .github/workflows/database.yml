@@ -46,7 +46,7 @@ jobs:
       DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD || secrets.DB_PASSWORD }}
       DB_NAME: postgres
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Require secrets
         run: |
@@ -192,7 +192,7 @@ jobs:
       SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD || secrets.DB_PASSWORD }}
       SUPABASE_PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Require Supabase secrets
         run: |
