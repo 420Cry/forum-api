@@ -1,6 +1,7 @@
 import { User } from 'src/modules/users/entities'
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
@@ -47,4 +48,7 @@ export class Reactions {
 
   @Column('uuid')
   reactable_id: string
+
+  @CreateDateColumn()
+  createdAt!: Date
 }

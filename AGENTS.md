@@ -47,6 +47,7 @@ From the monorepo dev-server: `forum lint:fix` runs eslint --fix in both forum-a
 | Onboarding logic | `src/modules/users/onboarding/users-onboarding.service.ts` |
 | Profiles / find / accounts | `src/modules/profiles/` |
 | Follows | `src/modules/follows/` |
+| Posts / feed | `src/modules/posts/` |
 | Chat / Sendbird | `src/modules/chat/` |
 | Route guards / decorators | `src/modules/users/guards/`, `src/modules/users/decorators/` |
 | Migrations | `src/database/migrations/`, `src/database/dataSource.config.ts` |
@@ -79,6 +80,7 @@ Per-controller guard:
 | `GET /profiles/startup/:id`, `GET /profiles/investor/:id`, `GET /profiles/user/:id` | yes | — | — |
 | `GET /find` | no | yes | onboarded |
 | `POST/DELETE /follows`, `GET /follows/me`, `GET /follows/connections`, `GET /follows/status` | no | yes | onboarded |
+| `GET/POST /posts`, `PATCH/DELETE /posts/:id` | no | yes | onboarded |
 | `GET /chat/session`, `POST /chat/channels`, `GET /chat/unread` | no | yes | onboarded |
 
 Service layer (`UserOnboardingService`) enforces the same onboarding rules as a second line of defence.
@@ -133,6 +135,7 @@ src/modules/
 ├── chat/           # Sendbird session, 1:1 channels, unread
 ├── follows/        # follow / unfollow / list / status
 ├── health/         # GET /health (@Public)
+├── posts/          # post CRUD + chronological feed (GET /posts)
 ├── profiles/       # accounts, startup/investor CRUD, find, public GETs
 ├── root/           # GET / (@Public)
 ├── tags/           # internal — no HTTP controller

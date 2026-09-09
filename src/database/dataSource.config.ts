@@ -33,6 +33,7 @@ import { FollowsSchema1786110000000 } from './migrations/1786110000000-FollowsSc
 import { AddUserUrlKey1786120000000 } from './migrations/1786120000000-AddUserUrlKey'
 import { TagKindsAndCatalog1786130000000 } from './migrations/1786130000000-TagKindsAndCatalog'
 import { AddUserDateOfBirth1786140000000 } from './migrations/1786140000000-AddUserDateOfBirth'
+import { AddReactionCreatedAt1786150000000 } from './migrations/1786150000000-AddReactionCreatedAt'
 
 const dbHost = process.env.DB_HOST || '127.0.0.1'
 const dbUsername = process.env.DB_USERNAME || 'postgres'
@@ -89,5 +90,6 @@ export default new DataSource({
     AddUserUrlKey1786120000000,
     TagKindsAndCatalog1786130000000,
     AddUserDateOfBirth1786140000000,
+    AddReactionCreatedAt1786150000000,
   ],
 })

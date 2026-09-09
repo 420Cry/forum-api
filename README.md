@@ -166,6 +166,10 @@ See [AGENTS.md](./AGENTS.md) and [../ARCHITECTURE.md](../ARCHITECTURE.md) for th
 | GET    | /follows/me          | Yes  | JWT + verified + onboarded | List accounts the current user follows |
 | GET    | /follows/connections | Yes  | JWT + verified + onboarded | Person-to-person network for chat (`mutual` / `following` / `follower`) |
 | GET    | /follows/status   | Yes  | JWT + verified + onboarded | Follow status for a target |
+| GET    | /posts            | Yes  | JWT + verified + onboarded | Chronological feed (`limit`, `cursor`); newest first |
+| POST   | /posts            | Yes  | JWT + verified + onboarded | Create a post |
+| PATCH  | /posts/:id        | Yes  | JWT + verified + onboarded | Update own post (partial) |
+| DELETE | /posts/:id        | Yes  | JWT + verified + onboarded | Soft-delete own post |
 | GET    | /chat/session     | Yes  | JWT + verified + onboarded | Upsert Sendbird user + session token |
 | POST   | /chat/channels    | Yes  | JWT + verified + onboarded | Open or reuse a 1:1 DM (`{ userId }`) |
 | GET    | /chat/unread      | Yes  | JWT + verified + onboarded | Unread message count (0 if chat unset) |
@@ -255,6 +259,49 @@ Every field is optional; only provided fields are updated. Requires an existing 
   "age": 31,
   "location": "Paris",
   "occupation": "Angel"
+}
+```
+
+### `POST` / `PATCH /posts` request body
+
+`CreatePostDto` requires `content` + `visibility`; `UpdatePostDto` makes every field
+optional. `profile_id` is always taken from the token, never the body. `imageUrl: null`
+clears the image.
+
+```jsonc
+{
+  "content": "Shipping the new feed today.",
+  "visibility": "public",        // "public" | "private"
+  "imageUrl": "https://cdn.example.com/a.jpg" // optional, nullable
+}
+```
+
+### `GET /posts` response shape
+
+Newest-first, keyset-paginated. Pass `?limit=` (1–20, default 10) and `?cursor=` (the
+opaque `nextCursor` from the previous page). A post whose author can't be resolved is
+omitted. `POST` / `PATCH` return `{ "success": true, "post": <PostResponse> }`.
+
+```jsonc
+{
+  "items": [
+    {
+      "id": "uuid",
+      "content": "…",
+      "visibility": "public",
+      "imageUrl": null,
+      "createdAt": "2026-09-01T10:30:00.000Z",
+      "updatedAt": "2026-09-01T10:30:00.000Z",
+      "author": { "id": "uuid", "name": "Ada Lovelace", "href": "/u/ada-lovelace", "accountType": "user" },
+      "reactionInfo": {
+        "total": 4,
+        "counts": { "back": 3, "watch": 0, "signal": 0, "celebrate": 0, "insight": 1 },
+        "viewerReaction": "back"
+      }
+    }
+  ],
+  "nextCursor": "eyJjIjoi…",  // null on the last page
+  "hasMore": true
 }
 ```
 
