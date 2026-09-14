@@ -7,18 +7,15 @@ import {
   Post,
   Query,
   Req,
-  UseGuards,
 } from '@nestjs/common'
 import { Throttle } from '@nestjs/throttler'
 import type { AuthUser, RequestWithUser } from '../auth/auth.types'
 import { RequiresOnboarded } from '../users/decorators/requires-onboarded.decorator'
-import { OnboardingStateGuard } from '../users/guards/onboarding-state.guard'
 import { FollowDto } from './dto/follow.dto'
 import { followTargetTypes } from './follows.type'
 import { FollowsService } from './follows.service'
 
 @Controller()
-@UseGuards(OnboardingStateGuard)
 export class FollowsController {
   constructor(private readonly followsService: FollowsService) {}
 
@@ -53,6 +50,7 @@ export class FollowsController {
 
   @Get('follows/followers')
   @RequiresOnboarded()
+  @Throttle({ default: { limit: 30, ttl: 60_000 } })
   listFollowers(
     @Query('targetType') targetType: (typeof followTargetTypes)[number],
     @Query('targetId') targetId: string,
@@ -68,6 +66,7 @@ export class FollowsController {
 
   @Get('follows/following')
   @RequiresOnboarded()
+  @Throttle({ default: { limit: 30, ttl: 60_000 } })
   listFollowing(@Query('userId') userId: string) {
     if (!userId?.trim()) {
       throw new BadRequestException('userId is required')

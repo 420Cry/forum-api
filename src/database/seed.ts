@@ -8,8 +8,8 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 import AppDataSource from './dataSource.config'
-import { Tag } from 'src/modules/tags/entities/tags.entities'
-import { ALL_CATALOG_TAG_SEEDS } from 'src/modules/tags/catalog.seeds'
+import { Tag } from '../modules/tags/entities/tags.entities'
+import { ALL_CATALOG_TAG_SEEDS } from '../modules/tags/catalog.seeds'
 
 async function seed() {
   await AppDataSource.initialize()

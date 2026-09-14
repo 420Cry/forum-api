@@ -229,7 +229,7 @@ describe('FollowsService', () => {
     expect(list[0]?.name).toBe('Ada Lovelace')
   })
 
-  it('lists following for another user when onboarded', async () => {
+  it('lists following for any onboarded user', async () => {
     usersService.findBySupabaseUid.mockResolvedValue({
       supabaseUid: OTHER,
       onboarded_at: new Date(),

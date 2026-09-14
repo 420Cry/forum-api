@@ -6,9 +6,9 @@ import {
   UnauthorizedException,
 } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
-import { IS_PUBLIC_KEY } from 'src/modules/auth/auth.constants'
-import { UsersService } from 'src/modules/users/users.service'
-import { RequestWithUser } from 'src/modules/auth/auth.types'
+import { IS_PUBLIC_KEY } from '../../auth/auth.constants'
+import { UsersService } from '../../users/users.service'
+import { RequestWithUser } from '../../auth/auth.types'
 import { Roles } from '../decorators/roles.decorator'
 
 @Injectable()

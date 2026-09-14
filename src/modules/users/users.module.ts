@@ -7,7 +7,6 @@ import { UsersController } from './users.controller'
 import { TagsModule } from '../tags/tags.module'
 import { LocationsModule } from '../locations/locations.module'
 import { OccupationsModule } from '../occupations/occupations.module'
-import { OnboardingStateGuard } from './guards/onboarding-state.guard'
 
 @Module({
   imports: [
@@ -16,7 +15,7 @@ import { OnboardingStateGuard } from './guards/onboarding-state.guard'
     LocationsModule,
     OccupationsModule,
   ],
-  providers: [UsersService, UserOnboardingService, OnboardingStateGuard],
+  providers: [UsersService, UserOnboardingService],
   exports: [UsersService],
   controllers: [UsersController],
 })

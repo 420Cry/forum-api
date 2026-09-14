@@ -1,5 +1,5 @@
 import { Reflector } from '@nestjs/core'
-import { UsersService } from 'src/modules/users/users.service'
+import { UsersService } from '../../users/users.service'
 import { RolesGuard } from './roles.guard'
 
 describe('RolesGuard', () => {

@@ -1,4 +1,4 @@
-import { User } from 'src/modules/users/entities'
+import { User } from '../../users/entities'
 import {
   Column,
   CreateDateColumn,
@@ -19,35 +19,35 @@ import type {
 @Index(['profile_id', 'reactable_type', 'reactable_id'], { unique: true })
 export class Reactions {
   @PrimaryGeneratedColumn()
-  id: string
+  id!: string
 
   @Column()
-  profile_id: string
+  profile_id!: string
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'profile_id' })
-  user: User
+  user!: User
 
   @Column({
     type: 'enum',
     enum: reactProfile,
   })
-  reacted_as: ReactProfileType
+  reacted_as!: ReactProfileType
 
   @Column({
     type: 'enum',
     enum: reactionList,
   })
-  type: ReactionType
+  type!: ReactionType
 
   @Column({
     type: 'enum',
     enum: reactableContent,
   })
-  reactable_type: ReactableType
+  reactable_type!: ReactableType
 
   @Column('uuid')
-  reactable_id: string
+  reactable_id!: string
 
   @CreateDateColumn()
   createdAt!: Date

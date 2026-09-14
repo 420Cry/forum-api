@@ -191,13 +191,20 @@ export class ProfilesService {
   async getStartup(id: string): Promise<StartupProfileResponse> {
     const profile = await this.startupRepo.findOne({ where: { id } })
     if (!profile) throw new NotFoundException('Startup profile not found')
-    profile.views += 1
-    await this.startupRepo.save(profile)
     const [labeled] = await this.toLabeledStartupResponses([profile], {
       includeContactEmail: false,
     })
     const followersCount = await this.countFollowers('startup', id)
     return { ...labeled, followersCount }
+  }
+
+  /** Authenticated view ping — never increment from public GET. */
+  async recordStartupView(id: string): Promise<{ views: number }> {
+    const profile = await this.startupRepo.findOne({ where: { id } })
+    if (!profile) throw new NotFoundException('Startup profile not found')
+    profile.views += 1
+    const saved = await this.startupRepo.save(profile)
+    return { views: saved.views }
   }
 
   async createInvestor(
@@ -265,13 +272,20 @@ export class ProfilesService {
   async getInvestor(id: string): Promise<InvestorProfileResponse> {
     const profile = await this.investorRepo.findOne({ where: { id } })
     if (!profile) throw new NotFoundException('Investor profile not found')
-    profile.views += 1
-    await this.investorRepo.save(profile)
     const [labeled] = await this.toLabeledInvestorResponses([profile], {
       includeContactEmail: false,
     })
     const followersCount = await this.countFollowers('investor', id)
     return { ...labeled, followersCount }
+  }
+
+  /** Authenticated view ping — never increment from public GET. */
+  async recordInvestorView(id: string): Promise<{ views: number }> {
+    const profile = await this.investorRepo.findOne({ where: { id } })
+    if (!profile) throw new NotFoundException('Investor profile not found')
+    profile.views += 1
+    const saved = await this.investorRepo.save(profile)
+    return { views: saved.views }
   }
 
   async getPublicUser(urlKeyOrId: string): Promise<PublicUserProfileResponse> {

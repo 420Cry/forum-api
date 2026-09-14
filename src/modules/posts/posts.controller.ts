@@ -9,18 +9,15 @@ import {
   Post,
   Query,
   Req,
-  UseGuards,
 } from '@nestjs/common'
 import { Throttle } from '@nestjs/throttler'
 import type { AuthUser, RequestWithUser } from '../auth/auth.types'
 import { RequiresOnboarded } from '../users/decorators/requires-onboarded.decorator'
-import { OnboardingStateGuard } from '../users/guards/onboarding-state.guard'
 import { CreatePostDto, UpdatePostDto } from './dto/post.dto'
 import { FeedQueryDto } from './dto/feed-query.dto'
 import { PostsService } from './posts.service'
 
 @Controller('posts')
-@UseGuards(OnboardingStateGuard)
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 

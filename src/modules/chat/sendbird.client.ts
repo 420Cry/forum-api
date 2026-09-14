@@ -1,5 +1,5 @@
 import { Injectable, Logger, ServiceUnavailableException } from '@nestjs/common'
-import { EnvService } from 'src/config/config.service'
+import { EnvService } from '../../config/config.service'
 import { SENDBIRD_DM_CUSTOM_TYPE, type SendbirdErrorBody } from './chat.types'
 
 export class SendbirdApiError extends Error {

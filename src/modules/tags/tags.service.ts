@@ -11,10 +11,6 @@ export class TagsService {
     private readonly tagRepo: Repository<Tag>,
   ) {}
 
-  async findAllTags() {
-    return await this.tagRepo.find({ order: { name: 'ASC' } })
-  }
-
   async findByKind(kind: TagKind) {
     return await this.tagRepo.find({
       where: { kind },

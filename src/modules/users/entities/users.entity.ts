@@ -9,7 +9,7 @@ import {
 } from 'typeorm'
 import { rolesSelection } from '../users.type'
 import type { RolesSelectionType } from '../users.type'
-import { Tag } from 'src/modules/tags/entities/tags.entities'
+import { Tag } from '../../tags/entities/tags.entities'
 
 @Entity('users')
 export class User {

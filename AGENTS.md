@@ -43,7 +43,7 @@ From the monorepo dev-server: `forum lint:fix` runs eslint --fix in both forum-a
 | If you are touching… | Read first |
 |---|---|
 | Auth guards | `src/modules/auth/` |
-| `/auth/me` response shape | `src/modules/auth/auth-profile.mapper.ts` |
+| `/auth/me` response shape | `src/contracts/auth-me.ts`, `src/modules/users/mappers/auth-profile.mapper.ts` |
 | Onboarding logic | `src/modules/users/onboarding/users-onboarding.service.ts` |
 | Profiles / find / accounts | `src/modules/profiles/` |
 | Follows | `src/modules/follows/` |
@@ -61,10 +61,7 @@ Two global guards (registered in `auth.module.ts`):
 
 1. **`SupabaseAuthGuard`** — validates `Authorization: Bearer <token>` via `supabase.auth.getUser()`. Opt out with `@Public()`.
 2. **`EmailVerifiedGuard`** — rejects tokens where `email_confirmed_at` is missing (403). Opt out with `@SkipEmailVerification()` on specific handlers.
-
-Per-controller guard:
-
-- **`OnboardingStateGuard`** on `UsersController` — reads `@RequiresOnboarded()` / `@RequiresNotOnboarded()` metadata.
+3. **`OnboardingStateGuard`** — global; reads `@RequiresOnboarded()` / `@RequiresNotOnboarded()` metadata on handlers.
 
 ### Route matrix
 
@@ -123,7 +120,7 @@ With forum-server: `forum db:migrate`, `forum db:seed`.
 
 No `DB_HOST` secret: the workflow runs `supabase link` and reads the IPv4 Session pooler host/port from `supabase/.temp/pooler-url`. `DB_USERNAME` is set at job level to `postgres.<SUPABASE_PROJECT_ID>` (bare `postgres` causes `28P01` on the pooler).
 
-Heroku runtime still needs `DB_*` plus TLS: set `PGSSLMODE=no-verify` (not `require` — node-pg then verifies the CA and the dyno crashes). After deploy, `resolveDbSsl` also enables TLS for `*.supabase.co` / pooler hosts. Heroku `DB_USERNAME` must also be `postgres.<project-ref>`.
+Heroku runtime still needs `DB_*` plus TLS. `PGSSLMODE=no-verify` encrypts without checking the CA (current staging hotfix). For verified TLS, set `DB_SSL_CA` to the PEM from **Database → Settings → SSL Configuration**, then `PGSSLMODE=verify-full`. Heroku `DB_USERNAME` must also be `postgres.<project-ref>`.
 
 Manual run: **Actions → Deploy database → Run workflow**.
 
@@ -148,14 +145,11 @@ src/modules/
 
 ## API response shapes
 
-Profile mapping for `/auth/me` lives in `auth-profile.mapper.ts`. FE mirror: `forum-app/app/types/user.ts`. Keep both in sync when adding fields.
+Profile mapping for `/auth/me` lives in `src/modules/users/mappers/auth-profile.mapper.ts`. Canonical keys/types: `src/contracts/auth-me.ts`. FE mirror: `forum-app/app/types/user.ts` (parity checked by `forum-app/tests/authMeContract.test.ts` when forum-api is a sibling checkout).
 
 ## Current state / known rough edges
 
-- No OpenAPI / Swagger — contract is README + hand-written FE types.
-- `toAuthProfile` lives under `auth/` but maps user domain data (candidate move to `users/`).
-- `EnvService.getAuthConfig()` exists but `SupabaseService` reads `process.env` directly.
-- E2E tests only cover `/` and `/health` — no auth/onboarding integration tests yet.
+- No OpenAPI / Swagger — contract is README + `src/contracts/auth-me.ts` + hand-written FE types.
 - `saveOnboarding` / `saveDraft` are not wrapped in an explicit DB transaction.
 
 ## How to make changes

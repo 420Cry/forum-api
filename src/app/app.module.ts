@@ -7,16 +7,15 @@ import { HealthModule } from '../modules/health'
 import { RootModule } from '../modules/root'
 import { EnvModule } from '../config/config.module'
 import { DatabaseModule } from '../database/database.module'
-import { UsersModule } from 'src/modules/users/users.module'
-import { TagsModule } from 'src/modules/tags/tags.module'
-import { LocationsModule } from 'src/modules/locations/locations.module'
-import { OccupationsModule } from 'src/modules/occupations/occupations.module'
-import { FiltersModule } from 'src/filters/filters.module'
-import { ProfilesModule } from 'src/modules/profiles/profiles.module'
-import { PostsModule } from 'src/modules/posts/posts.module'
-import { ReactionsModule } from 'src/modules/reactions/reactions.module'
-import { FollowsModule } from 'src/modules/follows/follows.module'
-import { ChatModule } from 'src/modules/chat/chat.module'
+import { UsersModule } from '../modules/users/users.module'
+import { TagsModule } from '../modules/tags/tags.module'
+import { LocationsModule } from '../modules/locations/locations.module'
+import { OccupationsModule } from '../modules/occupations/occupations.module'
+import { FiltersModule } from '../filters/filters.module'
+import { ProfilesModule } from '../modules/profiles/profiles.module'
+import { FollowsModule } from '../modules/follows/follows.module'
+import { ChatModule } from '../modules/chat/chat.module'
+import { PostsModule } from '../modules/posts/posts.module'
 
 @Module({
   imports: [
@@ -45,10 +44,9 @@ import { ChatModule } from 'src/modules/chat/chat.module'
     LocationsModule,
     OccupationsModule,
     ProfilesModule,
-    PostsModule,
-    ReactionsModule,
     FollowsModule,
     ChatModule,
+    PostsModule,
   ],
   providers: [
     {

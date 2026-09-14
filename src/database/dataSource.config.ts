@@ -8,14 +8,14 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 import { DataSource } from 'typeorm'
-import { resolveDbSsl } from '../config/db-ssl'
+import { loadDbSslCa, resolveDbSsl, assertDbSslConfig } from '../config/db-ssl'
 import { User } from '../modules/users/entities'
-import { Tag } from 'src/modules/tags/entities/tags.entities'
-import { StartupProfiles } from 'src/modules/profiles/entities/startup-profiles.entity'
-import { InvestorProfiles } from 'src/modules/profiles/entities/investor-profiles.entity'
-import { Posts } from 'src/modules/posts/entities/posts.entity'
-import { Reactions } from 'src/modules/reactions/entities/reactions.entity'
-import { Follows } from 'src/modules/follows/entities/follows.entity'
+import { Tag } from '../modules/tags/entities/tags.entities'
+import { StartupProfiles } from '../modules/profiles/entities/startup-profiles.entity'
+import { InvestorProfiles } from '../modules/profiles/entities/investor-profiles.entity'
+import { Posts } from '../modules/posts/entities/posts.entity'
+import { Reactions } from '../modules/reactions/entities/reactions.entity'
+import { Follows } from '../modules/follows/entities/follows.entity'
 import { UserTable1782361957998 } from './migrations/1782361957998-UserTable'
 import { UpdateRoleEnum1782702393426 } from './migrations/1782702393426-UpdateRoleEnum'
 import { TagsJunctionCreation1782870675851 } from './migrations/1782870675851-TagsJunctionCreation'
@@ -40,16 +40,23 @@ const dbUsername = process.env.DB_USERNAME || 'postgres'
 const dbSsl = resolveDbSsl({
   host: dbHost,
   sslMode: process.env.PGSSLMODE,
+  ca: loadDbSslCa({
+    pem: process.env.DB_SSL_CA,
+    certPath: process.env.PGSSLROOTCERT,
+  }),
 })
+assertDbSslConfig(dbSsl, process.env.PGSSLMODE)
 
 if (process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true') {
-  // No secrets — helps debug pooler 28P01 (bare "postgres" vs postgres.<ref>).
+  // Keep CI diagnostics non-sensitive.
   console.info('[db] TypeORM data source', {
-    host: dbHost,
     port: process.env.DB_PORT || '54322',
-    username: dbUsername,
-    database: process.env.DB_NAME || 'postgres',
     ssl: Boolean(dbSsl),
+    verify: typeof dbSsl === 'object' && dbSsl.rejectUnauthorized === true,
+    hasCa:
+      typeof dbSsl === 'object' &&
+      dbSsl.rejectUnauthorized === true &&
+      Boolean(dbSsl.ca),
   })
 }
 

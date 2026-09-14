@@ -23,12 +23,6 @@ export type SendbirdUnreadResponse = {
   unread: number
 }
 
-export type SendbirdUserPayload = {
-  user_id: string
-  nickname?: string
-  profile_url?: string
-}
-
 export type SendbirdErrorBody = {
   code?: number
   message?: string
