@@ -38,7 +38,6 @@ export class PostsService {
     private readonly usersService: UsersService,
   ) {}
 
-  /** Newest-first feed of public posts plus the viewer's own, keyset-paginated. */
   async getFeed(viewerId: string, q: FeedQueryDto): Promise<PostFeedResponse> {
     const limit = Math.min(
       Math.max(q.limit ?? FEED_DEFAULT_LIMIT, FEED_MIN_LIMIT),
@@ -50,7 +49,6 @@ export class PostsService {
       throw new BadRequestException('Invalid cursor')
     }
 
-    // One extra row to detect a next page.
     const rows = await this.runFeedQuery(viewerId, cursor, limit + 1)
 
     const hasMore = rows.length > limit
