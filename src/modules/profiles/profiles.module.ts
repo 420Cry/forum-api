@@ -9,6 +9,7 @@ import { InvestorProfiles } from './entities/investor-profiles.entity'
 import { StartupProfiles } from './entities/startup-profiles.entity'
 import { ProfilesController } from './profiles.controller'
 import { ProfilesService } from './profiles.service'
+import { RolesGuard } from './guards/roles.guard'
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { ProfilesService } from './profiles.service'
     LocationsModule,
     OccupationsModule,
   ],
-  providers: [ProfilesService],
+  providers: [ProfilesService, RolesGuard],
   controllers: [ProfilesController],
   exports: [ProfilesService],
 })

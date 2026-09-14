@@ -15,6 +15,7 @@ import { FiltersModule } from '../filters/filters.module'
 import { ProfilesModule } from '../modules/profiles/profiles.module'
 import { FollowsModule } from '../modules/follows/follows.module'
 import { ChatModule } from '../modules/chat/chat.module'
+import { PostsModule } from '../modules/posts/posts.module'
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { ChatModule } from '../modules/chat/chat.module'
     ProfilesModule,
     FollowsModule,
     ChatModule,
+    PostsModule,
   ],
   providers: [
     {

@@ -35,7 +35,7 @@ export class Posts {
   visibility: VisibilityType
 
   @Column({ nullable: true })
-  image_url?: string
+  image_url?: string | null
 
   @CreateDateColumn()
   createdAt!: Date
